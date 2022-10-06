@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dutchonboard", "dutchonboard\dutchonboard.csproj", "{6D9523A3-997B-4E32-8323-811A22665BEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dutchonboard", "dutchonboard\dutchonboard.csproj", "{6D9523A3-997B-4E32-8323-811A22665BEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dutchonboard.Core.Domain", "dutchonboard.Core.Domain\dutchonboard.Core.Domain.csproj", "{EB31FCDA-9288-4911-9DDC-3195A73DD8C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dutchonboard.Core.Domain.Tests", "dutchonboard.Core.Domain.Tests\dutchonboard.Core.Domain.Tests.csproj", "{91C3A489-A22A-4914-AAE0-D6ED39FB4CEB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{6D9523A3-997B-4E32-8323-811A22665BEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D9523A3-997B-4E32-8323-811A22665BEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D9523A3-997B-4E32-8323-811A22665BEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB31FCDA-9288-4911-9DDC-3195A73DD8C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB31FCDA-9288-4911-9DDC-3195A73DD8C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB31FCDA-9288-4911-9DDC-3195A73DD8C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB31FCDA-9288-4911-9DDC-3195A73DD8C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91C3A489-A22A-4914-AAE0-D6ED39FB4CEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91C3A489-A22A-4914-AAE0-D6ED39FB4CEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91C3A489-A22A-4914-AAE0-D6ED39FB4CEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91C3A489-A22A-4914-AAE0-D6ED39FB4CEB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
