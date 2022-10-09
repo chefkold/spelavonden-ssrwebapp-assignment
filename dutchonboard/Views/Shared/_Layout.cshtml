@@ -8,12 +8,12 @@
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
-    <link rel="icon" href="images/logo-placeholder.png">
+    <link rel="icon" href="~/images/logo-placeholder.png">
 </head>
 <body>
 <nav class="navbar navbar-light navbar-expand-lg">
     <div class="container-fluid">
-        <a class="navbar-brand" asp-controller="Home"><img class="site-icon" src="images/logo-placeholder.png"/></a>
+        <a class="navbar-brand" asp-controller="Home"><img class="site-icon" src="~/images/logo-placeholder.png"/></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -27,7 +27,7 @@
                         Bordspellenavonden
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Alle avonden</a></li>
+                        <li><a class="dropdown-item" asp-controller="GameNight" asp-action="AllGameNights">Alle avonden</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#">Henk text</a></li>
                     </ul>
@@ -37,7 +37,7 @@
                 </li>
             </ul>
             <div class="nav-item dropdown dropstart">
-                <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img class="user-icon" src="images/user-icon.png"  alt="profile-menu"/></a>
+                <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img class="user-icon" src="~/images/user-icon.png"  alt="profile-menu"/></a>
                 <ul class="dropdown-menu ">
                     <li><a class="dropdown-item" href="#">Mijn gegevens</a></li>
                     <li><hr class="dropdown-divider"></li>

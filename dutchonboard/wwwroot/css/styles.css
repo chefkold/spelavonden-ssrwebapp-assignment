@@ -81,6 +81,7 @@ h2 {
 }
 /* PRIMARY-COLOR BUTTONS */
 .btn.btn-primary.btn-primary-color {
+    font-weight: bold;
     color: var(--black);
     background-color: var(--primary-color);
     border-color: var(--primary-color);

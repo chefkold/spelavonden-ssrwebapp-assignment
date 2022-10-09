@@ -1,1 +1,7 @@
-﻿
+﻿@using dutchonboard.Core.Domain.Models
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ICollection<GameNight>;
+
+<div class="row row-cols-2 m-4">
+    <partial name="_GameNightCard" model="Model" />
+</div>
