@@ -1,6 +1,14 @@
+using dutchonboard.Core.DomainServices.Repositories;
+using dutchonboard.Infrastructure.EF.Data;
+using dutchonboard.Infrastructure.EF.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<DutchOnBoardDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("dutchonboarddb")));
+builder.Services.AddScoped<IGameNightRepo, GameNightRepo>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

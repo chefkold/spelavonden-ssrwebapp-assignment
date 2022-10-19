@@ -1,6 +1,6 @@
 ﻿namespace dutchonboard.Core.Domain.Models;
 
-public enum FoodAndDrinkTypes
+public enum FoodAndDrinkType
 {
     Alcohol, 
     Vegetarian,

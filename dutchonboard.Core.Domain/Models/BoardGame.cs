@@ -4,4 +4,5 @@ public class BoardGame
 { 
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
+    public ICollection<GameNight> GameNightsWhereFeatured { get; set; } = new List<GameNight>();
 }

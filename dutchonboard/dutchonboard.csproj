@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>d4c232bf-cc7d-4ab0-9c90-01a6b54f2b75</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +12,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\dutchonboard.Core.Domain\dutchonboard.Core.Domain.csproj" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\dutchonboard.Infrastructure.EF\dutchonboard.Infrastructure.EF.csproj" />
   </ItemGroup>
 
 </Project>
