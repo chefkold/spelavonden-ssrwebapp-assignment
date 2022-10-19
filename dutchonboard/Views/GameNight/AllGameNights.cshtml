@@ -1,7 +1,7 @@
-﻿@using dutchonboard.Core.Domain.Models
-@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model ICollection<GameNight>;
-
-<div class="row row-cols-2 m-4">
-    <partial name="_GameNightCard" model="Model" />
+﻿@model ICollection<GameNight>;
+<div class="container-fluid">
+    <div class="row m-4">
+        <h3 class="ps-5 pb-3">Alle geplande bordspellenavonden</h3>
+        <partial name="_GameNightCard" model="Model" />
+    </div>
 </div>

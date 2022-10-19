@@ -54,6 +54,35 @@ h2 {
     font-family: "Roboto-medium";
 }
 
+h3 {
+    font-size: 2.3rem;
+    font-family: "Roboto-medium";
+}
+
+h3 {
+    font-size: 2.0rem;
+    font-family: "Roboto-medium";
+}
+
+h4 {
+    font-size: 1.75rem;
+    font-family: "Roboto-medium";
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* PRIMARY-COLOR BUTTONS */
+.btn.btn-primary.btn-primary-color {
+    font-weight: bold;
+    color: var(--black);
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
 /* WELCOME (AUTH) PAGE STYLE */
 .logo {
     margin-top: 12px;
@@ -79,10 +108,12 @@ h2 {
 .border-primary-color {
     border-color: var(--secondary-color) !important;
 }
-/* PRIMARY-COLOR BUTTONS */
-.btn.btn-primary.btn-primary-color {
-    font-weight: bold;
-    color: var(--black);
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
+
+
+/* GAMENIGHT DETAIL PAGE STYLE */
+.list-img {
+    margin-inline-end: 1rem;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
 }
