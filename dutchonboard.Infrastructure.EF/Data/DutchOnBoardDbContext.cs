@@ -7,8 +7,10 @@ namespace dutchonboard.Infrastructure.EF.Data;
 public class DutchOnBoardDbContext : DbContext
 {
     public DbSet<GameNight> GameNights { get; set; }
+    public DbSet<BoardGame> BoardGames { get; set; }
     public DbSet<Organizer> Organizers { get; set; }
-    public DbSet<Person> Persons { get; set; }
+    public DbSet<Person> People { get; set; }
+
     public DutchOnBoardDbContext(DbContextOptions<DutchOnBoardDbContext> options) : base(options)
     {
 
@@ -16,6 +18,7 @@ public class DutchOnBoardDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        //DDL
         modelBuilder
             .Entity<GameNight>()
             .Property(e => e.DietAndAllergyInfo)
