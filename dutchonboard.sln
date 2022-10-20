@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dutchonboard.Core.Domain", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dutchonboard.Core.Domain.Tests", "dutchonboard.Core.Domain.Tests\dutchonboard.Core.Domain.Tests.csproj", "{91C3A489-A22A-4914-AAE0-D6ED39FB4CEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dutchonboard.Core.DomainServices", "dutchonboard.Core.DomainServices\dutchonboard.Core.DomainServices.csproj", "{7368115C-7330-481C-90B2-355EE3A50DE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dutchonboard.Core.DomainServices", "dutchonboard.Core.DomainServices\dutchonboard.Core.DomainServices.csproj", "{7368115C-7330-481C-90B2-355EE3A50DE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dutchonboard.Infrastructure.EF", "dutchonboard.Infrastructure.EF\dutchonboard.Infrastructure.EF.csproj", "{4B877F4E-3E54-4FCC-969B-DB1EAEA87015}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dutchonboard.Infrastructure.EF", "dutchonboard.Infrastructure.EF\dutchonboard.Infrastructure.EF.csproj", "{4B877F4E-3E54-4FCC-969B-DB1EAEA87015}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dutchonboard.Tests", "dutchonboard.Tests\dutchonboard.Tests.csproj", "{5CB9D532-B080-4156-BDCC-83AB0A45C44E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{4B877F4E-3E54-4FCC-969B-DB1EAEA87015}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B877F4E-3E54-4FCC-969B-DB1EAEA87015}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B877F4E-3E54-4FCC-969B-DB1EAEA87015}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CB9D532-B080-4156-BDCC-83AB0A45C44E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CB9D532-B080-4156-BDCC-83AB0A45C44E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CB9D532-B080-4156-BDCC-83AB0A45C44E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CB9D532-B080-4156-BDCC-83AB0A45C44E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

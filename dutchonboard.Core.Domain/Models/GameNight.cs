@@ -15,7 +15,7 @@ public class GameNight
     public Organizer Host
     {
         get => _host;
-        set
+        init
         {
             _host = value;
             Players.Add(_host);
