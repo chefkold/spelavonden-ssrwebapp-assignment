@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using dutchonboard.Infrastructure.EF.Converters;
+using Microsoft.EntityFrameworkCore;
 
 namespace dutchonboard.Infrastructure.EF.Data;
 
@@ -15,6 +16,13 @@ public class DutchOnBoardDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder
+            .Entity<GameNight>()
+            .Property(e => e.DietAndAllergyInfo)
+            .HasConversion(new EnumJsonConverter<FoodAndDrinkType>())
+            .Metadata.SetValueComparer(new CollectionValueComparer<FoodAndDrinkType>());
+
+
         modelBuilder.Entity<GameNight>().OwnsOne<Address>(p => p.Location);
 
         modelBuilder.Entity<GameNight>()
