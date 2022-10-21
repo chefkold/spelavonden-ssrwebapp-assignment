@@ -1,15 +1,23 @@
 using dutchonboard.Core.DomainServices.Repositories;
 using dutchonboard.Infrastructure.EF.Data;
 using dutchonboard.Infrastructure.EF.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<DutchOnBoardDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("dutchonboarddb")));
-builder.Services.AddTransient<DataSeeder>();
-builder.Services.AddScoped<IGameNightRepo, GameNightRepo>();
 
+builder.Services.AddDbContext<DutchOnBoardSecurityDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("dutchonboarddbsecurity")));
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<DutchOnBoardSecurityDbContext>().AddDefaultTokenProviders();
+
+builder.Services.AddAuthorization(options => options.AddPolicy("GameNightOrganizer", policy => policy.RequireClaim("Organizer")));
+
+builder.Services.AddTransient<DataSeeder>();
+builder.Services.AddTransient<DataSeederSecurity>();
+
+builder.Services.AddScoped<IGameNightRepo, GameNightRepo>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -25,9 +33,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
 
+app.UseAuthorization();
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -42,6 +50,9 @@ static void SeedData(IHost app)
     var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
 
     using var scope = scopedFactory!.CreateScope();
-    var service = scope.ServiceProvider.GetService<DataSeeder>();
-    service!.Seed();
+    var serviceMainSeeder = scope.ServiceProvider.GetService<DataSeeder>();
+    var serviceSecuritySeeder = scope.ServiceProvider.GetService<DataSeederSecurity>();
+
+    serviceMainSeeder!.Seed();
+    serviceSecuritySeeder!.Seed().Wait();
 }
