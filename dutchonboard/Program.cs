@@ -23,6 +23,10 @@ builder.Services.AddTransient<DataSeeder>();
 builder.Services.AddTransient<DataSeederSecurity>();
 
 builder.Services.AddScoped<IGameNightRepo, GameNightRepo>();
+builder.Services.AddScoped<IOrganizerRepo, OrganizerRepo>();
+builder.Services.AddScoped<IPlayerRepo, PlayerRepo>();
+
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

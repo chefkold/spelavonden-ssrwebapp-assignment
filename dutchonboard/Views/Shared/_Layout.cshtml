@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>@ViewData["Title"]</title>
@@ -11,43 +13,49 @@
     <link rel="icon" href="~/images/placeholder-logo.png">
 </head>
 <body>
-<nav class="navbar navbar-light navbar-expand-lg">
-    <div class="container-fluid">
-        <a class="navbar-brand" asp-controller="Home" asp-action="Index"><img class="site-icon" src="~/images/placeholder-logo.png"/></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
+    <nav class="navbar navbar-light navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index"><img class="site-icon" src="~/images/placeholder-logo.png" /></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
                         <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Bordspellenavonden
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" asp-controller="GameNight" asp-action="AllGameNights">Alle avonden</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Henk text</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
-            </ul>
-            <div class="nav-item dropdown ">
-                    <a class="nav-link dropdown-toggle ps-0" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img class="user-icon" src="~/images/user-icon.png" alt="profile-menu" /></a>
-                <ul class="dropdown-menu dropdown-menu-lg-end ">
-                    <li><a class="dropdown-item" href="#">Mijn gegevens</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" asp-controller="Auth" asp-action="Logout">Uitloggen</a></li>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Bordspellenavonden
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" asp-controller="GameNight" asp-action="AllGameNights">Alle avonden</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            @if ((await AuthorizationService.AuthorizeAsync(User, "GameNightOrganizer")).Succeeded)
+                            {
+                                <li><a class="dropdown-item" asp-controller="GameNight" asp-action="GameNightsOfOrganizer">Mijn avonden</a></li>
+                                <li><hr class="dropdown-divider"></li>
+
+                            }
+                            <li><a class="dropdown-item" asp-controller="GameNight" asp-action="GameNightsWhereUserParticipates">Jouw inschrijvingen</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
                 </ul>
+                <div class="nav-item dropdown ">
+                    <a class="nav-link dropdown-toggle ps-0" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img class="user-icon" src="~/images/user-icon.png" alt="profile-menu" /></a>
+                    <ul class="dropdown-menu dropdown-menu-lg-end ">
+                        <li><a class="dropdown-item" href="#">Mijn gegevens</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" asp-controller="Auth" asp-action="Logout">Uitloggen</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-</nav>
-<hr class="border border-primary border-primary-color border-3 opacity-100 mt-0 mb-0">
+    </nav>
+    <hr class="border border-primary border-primary-color border-3 opacity-100 mt-0 mb-0">
     @RenderBody()
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -1,11 +1,11 @@
 ﻿@{
-    ViewData["Title"] = "Alle avonden";
+    ViewData["Title"] = "Bordspellenavonden";
 }
 
 @model ICollection<GameNight>;
 <div class="container-fluid">
     <div class="row m-4">
-        <h3 class="ps-5 pb-3">Alle geplande bordspellenavonden</h3>
+        <h3 class="ps-5 pb-3">@ViewData["GameNightsOverviewTitle"]</h3>
         <partial name="_GameNightCard" model="Model" />
     </div>
 </div>
