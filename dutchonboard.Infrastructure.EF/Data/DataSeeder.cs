@@ -14,12 +14,12 @@ public class DataSeeder
         if (_dutchOnBoardDbContext.GameNights.Any()) return;
 
         var organizerHenk = new Organizer() { Name = "Henk" };
-        var playerDonat = new Person() {Name = "Donat"};
+        var playerDonat = new Player() {Name = "Donat"};
         var gameMonopoly = new BoardGame() {Name = "Monopoly"};
         var locationAvansExplora = new Address("Lovensdijkstraat", 63);
 
         _dutchOnBoardDbContext.Organizers.Add(organizerHenk);
-        _dutchOnBoardDbContext.People.Add(playerDonat);
+        _dutchOnBoardDbContext.Players.Add(playerDonat);
         _dutchOnBoardDbContext.BoardGames.Add(gameMonopoly); 
 
         var gameNight1 = new GameNight()

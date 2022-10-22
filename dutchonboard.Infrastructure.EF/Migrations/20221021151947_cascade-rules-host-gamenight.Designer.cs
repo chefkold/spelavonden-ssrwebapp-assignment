@@ -12,8 +12,8 @@ using dutchonboard.Infrastructure.EF.Data;
 namespace dutchonboard.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(DutchOnBoardDbContext))]
-    [Migration("20221019210702_init")]
-    partial class init
+    [Migration("20221021151947_cascade-rules-host-gamenight")]
+    partial class cascaderuleshostgamenight
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,6 +24,21 @@ namespace dutchonboard.Infrastructure.EF.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("BoardGameGameNight", b =>
+                {
+                    b.Property<int>("GameNightsWhereFeaturedId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GamesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GameNightsWhereFeaturedId", "GamesId");
+
+                    b.HasIndex("GamesId");
+
+                    b.ToTable("BoardGameGameNight");
+                });
+
             modelBuilder.Entity("dutchonboard.Core.Domain.Models.BoardGame", b =>
                 {
                     b.Property<int>("Id")
@@ -32,18 +47,13 @@ namespace dutchonboard.Infrastructure.EF.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("GameNightId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GameNightId");
-
-                    b.ToTable("BoardGame");
+                    b.ToTable("BoardGames");
                 });
 
             modelBuilder.Entity("dutchonboard.Core.Domain.Models.GameNight", b =>
@@ -64,6 +74,10 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DietAndAllergyInfo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("HostId")
                         .HasColumnType("int");
 
@@ -81,7 +95,7 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                     b.ToTable("GameNights");
                 });
 
-            modelBuilder.Entity("dutchonboard.Core.Domain.Models.Person", b =>
+            modelBuilder.Entity("dutchonboard.Core.Domain.Models.Player", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -93,42 +107,60 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("GameNightId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GameNightId");
+                    b.ToTable("Players");
 
-                    b.ToTable("Persons");
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Player");
+                });
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Person");
+            modelBuilder.Entity("GameNightPlayer", b =>
+                {
+                    b.Property<int>("JoinedNightsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PlayersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("JoinedNightsId", "PlayersId");
+
+                    b.HasIndex("PlayersId");
+
+                    b.ToTable("GameNightPlayer");
                 });
 
             modelBuilder.Entity("dutchonboard.Core.Domain.Models.Organizer", b =>
                 {
-                    b.HasBaseType("dutchonboard.Core.Domain.Models.Person");
+                    b.HasBaseType("dutchonboard.Core.Domain.Models.Player");
 
                     b.HasDiscriminator().HasValue("Organizer");
                 });
 
-            modelBuilder.Entity("dutchonboard.Core.Domain.Models.BoardGame", b =>
+            modelBuilder.Entity("BoardGameGameNight", b =>
                 {
                     b.HasOne("dutchonboard.Core.Domain.Models.GameNight", null)
-                        .WithMany("Games")
-                        .HasForeignKey("GameNightId");
+                        .WithMany()
+                        .HasForeignKey("GameNightsWhereFeaturedId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("dutchonboard.Core.Domain.Models.BoardGame", null)
+                        .WithMany()
+                        .HasForeignKey("GamesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("dutchonboard.Core.Domain.Models.GameNight", b =>
                 {
                     b.HasOne("dutchonboard.Core.Domain.Models.Organizer", "Host")
-                        .WithMany()
+                        .WithMany("HostedNights")
                         .HasForeignKey("HostId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.OwnsOne("dutchonboard.Core.Domain.Models.Address", "Location", b1 =>
@@ -157,18 +189,24 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("dutchonboard.Core.Domain.Models.Person", b =>
+            modelBuilder.Entity("GameNightPlayer", b =>
                 {
                     b.HasOne("dutchonboard.Core.Domain.Models.GameNight", null)
-                        .WithMany("Players")
-                        .HasForeignKey("GameNightId");
+                        .WithMany()
+                        .HasForeignKey("JoinedNightsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("dutchonboard.Core.Domain.Models.Player", null)
+                        .WithMany()
+                        .HasForeignKey("PlayersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("dutchonboard.Core.Domain.Models.GameNight", b =>
+            modelBuilder.Entity("dutchonboard.Core.Domain.Models.Organizer", b =>
                 {
-                    b.Navigation("Games");
-
-                    b.Navigation("Players");
+                    b.Navigation("HostedNights");
                 });
 #pragma warning restore 612, 618
         }

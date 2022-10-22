@@ -7,7 +7,7 @@ namespace dutchonboard.Tests
         public void GetPlayerCountDisplay_With4PlayersAddedOnA12Maximum_ShouldGive4of12AsDisplay()
         {
             var gameNight = new GameNight() { MaxPlayerAmount = 12 };
-            var playersList = new[] { new Person(), new Person(), new Person(), new Person(), };
+            var playersList = new[] { new Player(), new Player(), new Player(), new Player(), };
             gameNight.Players = playersList;
             const string expectedFormat = "4 / 12";
 

@@ -19,7 +19,7 @@
                 <div class="col-12">
                     <h4>Details</h4>
                     <ul>
-                        <li class="pb-3"><img class="list-img" src="~/images/calender-icon.svg" class="me-4" />@Model.GetDateDisplay()</li>
+                        <li class="pb-3"><img class="list-img" src="~/images/calender-icon.svg" class="me-4" />@Model.DateAndTime.GetDateDisplay()</li>
                         <li class="pb-3"><img class="list-img" src="~/images/location-icon.svg" class="pe-2" />@Model.Location</li>
                         <li class="pb-3"><img class="list-img" src="~/images/people-icon.svg" class="pe-2" />@Model.GetPlayerCountDisplay()</li>
                         <li class="pb-3"><img class="list-img" src="~/images/dinner-icon.svg" class="pe-2" />@Model.GetDietInfoDisplay()</li>

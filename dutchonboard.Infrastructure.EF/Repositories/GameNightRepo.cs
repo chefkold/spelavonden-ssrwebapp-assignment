@@ -18,6 +18,16 @@ public class GameNightRepo : IGameNightRepo
     }
 
     public ICollection<GameNight> GetAllGameNights() => _dbContext.GameNights.ToList();
+    public ICollection<GameNight> GetGameNightsHostedBy(Organizer host)
+    {
+        throw new NotImplementedException();
+    }
+
+    public ICollection<GameNight> GetGameNightsJoinedBy(Player player)
+    {
+        throw new NotImplementedException();
+    }
+
     public GameNight GetGameNightById(int id) => _dbContext.GameNights.Include(p => p.Players).First(p => p.Id == id);
     public void UpdateGameNight(GameNight gameNight)
     {

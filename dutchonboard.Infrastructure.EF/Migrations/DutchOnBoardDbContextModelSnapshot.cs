@@ -93,7 +93,7 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                     b.ToTable("GameNights");
                 });
 
-            modelBuilder.Entity("dutchonboard.Core.Domain.Models.Person", b =>
+            modelBuilder.Entity("dutchonboard.Core.Domain.Models.Player", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -111,12 +111,12 @@ namespace dutchonboard.Infrastructure.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("People");
+                    b.ToTable("Players");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Person");
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Player");
                 });
 
-            modelBuilder.Entity("GameNightPerson", b =>
+            modelBuilder.Entity("GameNightPlayer", b =>
                 {
                     b.Property<int>("JoinedNightsId")
                         .HasColumnType("int");
@@ -128,12 +128,12 @@ namespace dutchonboard.Infrastructure.EF.Migrations
 
                     b.HasIndex("PlayersId");
 
-                    b.ToTable("GameNightPerson");
+                    b.ToTable("GameNightPlayer");
                 });
 
             modelBuilder.Entity("dutchonboard.Core.Domain.Models.Organizer", b =>
                 {
-                    b.HasBaseType("dutchonboard.Core.Domain.Models.Person");
+                    b.HasBaseType("dutchonboard.Core.Domain.Models.Player");
 
                     b.HasDiscriminator().HasValue("Organizer");
                 });
@@ -187,7 +187,7 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("GameNightPerson", b =>
+            modelBuilder.Entity("GameNightPlayer", b =>
                 {
                     b.HasOne("dutchonboard.Core.Domain.Models.GameNight", null)
                         .WithMany()
@@ -195,7 +195,7 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("dutchonboard.Core.Domain.Models.Person", null)
+                    b.HasOne("dutchonboard.Core.Domain.Models.Player", null)
                         .WithMany()
                         .HasForeignKey("PlayersId")
                         .OnDelete(DeleteBehavior.Cascade)

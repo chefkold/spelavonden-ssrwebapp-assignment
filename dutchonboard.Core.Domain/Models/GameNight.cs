@@ -22,7 +22,7 @@ public class GameNight
         }
     }
 
-    public ICollection<Person> Players { get; set; } = new List<Person>();
+    public ICollection<Player> Players { get; set; } = new List<Player>();
     public ICollection<BoardGame> Games { get; set; } = new List<BoardGame>();
     public ICollection<FoodAndDrinkType> DietAndAllergyInfo = new List<FoodAndDrinkType>();
 

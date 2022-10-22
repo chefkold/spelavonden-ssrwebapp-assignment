@@ -13,6 +13,11 @@ builder.Services.AddDbContext<DutchOnBoardSecurityDbContext>(options => options.
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<DutchOnBoardSecurityDbContext>().AddDefaultTokenProviders();
 
 builder.Services.AddAuthorization(options => options.AddPolicy("GameNightOrganizer", policy => policy.RequireClaim("Organizer")));
+builder.Services.ConfigureApplicationCookie(config =>
+{
+    config.LoginPath = "/Auth";
+});
+
 
 builder.Services.AddTransient<DataSeeder>();
 builder.Services.AddTransient<DataSeederSecurity>();
@@ -35,7 +40,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-app.UseAuthorization();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
