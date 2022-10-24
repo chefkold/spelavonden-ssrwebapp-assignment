@@ -37,7 +37,7 @@ public class DutchOnBoardDbContext : DbContext
             .WithMany(p => p.JoinedNights);
 
         modelBuilder.Entity<GameNight>()
-            .HasOne<Organizer>(p => p.Host)
+            .HasOne<Organizer>(p => p.Organizer)
             .WithMany(p => p.HostedNights);
     }
 }

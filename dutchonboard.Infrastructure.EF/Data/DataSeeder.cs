@@ -48,7 +48,7 @@ public class DataSeeder
             MaxPlayerAmount = 12,
             Location = locationAvansExplora,
             DateAndTime = new DateTime(2022, 10, 31, 23, 59, 00),
-            Host = organizer1,
+            Organizer = organizer1,
         };
 
         gameNight1.Players.Add(player1);

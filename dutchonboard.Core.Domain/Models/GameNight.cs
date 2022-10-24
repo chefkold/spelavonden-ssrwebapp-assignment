@@ -10,15 +10,15 @@ public class GameNight
     public int MaxPlayerAmount { get; set; }
     public Address Location { get; set; }
     public DateTime DateAndTime { get; set; }
-    private Organizer _host;
+    private Organizer _organizer;
 
-    public Organizer Host
+    public Organizer Organizer
     {
-        get => _host;
+        get => _organizer;
         init
         {
-            _host = value;
-            Players.Add(_host);
+            _organizer = value;
+            Players.Add(_organizer);
         }
     }
 

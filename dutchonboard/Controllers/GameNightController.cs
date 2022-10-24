@@ -10,6 +10,7 @@ namespace dutchonboard.Controllers
     public class GameNightController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
+
         private readonly IGameNightRepo _iGameNightRepo;
         private readonly IOrganizerRepo _iOrganizerRepo;
         private readonly IPlayerRepo _iPlayerRepo;
@@ -26,15 +27,16 @@ namespace dutchonboard.Controllers
         {
             var nights = _iGameNightRepo.GetAllGameNights();
 
-            ViewData["GameNightsOverviewTitle"] = "Alle bordspellenavonden";
+            ViewData["Header"] = "Alle bordspellenavonden";
             return View("GameNightsOverview", nights);
         }
+
         public async Task<IActionResult> GameNightsWhereUserParticipates()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var player = _iPlayerRepo.GetPlayerByEmail(user.Email);
 
-            ViewData["GameNightsOverviewTitle"] = "U heeft zich aangemeld voor de volgende avonden";
+            ViewData["Header"] = "U bent speler bij de volgende avonden";
             return View("GameNightsOverview", player.JoinedNights);
         }
 
@@ -45,13 +47,10 @@ namespace dutchonboard.Controllers
             var organizer = _iOrganizerRepo.GetOrganizerByEmail(user.Email); 
 
 
-            ViewData["GameNightsOverviewTitle"] = "U heeft de volgende avonden georganiseerd";
+            ViewData["Header"] = "Door u georganiseerde avonden";
             return View("GameNightsOverview", organizer.HostedNights);
         }
 
-       
         public IActionResult GameNightDetailPage(int id) => View(_iGameNightRepo.GetGameNightById(id));
-
-      
     }
 }

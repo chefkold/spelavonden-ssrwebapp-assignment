@@ -3,12 +3,12 @@
 public class GameNightTests
 {
     [Fact]
-    public void GameNightCreation_SettingAHost_HostShouldBeAddedToPlayersList()
+    public void GameNightCreation_SettingAnOrganizer_OrganizerShouldBeAddedToPlayersList()
     {
-        var host = new Organizer(); 
+        var organizer = new Organizer(); 
         
-        var gameNight = new GameNight(){Host = host};
+        var gameNight = new GameNight(){Organizer = organizer};
 
-        Assert.Contains(host, gameNight.Players); 
+        Assert.Contains(organizer, gameNight.Players); 
     }
 }
