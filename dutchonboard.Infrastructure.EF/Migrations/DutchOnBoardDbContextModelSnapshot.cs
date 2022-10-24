@@ -46,7 +46,6 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -62,28 +61,25 @@ namespace dutchonboard.Infrastructure.EF.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool>("AdultOnly")
+                    b.Property<bool?>("AdultOnly")
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("DateAndTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DietAndAllergyInfo")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("MaxPlayerAmount")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrganizerId")
+                    b.Property<int?>("OrganizerId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -162,14 +158,16 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                 {
                     b.HasOne("dutchonboard.Core.Domain.Models.Organizer", "Organizer")
                         .WithMany("HostedNights")
-                        .HasForeignKey("OrganizerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OrganizerId");
 
                     b.OwnsOne("dutchonboard.Core.Domain.Models.Address", "Location", b1 =>
                         {
                             b1.Property<int>("GameNightId")
                                 .HasColumnType("int");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
 
                             b1.Property<int>("Number")
                                 .HasColumnType("int");
@@ -186,8 +184,7 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                                 .HasForeignKey("GameNightId");
                         });
 
-                    b.Navigation("Location")
-                        .IsRequired();
+                    b.Navigation("Location");
 
                     b.Navigation("Organizer");
                 });

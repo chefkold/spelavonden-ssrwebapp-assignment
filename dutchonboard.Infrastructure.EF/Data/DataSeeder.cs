@@ -32,7 +32,7 @@ public class DataSeeder
         var gameMonopoly = new BoardGame() { Name = "Monopoly" };
 
         // Locations
-        var locationAvansExplora = new Address("Lovensdijkstraat", 63);
+        var locationAvansExplora = new Address("Lovensdijkstraat", 63, "Breda");
 
         _dutchOnBoardDbContext.Organizers.Add(organizer1);
         _dutchOnBoardDbContext.Players.Add(player1);

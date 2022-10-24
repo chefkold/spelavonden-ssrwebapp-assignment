@@ -1,12 +1,13 @@
 ﻿namespace dutchonboard.Core.Domain.Models;
 
+#nullable disable
 public class GameNight
 {
 
     public int Id { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
-    public bool AdultOnly { get; set; }
+    public bool? AdultOnly { get; set; }
     public int MaxPlayerAmount { get; set; }
     public Address Location { get; set; }
     public DateTime DateAndTime { get; set; }

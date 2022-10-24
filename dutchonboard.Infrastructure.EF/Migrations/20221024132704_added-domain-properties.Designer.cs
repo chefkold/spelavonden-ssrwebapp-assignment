@@ -12,8 +12,8 @@ using dutchonboard.Infrastructure.EF.Data;
 namespace dutchonboard.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(DutchOnBoardDbContext))]
-    [Migration("20221021145244_renamed-domain-class")]
-    partial class renameddomainclass
+    [Migration("20221024132704_added-domain-properties")]
+    partial class addeddomainproperties
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -48,7 +48,6 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -64,33 +63,30 @@ namespace dutchonboard.Infrastructure.EF.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool>("AdultOnly")
+                    b.Property<bool?>("AdultOnly")
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("DateAndTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DietAndAllergyInfo")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("HostId")
-                        .HasColumnType("int");
 
                     b.Property<int>("MaxPlayerAmount")
                         .HasColumnType("int");
 
+                    b.Property<int?>("OrganizerId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HostId");
+                    b.HasIndex("OrganizerId");
 
                     b.ToTable("GameNights");
                 });
@@ -107,8 +103,13 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -157,16 +158,18 @@ namespace dutchonboard.Infrastructure.EF.Migrations
 
             modelBuilder.Entity("dutchonboard.Core.Domain.Models.GameNight", b =>
                 {
-                    b.HasOne("dutchonboard.Core.Domain.Models.Organizer", "Host")
+                    b.HasOne("dutchonboard.Core.Domain.Models.Organizer", "Organizer")
                         .WithMany("HostedNights")
-                        .HasForeignKey("HostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OrganizerId");
 
                     b.OwnsOne("dutchonboard.Core.Domain.Models.Address", "Location", b1 =>
                         {
                             b1.Property<int>("GameNightId")
                                 .HasColumnType("int");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
 
                             b1.Property<int>("Number")
                                 .HasColumnType("int");
@@ -183,10 +186,9 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                                 .HasForeignKey("GameNightId");
                         });
 
-                    b.Navigation("Host");
+                    b.Navigation("Location");
 
-                    b.Navigation("Location")
-                        .IsRequired();
+                    b.Navigation("Organizer");
                 });
 
             modelBuilder.Entity("GameNightPlayer", b =>

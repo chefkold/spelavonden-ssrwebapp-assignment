@@ -1,10 +1,4 @@
-﻿using dutchonboard.Core.Domain.Models;
-using dutchonboard.Core.DomainServices.Repositories;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-
-namespace dutchonboard.Controllers
+﻿namespace dutchonboard.Controllers
 {
     [Authorize]
     public class GameNightController : Controller
@@ -52,5 +46,17 @@ namespace dutchonboard.Controllers
         }
 
         public IActionResult GameNightDetailPage(int id) => View(_iGameNightRepo.GetGameNightById(id));
+
+        [Authorize(Policy = "GameNightOrganizer")]
+        public IActionResult NewGameNight() => View(); 
+
+        [Authorize(Policy = "GameNightOrganizer")]
+        [HttpPost]
+        public IActionResult NewGameNight(NewGameNightViewModel model)
+        {
+
+            return View();
+        } 
+
     }
 }

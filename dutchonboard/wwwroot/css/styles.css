@@ -3,7 +3,7 @@
     --primary-color: #ED9B40;
     --secondary-color: #1D5191;
     --white: #FBF7F5;
-	--gray: #D3D3D3;
+    --gray: #D3D3D3;
     --black: #0A100D;
 }
 
@@ -22,7 +22,7 @@
 }
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body {
@@ -73,6 +73,29 @@ ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
+}
+
+/* FORMS*/
+.field-validation-error {
+    color: #f00;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.input-validation-error {
+    border: 1px solid #f00;
+    background-color: #fee;
+}
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: #f00;
+}
+
+.validation-summary-valid {
+    display: none;
 }
 
 /* PRIMARY-COLOR BUTTONS */

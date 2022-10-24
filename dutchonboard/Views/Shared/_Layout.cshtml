@@ -31,13 +31,15 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" asp-controller="GameNight" asp-action="AllGameNights">Alle avonden</a></li>
                             <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" asp-controller="GameNight" asp-action="GameNightsWhereUserParticipates">Jouw inschrijvingen</a></li>
                             @if ((await AuthorizationService.AuthorizeAsync(User, "GameNightOrganizer")).Succeeded)
                             {
+                                <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" asp-controller="GameNight" asp-action="GameNightsOfOrganizer">Mijn avonden</a></li>
                                 <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-controller="GameNight" asp-action="NewGameNight">Organiseer</a></li>
 
                             }
-                            <li><a class="dropdown-item" asp-controller="GameNight" asp-action="GameNightsWhereUserParticipates">Jouw inschrijvingen</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">

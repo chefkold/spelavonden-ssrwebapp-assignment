@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace dutchonboard.Infrastructure.EF.Migrations
 {
-    public partial class renameddomainclass : Migration
+    public partial class addeddomainproperties : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +15,7 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -28,7 +28,9 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -42,25 +44,25 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AdultOnly = table.Column<bool>(type: "bit", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AdultOnly = table.Column<bool>(type: "bit", nullable: true),
                     MaxPlayerAmount = table.Column<int>(type: "int", nullable: false),
-                    Location_Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Location_Number = table.Column<int>(type: "int", nullable: false),
+                    Location_Street = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Location_Number = table.Column<int>(type: "int", nullable: true),
+                    Location_City = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateAndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    HostId = table.Column<int>(type: "int", nullable: false),
-                    DietAndAllergyInfo = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    OrganizerId = table.Column<int>(type: "int", nullable: true),
+                    DietAndAllergyInfo = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_GameNights", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_GameNights_Players_HostId",
-                        column: x => x.HostId,
+                        name: "FK_GameNights_Players_OrganizerId",
+                        column: x => x.OrganizerId,
                         principalTable: "Players",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -108,7 +110,7 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                         column: x => x.PlayersId,
                         principalTable: "Players",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -122,9 +124,9 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                 column: "PlayersId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GameNights_HostId",
+                name: "IX_GameNights_OrganizerId",
                 table: "GameNights",
-                column: "HostId");
+                column: "OrganizerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
