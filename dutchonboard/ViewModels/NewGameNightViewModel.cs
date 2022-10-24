@@ -16,16 +16,16 @@ public class NewGameNightViewModel
     [Required(ErrorMessage = "Geef alstublieft de datum en tijd van de avond")]
     public DateTime? DateAndTime { get; set; }
 
-    [Required(ErrorMessage = "Geef alstublieft aan hoeveel spelers maximaal kunnen meedoen (met uzelf inbegrepen)"), Range(1, int.MaxValue, ErrorMessage = "Aantal spelers is minimaal 1")]
+    [Required(ErrorMessage = "Geef alstublieft een waarde op"), Range(1, int.MaxValue, ErrorMessage = "Aantal spelers is minimaal 1")]
     public int? MaxPlayerAmount { get; set; }
 
-    [Required(ErrorMessage = "Straat ontbreekt van adresgegevens")]
+    [Required(ErrorMessage = "Geef alstublieft een waarde op")]
     public string? Street { get; set; }
 
-    [Required(ErrorMessage = "Huisnummer ontbreekt van adresgegevens")]
+    [Required(ErrorMessage = "Geef alstublieft een waarde op")]
     public int? HouseNumber { get; set; }
 
-    [Required(ErrorMessage = "Stad ontbreekt van adresgegevens")]
+    [Required(ErrorMessage = "Geef alstublieft een waarde op")]
     public string? City { get; set; }
 
     public GameNight ConvertToGameNight()

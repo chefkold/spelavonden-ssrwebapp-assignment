@@ -13,10 +13,10 @@ builder.Services.AddDbContext<DutchOnBoardSecurityDbContext>(options => options.
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<DutchOnBoardSecurityDbContext>().AddDefaultTokenProviders();
 
 builder.Services.AddAuthorization(options => options.AddPolicy("GameNightOrganizer", policy => policy.RequireClaim("Organizer")));
-builder.Services.ConfigureApplicationCookie(config =>
-{
-    config.LoginPath = "/Auth";
-});
+//builder.Services.ConfigureApplicationCookie(config =>
+//{
+//    config.LoginPath = "/Auth";
+//});
 
 
 builder.Services.AddTransient<DataSeeder>();
@@ -30,7 +30,7 @@ builder.Services.AddScoped<IPlayerRepo, PlayerRepo>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
-//SeedData(app);
+SeedData(app);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -46,6 +46,11 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "Login",
+    pattern: "Auth",
+    defaults: new { controller = "Auth", action = "Login" });
 
 app.MapControllerRoute(
     name: "default",

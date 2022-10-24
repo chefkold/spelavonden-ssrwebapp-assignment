@@ -14,7 +14,7 @@ namespace dutchonboard.Controllers
             _signInManager = signInManager;
         }
 
-        public IActionResult Index()
+        public IActionResult Login()
         {
             return View();
         }
@@ -23,24 +23,25 @@ namespace dutchonboard.Controllers
         public async Task<IActionResult> Login(string email, string password)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            if (user == null) return View("Index");
-            
-            await _signInManager.SignOutAsync();
-            var result = await _signInManager.PasswordSignInAsync(user, password, false, false);
-
-            if (result.Succeeded)
+            if (user != null)
             {
-                return RedirectToAction("Index", "Home"); 
-            }
+                await _signInManager.SignOutAsync();
+                var result = await _signInManager.PasswordSignInAsync(user, password, false, false);
 
-            return View("Index"); 
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }  
 
+            ModelState.AddModelError("Incorrect credentials", "U heeft niet de juiste informatie opgegeven");
+            return View();
         }
 
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return View("Index");
+            return View("Login");
         }
     }
 }

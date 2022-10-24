@@ -9,7 +9,7 @@
         private readonly IOrganizerRepo _iOrganizerRepo;
         private readonly IPlayerRepo _iPlayerRepo;
 
-        public GameNightController(UserManager<IdentityUser> userManager, IGameNightRepo iGameNightRepo, IOrganizerRepo iOrganizerRepo, IPlayerRepo iPlayerRepo )
+        public GameNightController(UserManager<IdentityUser> userManager, IGameNightRepo iGameNightRepo, IOrganizerRepo iOrganizerRepo, IPlayerRepo iPlayerRepo)
         {
             _userManager = userManager;
             _iGameNightRepo = iGameNightRepo;
@@ -38,7 +38,7 @@
         public async Task<IActionResult> GameNightsOfOrganizer()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
-            var organizer = _iOrganizerRepo.GetOrganizerByEmail(user.Email); 
+            var organizer = _iOrganizerRepo.GetOrganizerByEmail(user.Email);
 
 
             ViewData["Header"] = "Door u georganiseerde avonden";
@@ -48,26 +48,27 @@
         public IActionResult GameNightDetailPage(int id) => View(_iGameNightRepo.GetGameNightById(id));
 
         [Authorize(Policy = "GameNightOrganizer")]
-        public IActionResult NewGameNight() => View(); 
+        public IActionResult NewGameNight() => View();
 
         [Authorize(Policy = "GameNightOrganizer")]
         [HttpPost]
         public async Task<IActionResult> NewGameNight(NewGameNightViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
             var gameNight = model.ConvertToGameNight();
 
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var organizer = _iOrganizerRepo.GetOrganizerByEmail(user.Email);
-            gameNight.Organizer = organizer; 
+            gameNight.Organizer = organizer;
 
             _iGameNightRepo.AddGameNight(gameNight);
 
-            if (ModelState.IsValid)
-            {
-                return RedirectToAction("GameNightsOfOrganizer"); 
-            }
-            return View();
-        } 
-
+            return RedirectToAction("GameNightsOfOrganizer");
+        }
     }
 }
+
