@@ -16,7 +16,8 @@ public class GameNight
     public Organizer Organizer
     {
         get => _organizer;
-        init
+
+        set
         {
             _organizer = value;
             Players.Add(_organizer);

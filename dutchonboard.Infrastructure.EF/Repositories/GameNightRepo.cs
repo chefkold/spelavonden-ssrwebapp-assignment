@@ -14,7 +14,8 @@ public class GameNightRepo : IGameNightRepo
 
     public void AddGameNight(GameNight gameNight)
     {
-        throw new NotImplementedException();
+        _dbContext.GameNights.Add(gameNight);
+        _dbContext.SaveChanges();
     }
 
     public ICollection<GameNight> GetAllGameNights() => _dbContext.GameNights.ToList();

@@ -52,9 +52,20 @@
 
         [Authorize(Policy = "GameNightOrganizer")]
         [HttpPost]
-        public IActionResult NewGameNight(NewGameNightViewModel model)
+        public async Task<IActionResult> NewGameNight(NewGameNightViewModel model)
         {
+            var gameNight = model.ConvertToGameNight();
 
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var organizer = _iOrganizerRepo.GetOrganizerByEmail(user.Email);
+            gameNight.Organizer = organizer; 
+
+            _iGameNightRepo.AddGameNight(gameNight);
+
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("GameNightsOfOrganizer"); 
+            }
             return View();
         } 
 
