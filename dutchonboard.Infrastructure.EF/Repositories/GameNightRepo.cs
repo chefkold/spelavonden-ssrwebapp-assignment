@@ -1,5 +1,4 @@
 ﻿using dutchonboard.Infrastructure.EF.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace dutchonboard.Infrastructure.EF.Repositories;
 
@@ -26,9 +25,12 @@ public class GameNightRepo : IGameNightRepo
     }
 
     public GameNight GetGameNightById(int id) => _dbContext.GameNights.Include(p => p.Players).First(p => p.Id == id);
-    public void UpdateGameNight(GameNight gameNight)
+    public void UpdateGameNight(GameNight updatedGameNight)
     {
-        throw new NotImplementedException();
+        var currentGameNight = GetGameNightById(updatedGameNight.Id);
+        GameNightManagement.UpdateGameNightProperties(currentGameNight, updatedGameNight);
+        _dbContext.SaveChanges();
+
     }
 
     public void DeleteGameNight(GameNight gameNight)

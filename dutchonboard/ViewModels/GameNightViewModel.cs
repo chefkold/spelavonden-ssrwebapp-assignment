@@ -2,13 +2,17 @@
 
 namespace dutchonboard.Models;
 
-public class NewGameNightViewModel 
+/// <summary>
+/// ViewModel to represent game nights in situations where one is created or edited. In case of editing,
+/// this model keeps track of the game night ID as a best practice solution for supplying a POST form with multiple parameters
+/// </summary>
+public class GameNightViewModel
 {
     [Required(ErrorMessage = "Geef de avond alstublieft een titel"), StringLength(30, ErrorMessage = "Houd de titel beknopt (maximaal 30 karakters")]
     public string? Title { get; set; }
-    
+
     [Required(ErrorMessage = "Geef alstublieft aan ofe de avond 18+ is")]
-    public bool? IsAdultsOnly { get; set;}
+    public bool? IsAdultsOnly { get; set; }
 
     [Required(ErrorMessage = "Geef de avond alstublieft een beschrijving"), StringLength(400, ErrorMessage = "Maak uw beschrijving korter (maximaal 400 karakters")]
     public string? Description { get; set; }
@@ -27,16 +31,29 @@ public class NewGameNightViewModel
 
     [Required(ErrorMessage = "Geef alstublieft een waarde op")]
     public string? City { get; set; }
+    public int UpdatedGameNightId { get; set; }
+    public void FillGameNightData(GameNight data)
+    {
+        UpdatedGameNightId = data.Id;
 
+        this.Title = data.Title;
+        this.IsAdultsOnly = data.AdultOnly;
+        this.Description = data.Description;
+        this.DateAndTime = data.DateAndTime;
+        this.MaxPlayerAmount = data.MaxPlayerAmount;
+        this.Street = data.Location.Street;
+        this.HouseNumber = data.Location.Number;
+        this.City = data.Location.City;
+    }
     public GameNight ConvertToGameNight()
     {
         return new GameNight()
         {
             Title = this.Title,
             Description = this.Description,
-            AdultOnly = IsAdultsOnly,
+            AdultOnly = this.IsAdultsOnly,
             DateAndTime = this.DateAndTime!.Value,
-            MaxPlayerAmount = this.MaxPlayerAmount!.Value, 
+            MaxPlayerAmount = this.MaxPlayerAmount!.Value,
             Location = new Address(Street!, HouseNumber!.Value, City!)
         };
     }

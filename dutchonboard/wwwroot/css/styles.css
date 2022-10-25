@@ -44,6 +44,10 @@ body {
     color: var(--white);
 }
 
+.white-filter {
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(64deg) brightness(102%) contrast(102%);
+}
+
 h1 {
     font-size: 3.5rem;
     font-family: "Roboto-medium";

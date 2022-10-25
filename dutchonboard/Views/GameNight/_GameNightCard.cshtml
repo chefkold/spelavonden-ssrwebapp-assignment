@@ -15,8 +15,16 @@
                 </div>
                 <p class="card-text">@gameNight.Description</p>
                 <a asp-action="GameNightDetailPage" asp-route-id="@gameNight.Id" class="btn btn-primary btn-primary-color mt-auto mx-4">Bekijk</a>
-
             </div>
+            @if (ViewData["ForOrganizer"] != null && ViewData["ForOrganizer"].Equals(true))
+            {
+                <a asp-action="EditGameNight" asp-route-id="@gameNight.Id">
+                    <div class="card-footer bg-secondary-color border-success d-flex justify-content-center">
+                        <img src="~/images/edit-icon.svg" class="white-filter" width="25px" />
+                    </div>
+                </a>
+            }
+
         </div>
     </div>
 }

@@ -1,4 +1,6 @@
-﻿namespace dutchonboard.Controllers
+﻿using dutchonboard.Core.DomainServices.Managers;
+
+namespace dutchonboard.Controllers
 {
     [Authorize]
     public class GameNightController : Controller
@@ -21,7 +23,7 @@
         {
             var nights = _iGameNightRepo.GetAllGameNights();
 
-            ViewData["Header"] = "Alle bordspellenavonden";
+            ViewData["PageBodyTitle"] = "Alle bordspellenavonden";
             return View("GameNightsOverview", nights);
         }
 
@@ -30,7 +32,7 @@
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var player = _iPlayerRepo.GetPlayerByEmail(user.Email);
 
-            ViewData["Header"] = "U bent speler bij de volgende avonden";
+            ViewData["PageBodyTitle"] = "U bent speler bij de volgende avonden";
             return View("GameNightsOverview", player.JoinedNights);
         }
 
@@ -41,18 +43,19 @@
             var organizer = _iOrganizerRepo.GetOrganizerByEmail(user.Email);
 
 
-            ViewData["Header"] = "Door u georganiseerde avonden";
+            ViewData["PageBodyTitle"] = "Door u georganiseerde avonden";
+            ViewData["ForOrganizer"] = true;
             return View("GameNightsOverview", organizer.HostedNights);
         }
 
         public IActionResult GameNightDetailPage(int id) => View(_iGameNightRepo.GetGameNightById(id));
 
         [Authorize(Policy = "GameNightOrganizer")]
-        public IActionResult NewGameNight() => View();
+        public IActionResult CreateGameNight() => View();
 
         [Authorize(Policy = "GameNightOrganizer")]
         [HttpPost]
-        public async Task<IActionResult> NewGameNight(NewGameNightViewModel model)
+        public async Task<IActionResult> CreateGameNight(GameNightViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -68,6 +71,38 @@
             _iGameNightRepo.AddGameNight(gameNight);
 
             return RedirectToAction("GameNightsOfOrganizer");
+        }
+
+        [Authorize(Policy = "GameNightOrganizer")]
+        public IActionResult EditGameNight(int id)
+        {
+            var gameNight = _iGameNightRepo.GetGameNightById(id);
+            var model = new GameNightViewModel();
+            model.FillGameNightData(gameNight);
+
+            return View(model);
+        }
+
+        [Authorize(Policy = "GameNightOrganizer")]
+        [HttpPost]
+        public IActionResult EditGameNight(GameNightViewModel model)
+        {
+            if (!ModelState.IsValid) return View();
+
+            var updatedData = model.ConvertToGameNight();
+            updatedData.Id = model.UpdatedGameNightId;
+            try
+            {
+                _iGameNightRepo.UpdateGameNight(updatedData);
+                return RedirectToAction("GameNightsOfOrganizer");
+
+            }
+            catch (GameNightManagement.GameNightCrudException error)
+            {
+                ModelState.AddModelError("UpdateError", error.Message);
+            }
+
+            return View();
         }
     }
 }

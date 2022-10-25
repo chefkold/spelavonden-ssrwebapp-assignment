@@ -1,0 +1,1 @@
+﻿global using dutchonboard.Core.Domain.Models;
