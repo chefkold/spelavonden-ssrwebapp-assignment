@@ -2,6 +2,7 @@
 :root {
     --primary-color: #ED9B40;
     --secondary-color: #1D5191;
+    --red: #91231d;
     --white: #FBF7F5;
     --gray: #D3D3D3;
     --black: #0A100D;
@@ -38,6 +39,10 @@ body {
 
 .bg-secondary-color {
     background-color: var(--secondary-color);
+}
+
+.bg-red {
+    background-color: var(--red);
 }
 
 .white-text {

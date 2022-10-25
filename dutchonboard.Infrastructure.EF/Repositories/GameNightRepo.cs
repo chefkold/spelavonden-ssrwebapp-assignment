@@ -35,6 +35,8 @@ public class GameNightRepo : IGameNightRepo
 
     public void DeleteGameNight(GameNight gameNight)
     {
-        throw new NotImplementedException();
+        GameNightManagement.PreProcessGameNightModification(gameNight);
+        _dbContext.GameNights.Remove(gameNight);
+        _dbContext.SaveChanges();
     }
 }

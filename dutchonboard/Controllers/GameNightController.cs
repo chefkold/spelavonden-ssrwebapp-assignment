@@ -1,4 +1,5 @@
 ﻿using dutchonboard.Core.DomainServices.Managers;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace dutchonboard.Controllers
 {
@@ -45,6 +46,12 @@ namespace dutchonboard.Controllers
 
             ViewData["PageBodyTitle"] = "Door u georganiseerde avonden";
             ViewData["ForOrganizer"] = true;
+
+            if (TempData.ContainsKey("GameNightDeletionError"))
+            {
+                ModelState.AddModelError("UpdateError", (TempData["GameNightDeletionError"] as string)!);
+            }
+            
             return View("GameNightsOverview", organizer.HostedNights);
         }
 
@@ -103,6 +110,22 @@ namespace dutchonboard.Controllers
             }
 
             return View();
+        }
+
+        [Authorize(Policy = "GameNightOrganizer")]
+        public IActionResult DeleteGameNight(int id)
+        {
+            var gameNight = _iGameNightRepo.GetGameNightById(id);
+            try
+            {
+                _iGameNightRepo.DeleteGameNight(gameNight);
+            }
+            catch (GameNightManagement.GameNightCrudException error)
+            {
+                TempData["GameNightDeletionError"] = error.Message;
+            }
+
+            return RedirectToAction("GameNightsOfOrganizer");
         }
     }
 }

@@ -20,9 +20,15 @@
             {
                 <a asp-action="EditGameNight" asp-route-id="@gameNight.Id">
                     <div class="card-footer bg-secondary-color border-success d-flex justify-content-center">
-                        <img src="~/images/edit-icon.svg" class="white-filter" width="25px" />
+                        <img src="~/images/edit-icon.svg" class="white-filter" width="20px" />
                     </div>
                 </a>
+                <a asp-action="DeleteGameNight" asp-route-id="@gameNight.Id">       
+                    <div class="card-footer bg-red border-success d-flex justify-content-center">
+                        <img src="~/images/delete-icon.svg" class="white-filter" width="20px" />
+                    </div>
+                </a>
+
             }
 
         </div>

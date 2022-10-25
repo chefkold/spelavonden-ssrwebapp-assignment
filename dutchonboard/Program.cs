@@ -26,7 +26,8 @@ builder.Services.AddScoped<IGameNightRepo, GameNightRepo>();
 builder.Services.AddScoped<IOrganizerRepo, OrganizerRepo>();
 builder.Services.AddScoped<IPlayerRepo, PlayerRepo>();
 
-
+builder.Services.AddMemoryCache();
+builder.Services.AddSession();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
