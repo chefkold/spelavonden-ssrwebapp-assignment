@@ -1,5 +1,8 @@
 ﻿namespace dutchonboard.Core.DomainServices.Managers;
 
+/// <summary>
+/// Business logic revolving around GameNight
+/// </summary>
 public static class GameNightManagement
 {
     // BUSINESS LOGIC: Game night only allowed to update if no players have joined (excluding the organizer himself, so count is at least 1)
@@ -11,6 +14,8 @@ public static class GameNightManagement
                 "U kunt deze avond niet wijzigen, een andere speler naast uzelf heeft zich al ingeschreven");
         }
     }
+
+    // Copy properties of another GameNight instance 
     public static void UpdateGameNightProperties(GameNight current, GameNight updated)
     {
         PreProcessGameNightModification(current);

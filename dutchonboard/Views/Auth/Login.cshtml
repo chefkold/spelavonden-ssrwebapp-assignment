@@ -1,54 +1,66 @@
 ﻿@{
-    Layout = "_LayoutNoNav";
-    ViewData["Title"] = "Welkom bij DUTCHONBOARD!";
-    
+    Layout = null;
 }
-<div class="container-fluid">
-    <div class="row min-vh-100">
-        <div class="col-8">
-            <div class="d-flex flex-column h-100">
-                <div class="row">
-                    <img class="logo" src="~/images/placeholder-logo.png" alt="website-logo" />
-                </div>
-                <div class="row align-items-center justify-content-center flex-grow-1">
-                    <div class="col">
-                        <div class="col-12 text-center">
-                            <h1>Inloggen op uw account</h1>
-                            <p>
-                                Welkom terug.
-                            </p>
-                        </div>
-                        <div class="col-6 offset-3">
-                            <form asp-action="Login" method="post">
-                                <div class="mb-3">
-                                    <label class="form-label">Email address</label>
-                                    <input type="email" class="form-control" name="email" aria-describedby="emailHelp" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Password</label>
-                                    <input type="password" class="form-control" name="password" required>
-                                </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Welkom bij DUTCHONBOARD!</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="" />
 
-                                <button type="submit" class="btn btn-primary btn-primary-color">Inloggen</button>
-                                <div class="pt-2 text-danger" asp-validation-summary="All"></div>
-                            </form>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+    <link rel="icon" href="~/images/placeholder-logo.png">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row min-vh-100">
+            <div class="col-8">
+                <div class="d-flex flex-column h-100">
+                    <div class="row">
+                        <img class="logo" src="~/images/placeholder-logo.png" alt="website-logo" />
+                    </div>
+                    <div class="row align-items-center justify-content-center flex-grow-1">
+                        <div class="col">
+                            <div class="col-12 text-center">
+                                <h1>Inloggen op uw account</h1>
+                                <p>
+                                    Welkom terug.
+                                </p>
+                            </div>
+                            <div class="col-6 offset-3">
+                                <form asp-action="Login" method="post">
+                                    <div class="mb-3">
+                                        <label class="form-label">Email address</label>
+                                        <input type="email" class="form-control" name="email" aria-describedby="emailHelp" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Password</label>
+                                        <input type="password" class="form-control" name="password" required>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary btn-primary-color">Inloggen</button>
+                                    <div class="pt-2 text-danger" asp-validation-summary="All"></div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-4 bg-secondary-color white-text">
-            <div class="d-flex flex-column h-100">
-                <div class="row align-items-center justify-content-center flex-grow-1">
-                    <div class="col-12 text-center ">
-                        <h2>DutchonBoard ontdekken</h2>
-                        <p>
-                            Wilt u graag mee doen aan een bordspellenavond of er eentje organiseren? Registreer een account om vandaag nog te beginnen!
-                        </p>
-                        <div class="row align-items-end">
-                            <div class="col">
-                                <div class="d-flex justify-content-center">
-                                    <button type="submit" class="btn btn-primary btn-primary-color mt-3">Registreren</button>
+            <div class="col-4 bg-secondary-color white-text">
+                <div class="d-flex flex-column h-100">
+                    <div class="row align-items-center justify-content-center flex-grow-1">
+                        <div class="col-12 text-center ">
+                            <h2>DutchonBoard ontdekken</h2>
+                            <p>
+                                Wilt u graag mee doen aan een bordspellenavond of er eentje organiseren? Registreer een account om vandaag nog te beginnen!
+                            </p>
+                            <div class="row align-items-end">
+                                <div class="col">
+                                    <div class="d-flex justify-content-center">
+                                        <button type="submit" class="btn btn-primary btn-primary-color mt-3">Registreren</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -57,4 +69,9 @@
             </div>
         </div>
     </div>
-</div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>
