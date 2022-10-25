@@ -13,10 +13,10 @@ builder.Services.AddDbContext<DutchOnBoardSecurityDbContext>(options => options.
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<DutchOnBoardSecurityDbContext>().AddDefaultTokenProviders();
 
 builder.Services.AddAuthorization(options => options.AddPolicy("GameNightOrganizer", policy => policy.RequireClaim("Organizer")));
-//builder.Services.ConfigureApplicationCookie(config =>
-//{
-//    config.LoginPath = "/Auth";
-//});
+builder.Services.ConfigureApplicationCookie(config =>
+{
+    config.LoginPath = "/Auth";
+});
 
 
 builder.Services.AddTransient<DataSeeder>();
@@ -26,8 +26,6 @@ builder.Services.AddScoped<IGameNightRepo, GameNightRepo>();
 builder.Services.AddScoped<IOrganizerRepo, OrganizerRepo>();
 builder.Services.AddScoped<IPlayerRepo, PlayerRepo>();
 
-builder.Services.AddMemoryCache();
-builder.Services.AddSession();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
