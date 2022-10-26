@@ -58,8 +58,12 @@
     </nav>
     <hr class="border border-primary border-primary-color border-3 opacity-100 mt-0 mb-0">
     @RenderBody()
-    <footer class="bg-secondary-color">
-        <p class="text-center text-muted">© 2022 DUTCHONOARD, B.V.</p>
+    <footer class="pt-3 py-4 bg-secondary-color ">
+        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+            <li class="nav-item"><a asp-controller="Home" asp-action="Index" class="nav-link px-2 white-text">Home</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 white-text">Over ons</a></li>
+        </ul>
+        <p class="text-center white-text">© 2022 DUTCHONBOARD</p>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
