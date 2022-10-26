@@ -11,8 +11,4 @@
     <ProjectReference Include="..\dutchonboard.Core.Domain\dutchonboard.Core.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Managers\" />
-  </ItemGroup>
-
 </Project>

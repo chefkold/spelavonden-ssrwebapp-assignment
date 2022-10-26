@@ -31,19 +31,18 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" asp-controller="GameNight" asp-action="AllGameNights">Alle avonden</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" asp-controller="GameNight" asp-action="GameNightsWhereUserParticipates">Jouw inschrijvingen</a></li>
+                            <li><a class="dropdown-item" asp-controller="GameNight" asp-action="GameNightsWhereUserParticipates">Uw inschrijvingen</a></li>
                             @if ((await AuthorizationService.AuthorizeAsync(User, "GameNightOrganizer")).Succeeded)
                             {
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" asp-controller="GameNight" asp-action="GameNightsOfOrganizer">Mijn avonden</a></li>
+                                <li><a class="dropdown-item" asp-controller="GameNight" asp-action="GameNightsOfOrganizer">Uw avonden</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" asp-controller="GameNight" asp-action="CreateGameNight">Organiseer</a></li>
-
+                                <li><a class="dropdown-item" asp-controller="GameNight" asp-action="CreateGameNight">Organiseren</a></li>
                             }
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                        <a class="nav-link" href="#">Over ons</a>
                     </li>
                 </ul>
                 <div class="nav-item dropdown ">
@@ -59,7 +58,9 @@
     </nav>
     <hr class="border border-primary border-primary-color border-3 opacity-100 mt-0 mb-0">
     @RenderBody()
-
+    <footer class="bg-secondary-color">
+        <p class="text-center text-muted">© 2022 DUTCHONOARD, B.V.</p>
+    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

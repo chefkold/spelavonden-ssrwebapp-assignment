@@ -1,7 +1,7 @@
 ﻿using dutchonboard.Core.Domain.Models;
 using System.Globalization;
 
-namespace dutchonboard.Models;
+namespace dutchonboard.Displays;
 
 public static class GeneralDisplay
 {
