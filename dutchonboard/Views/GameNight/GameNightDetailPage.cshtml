@@ -15,7 +15,7 @@
                 <hr />
             </div>
             <div class="row">
-                <div class="col-12">
+                <div class="col-6">
                     <h4>Details</h4>
                     <ul>
                         <li class="pb-3"><img class="list-img" src="~/images/calender-icon.svg" class="me-4" />@Model.DateAndTime.GetDateDisplay()</li>
@@ -24,6 +24,13 @@
                         <li class="pb-3"><img class="list-img" src="~/images/dinner-icon.svg" class="pe-2" />@Model.GetDietInfoDisplay()</li>
                     </ul>
                 </div>
+                <div class="col-6">
+                    <h4>Bordspellen</h4>
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <partial name="_BoardGameAccordionItem"/>
+                    </div>
+                </div>
+
                 <div class="col-12 mt-3">
                     <h4>Beschrijving</h4>
                     <p>

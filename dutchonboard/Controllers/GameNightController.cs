@@ -1,5 +1,5 @@
 ﻿using dutchonboard.Core.DomainServices.Managers;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace dutchonboard.Controllers
 {
@@ -51,31 +51,60 @@ namespace dutchonboard.Controllers
             {
                 ModelState.AddModelError("UpdateError", (TempData["GameNightDeletionError"] as string)!);
             }
-            
+
             return View("GameNightsOverview", organizer.HostedNights);
         }
 
         public IActionResult GameNightDetailPage(int id) => View(_iGameNightRepo.GetGameNightById(id));
 
         [Authorize(Policy = "GameNightOrganizer")]
-        public IActionResult CreateGameNight() => View();
+        public IActionResult CreateGameNight()
+        {
+            var model = new GameNightViewModel
+            {
+                GamesDropdown = 
+                {
+                    ChoosableBoardGames = new List<BoardGame>()
+                    {
+                        new BoardGame()
+                        {
+                            Id = 1,
+                            Name = "Henk"
+                        },
+                        new BoardGame()
+                        {
+                            Id = 2,
+                            Name = "Henk"
+                        }
+
+                    }
+                }
+            };
+            return View(model);
+        }
 
         [Authorize(Policy = "GameNightOrganizer")]
         [HttpPost]
         public async Task<IActionResult> CreateGameNight(GameNightViewModel model)
         {
-            if (!ModelState.IsValid)
+            foreach (var s in model.GamesDropdown.ChosenBoardGames)
             {
-                return View();
+                Console.WriteLine(s);
             }
+            //if (!ModelState.IsValid)
+            //{
+            //    return View();
+            //}
 
-            var gameNight = model.ConvertToGameNight();
+            //var gameNight = model.ConvertToGameNight();
 
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            var organizer = _iOrganizerRepo.GetOrganizerByEmail(user.Email);
-            gameNight.Organizer = organizer;
+            //var user = await _userManager.GetUserAsync(HttpContext.User);
+            //var organizer = _iOrganizerRepo.GetOrganizerByEmail(user.Email);
+            //gameNight.Organizer = organizer;
 
-            _iGameNightRepo.AddGameNight(gameNight);
+
+
+            //_iGameNightRepo.AddGameNight(gameNight);
 
             return RedirectToAction("GameNightsOfOrganizer");
         }
@@ -127,6 +156,13 @@ namespace dutchonboard.Controllers
 
             return RedirectToAction("GameNightsOfOrganizer");
         }
+
+        //private List<MultiSelectList> PrepareDropDownOfBoardGames()
+        //{
+        //    var list = new List<MultiSelectList>();
+        //    list.Add(new MultiSelectList());
+        //    return list;
+        //}
     }
 }
 

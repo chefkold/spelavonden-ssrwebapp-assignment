@@ -11,8 +11,8 @@ public class GameNight
     public int MaxPlayerAmount { get; set; }
     public Address Location { get; set; }
     public DateTime DateAndTime { get; set; }
-    private Organizer _organizer;
 
+    private Organizer _organizer;
     public Organizer Organizer
     {
         get => _organizer;

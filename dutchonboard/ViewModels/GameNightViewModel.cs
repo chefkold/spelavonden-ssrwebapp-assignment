@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace dutchonboard.Models;
 
@@ -14,7 +15,7 @@ public class GameNightViewModel
     [Required(ErrorMessage = "Geef alstublieft aan ofe de avond 18+ is")]
     public bool? IsAdultsOnly { get; set; }
 
-    [Required(ErrorMessage = "Geef de avond alstublieft een beschrijving"), StringLength(400, ErrorMessage = "Maak uw beschrijving korter (maximaal 400 karakters")]
+    [Required(ErrorMessage = "Geef de avond alstublieft een beschrijving"), StringLength(150, ErrorMessage = "Maak uw beschrijving korter (maximaal 400 karakters")]
     public string? Description { get; set; }
 
     [Required(ErrorMessage = "Geef alstublieft de datum en tijd van de avond")]
@@ -31,6 +32,10 @@ public class GameNightViewModel
 
     [Required(ErrorMessage = "Geef alstublieft een waarde op")]
     public string? City { get; set; }
+
+    public BoardGamesDropdown GamesDropdown { get; set; } = new BoardGamesDropdown();
+    public ICollection<BoardGame> Games { get; set; } = new List<BoardGame>();
+
     public int UpdatedGameNightId { get; set; }
     public void FillGameNightData(GameNight data)
     {
@@ -57,4 +62,11 @@ public class GameNightViewModel
             Location = new Address(Street!, HouseNumber!.Value, City!)
         };
     }
+    public class BoardGamesDropdown
+    {
+        public ICollection<BoardGame> ChoosableBoardGames { get; set; }
+
+        public List<String> ChosenBoardGames { get; set; }
+    }
 }
+

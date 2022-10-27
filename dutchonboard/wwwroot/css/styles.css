@@ -37,6 +37,10 @@ body {
     background-color: var(--white);
 }
 
+.bg-primary-color {
+    background-color: var(--primary-color);
+}
+
 .bg-secondary-color {
     background-color: var(--secondary-color);
 }
