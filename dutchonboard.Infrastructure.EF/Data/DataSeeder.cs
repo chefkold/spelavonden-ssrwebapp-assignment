@@ -1,4 +1,7 @@
-﻿namespace dutchonboard.Infrastructure.EF.Data;
+﻿using System.Net;
+using static System.Net.Mime.MediaTypeNames;
+
+namespace dutchonboard.Infrastructure.EF.Data;
 
 public class DataSeeder
 {
@@ -9,8 +12,10 @@ public class DataSeeder
         _dutchOnBoardDbContext = dutchOnBoardDbContext;
     }
 
-    public void Seed()
+    public async Task Seed()
     {
+       
+
         if (_dutchOnBoardDbContext.GameNights.Any()) return;
 
         // Users
@@ -28,8 +33,24 @@ public class DataSeeder
             Email = UserSeedData.Player1Email
         };
 
+        byte[] monopolyImg; 
+        string someUrl = "https://media.s-bol.com/39Q7EWnMMX3M/550x508.jpg"; 
+       
+        using (var webClient = new HttpClient()) { 
+
+            monopolyImg = await webClient.GetAsync(someUrl).Result.Content.ReadAsByteArrayAsync();
+        }
         // Board games
-        var gameMonopoly = new BoardGame() { Name = "Monopoly" };
+        var gameMonopoly = new BoardGame()
+        {
+            Name = "Monopoly",
+            Description = "Er kan maar één winnaar zijn bij Monopoly Classic. Ben jij degene die straks alles bezit? Het enige echte Monopoly bordspel staat al jaren garant voor veel speelplezier met familie en vrienden en is de klassieker onder de spellen. Bij veel mensen zal dit spel nostalgie opwekken, maar het is ook nog steeds een fantastisch spel om voor de eerste keer te spelen.\r\n",
+            Type = "Een bord met een roadmap, dobbelstenen en items",
+            Genre = Genre.Strategie,
+            Image = monopolyImg,
+            ImageFormat = "image/jpeg"
+
+        };
 
         // Locations
         var locationAvansExplora = new Address("Lovensdijkstraat", 63, "Breda");

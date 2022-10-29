@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using dutchonboard.Infrastructure.EF.Data;
 
@@ -11,9 +12,10 @@ using dutchonboard.Infrastructure.EF.Data;
 namespace dutchonboard.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(DutchOnBoardDbContext))]
-    partial class DutchOnBoardDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221027160706_domain-update")]
+    partial class domainupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

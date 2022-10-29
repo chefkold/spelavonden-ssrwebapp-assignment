@@ -1,13 +1,13 @@
-﻿@model GameNight;
+﻿@model BoardGame;
 @{
-    //ViewData["Title"] = @Model.Title;
+    ViewData["Title"] = @Model.Name;
 }
 <div class="container-fluid">
     <div class="row min-vh-100">
         <div class="col-6 p-4">
             <div class="row">
                 <div class="col align-items-center">
-                    <h2 class="d-inline m-0">Titel</h2>
+                    <h2 class="d-inline m-0">@Model.Name</h2>
                    
                 </div>
                 <hr />
@@ -16,18 +16,18 @@
                 <div class="col-12">
                     <h4>Details</h4>
                     <ul>
-                        <li class="pb-3"><img class="list-img" src="~/images/board-game-type-icon.svg" class="me-4" />Spelsoort</li>
-                        <li class="pb-3"><img class="list-img" src="~/images/board-game-genre-icon.svg" class="pe-2" />Genre</li>
+                        <li class="pb-3"><img class="list-img" src="~/images/board-game-type-icon.svg" class="me-4" />@Model.Type</li>
+                        <li class="pb-3"><img class="list-img" src="~/images/board-game-genre-icon.svg" class="pe-2" />@Model.Genre.ToString()</li>
                     </ul>
                 </div>
                 <div class="col-12 mt-3">
                     <h4>Beschrijving</h4>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sit amet iaculis orci, eu hendrerit velit. Quisque laoreet, orci sed rutrum vestibulum, ex urna facilisis elit, sed venenatis nunc purus nec felis. Nam sagittis risus et eros efficitur, nec posuere magna condimentum. Praesent eget quam nec sem sollicitudin lacinia. Nullam vitae lectus eget augue vestibulum pellentesque. Maecenas et tellus dignissim, aliquam lacus non, tristique arcu. Proin imperdiet, lorem non mattis interdum, turpis urna tincidunt ipsum, eget fermentum augue massa vel enim. Nulla facilisi. Vivamus laoreet risus at est consectetur, id porta sapien blandit. Nulla facilisi. Mauris vehicula eget libero ac consequat. Aenean massa ante, vehicula et nisi sed, sodales tristique est. Suspendisse nulla orci, dignissim ut aliquet pulvinar, eleifend eu mi. Phasellus sed urna lobortis purus dignissim euismod.
+                        @Model.Description
                     </p>
                 </div>
                 <div class="col-12 mt-5">
-                    <button type="submit" class="btn btn-primary btn-primary-color ">Ga terug</button>
+                    <a href="javascript:history.go(-1)" class="btn btn-primary btn-primary-color ">Ga terug</a>
                 </div>
             </div>
         </div>
@@ -35,7 +35,7 @@
             <div class="d-flex flex-column h-100">
                 <div class="row  justify-content-center flex-grow-1">
                     <div class="col-12 text-center ">
-                        <img src="~/images/boardgames/monopoly.jpg" style="object-fit: cover" width="350px" />
+                        <img src="data:@Model.ImageFormat;base64,@Convert.ToBase64String(Model.Image)"  style="object-fit: cover" width="350px" />
                     </div>
                 </div>
             </div>

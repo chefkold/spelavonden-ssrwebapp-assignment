@@ -25,9 +25,12 @@
                     </ul>
                 </div>
                 <div class="col-6">
-                    <h4>Bordspellen</h4>
+                    <h4>Spellen</h4>
                     <div class="accordion accordion-flush" id="accordionFlushExample">
-                        <partial name="_BoardGameAccordionItem"/>
+                        @foreach (var game in @Model.Games)
+                        {
+                            <partial name="_BoardGameAccordionItem" model="game"/>
+                        }
                     </div>
                 </div>
 

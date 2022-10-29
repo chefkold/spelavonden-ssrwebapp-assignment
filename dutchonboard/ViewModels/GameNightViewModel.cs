@@ -34,9 +34,9 @@ public class GameNightViewModel
     public string? City { get; set; }
 
     public BoardGamesDropdown GamesDropdown { get; set; } = new BoardGamesDropdown();
-    public ICollection<BoardGame> Games { get; set; } = new List<BoardGame>();
-
+    
     public int UpdatedGameNightId { get; set; }
+    
     public void FillGameNightData(GameNight data)
     {
         UpdatedGameNightId = data.Id;
@@ -50,6 +50,7 @@ public class GameNightViewModel
         this.HouseNumber = data.Location.Number;
         this.City = data.Location.City;
     }
+    
     public GameNight ConvertToGameNight()
     {
         return new GameNight()
@@ -62,9 +63,10 @@ public class GameNightViewModel
             Location = new Address(Street!, HouseNumber!.Value, City!)
         };
     }
+    
     public class BoardGamesDropdown
     {
-        public ICollection<BoardGame> ChoosableBoardGames { get; set; }
+        public ICollection<BoardGame>? ChoosableBoardGames { get; set; }
 
         public List<String> ChosenBoardGames { get; set; }
     }

@@ -23,13 +23,14 @@ builder.Services.AddTransient<DataSeeder>();
 builder.Services.AddTransient<DataSeederSecurity>();
 
 builder.Services.AddScoped<IGameNightRepo, GameNightRepo>();
+builder.Services.AddScoped<IBoardGameRepo, BoardGameRepo>();
 builder.Services.AddScoped<IOrganizerRepo, OrganizerRepo>();
 builder.Services.AddScoped<IPlayerRepo, PlayerRepo>();
 
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
-SeedData(app);
+await SeedData(app);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -58,7 +59,7 @@ app.MapControllerRoute(
 app.Run();
 
 
-static void SeedData(IHost app)
+static async Task SeedData(IHost app)
 {
     var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
 
@@ -66,6 +67,6 @@ static void SeedData(IHost app)
     var serviceMainSeeder = scope.ServiceProvider.GetService<DataSeeder>();
     var serviceSecuritySeeder = scope.ServiceProvider.GetService<DataSeederSecurity>();
 
-    serviceMainSeeder!.Seed();
+    await serviceMainSeeder!.Seed();
     serviceSecuritySeeder!.Seed().Wait();
 }

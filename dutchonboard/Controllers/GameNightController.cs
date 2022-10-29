@@ -1,4 +1,5 @@
-﻿using dutchonboard.Core.DomainServices.Managers;
+﻿using dutchonboard.Core.DomainServices;
+using dutchonboard.Core.DomainServices.Managers;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace dutchonboard.Controllers
@@ -9,13 +10,15 @@ namespace dutchonboard.Controllers
         private readonly UserManager<IdentityUser> _userManager;
 
         private readonly IGameNightRepo _iGameNightRepo;
+        private readonly IBoardGameRepo _iBoardGameRepo;
         private readonly IOrganizerRepo _iOrganizerRepo;
         private readonly IPlayerRepo _iPlayerRepo;
 
-        public GameNightController(UserManager<IdentityUser> userManager, IGameNightRepo iGameNightRepo, IOrganizerRepo iOrganizerRepo, IPlayerRepo iPlayerRepo)
+        public GameNightController(UserManager<IdentityUser> userManager, IGameNightRepo iGameNightRepo, IBoardGameRepo iBoardGameRepo, IOrganizerRepo iOrganizerRepo, IPlayerRepo iPlayerRepo)
         {
             _userManager = userManager;
             _iGameNightRepo = iGameNightRepo;
+            _iBoardGameRepo = iBoardGameRepo;
             _iOrganizerRepo = iOrganizerRepo;
             _iPlayerRepo = iPlayerRepo;
         }
@@ -60,26 +63,8 @@ namespace dutchonboard.Controllers
         [Authorize(Policy = "GameNightOrganizer")]
         public IActionResult CreateGameNight()
         {
-            var model = new GameNightViewModel
-            {
-                GamesDropdown = 
-                {
-                    ChoosableBoardGames = new List<BoardGame>()
-                    {
-                        new BoardGame()
-                        {
-                            Id = 1,
-                            Name = "Henk"
-                        },
-                        new BoardGame()
-                        {
-                            Id = 2,
-                            Name = "Henk"
-                        }
-
-                    }
-                }
-            };
+            var model = new GameNightViewModel();
+            model.GamesDropdown.ChoosableBoardGames = _iBoardGameRepo.GetAllBoardGames();
             return View(model);
         }
 
@@ -87,24 +72,22 @@ namespace dutchonboard.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateGameNight(GameNightViewModel model)
         {
-            foreach (var s in model.GamesDropdown.ChosenBoardGames)
+
+                model.GamesDropdown.ChoosableBoardGames = _iBoardGameRepo.GetAllBoardGames();
+            if (!ModelState.IsValid)
             {
-                Console.WriteLine(s);
+                return View(model);
             }
-            //if (!ModelState.IsValid)
-            //{
-            //    return View();
-            //}
 
-            //var gameNight = model.ConvertToGameNight();
+            var gameNight = model.ConvertToGameNight();
 
-            //var user = await _userManager.GetUserAsync(HttpContext.User);
-            //var organizer = _iOrganizerRepo.GetOrganizerByEmail(user.Email);
-            //gameNight.Organizer = organizer;
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var organizer = _iOrganizerRepo.GetOrganizerByEmail(user.Email);
+            gameNight.Organizer = organizer;
 
-
-
-            //_iGameNightRepo.AddGameNight(gameNight);
+            
+            gameNight.Games = model.GamesDropdown.ChoosableBoardGames.FilterByStringListOfIds(model.GamesDropdown.ChosenBoardGames);
+            _iGameNightRepo.AddGameNight(gameNight);
 
             return RedirectToAction("GameNightsOfOrganizer");
         }
@@ -156,13 +139,7 @@ namespace dutchonboard.Controllers
 
             return RedirectToAction("GameNightsOfOrganizer");
         }
-
-        //private List<MultiSelectList> PrepareDropDownOfBoardGames()
-        //{
-        //    var list = new List<MultiSelectList>();
-        //    list.Add(new MultiSelectList());
-        //    return list;
-        //}
+        
     }
 }
 

@@ -3,10 +3,13 @@
     [Authorize]
     public class BoardGameController : Controller
     {
+        private readonly IBoardGameRepo _iBoardGameRepo;
 
-        public IActionResult BoardGameDetailPage()
+        public BoardGameController(IBoardGameRepo iBoardGameRepo)
         {
-            return View();
+            _iBoardGameRepo = iBoardGameRepo;
         }
+
+        public IActionResult BoardGameDetailPage(int id) => View(_iBoardGameRepo.GetBoardGameById(id));
     }
 }

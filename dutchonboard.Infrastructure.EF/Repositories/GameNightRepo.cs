@@ -24,7 +24,15 @@ public class GameNightRepo : IGameNightRepo
         throw new NotImplementedException();
     }
 
-    public GameNight GetGameNightById(int id) => _dbContext.GameNights.Include(p => p.Players).First(p => p.Id == id);
+    public GameNight GetGameNightById(int id)
+    {
+
+        return _dbContext.GameNights
+            .Include(p => p.Players)
+            .Include(p => p.Games)
+            .First(p => p.Id == id);
+    }
+
     public void UpdateGameNight(GameNight updatedGameNight)
     {
         var currentGameNight = GetGameNightById(updatedGameNight.Id);
