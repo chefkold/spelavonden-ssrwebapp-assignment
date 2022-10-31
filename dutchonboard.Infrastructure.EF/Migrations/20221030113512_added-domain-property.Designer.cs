@@ -12,8 +12,8 @@ using dutchonboard.Infrastructure.EF.Data;
 namespace dutchonboard.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(DutchOnBoardDbContext))]
-    [Migration("20221024132704_added-domain-properties")]
-    partial class addeddomainproperties
+    [Migration("20221030113512_added-domain-property")]
+    partial class addeddomainproperty
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,7 +47,25 @@ namespace dutchonboard.Infrastructure.EF.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Genre")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("ImageFormat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsForAdults")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -63,9 +81,6 @@ namespace dutchonboard.Infrastructure.EF.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool?>("AdultOnly")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("DateAndTime")
                         .HasColumnType("datetime2");
 
@@ -74,6 +89,9 @@ namespace dutchonboard.Infrastructure.EF.Migrations
 
                     b.Property<string>("DietAndAllergyInfo")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsForAdults")
+                        .HasColumnType("bit");
 
                     b.Property<int>("MaxPlayerAmount")
                         .HasColumnType("int");
@@ -98,6 +116,9 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()

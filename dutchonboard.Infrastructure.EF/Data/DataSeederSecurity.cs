@@ -28,5 +28,12 @@ public class DataSeederSecurity
             donat = new IdentityUser(UserSeedData.Player1FirstName){Email = UserSeedData.Player1Email};
             await _userManager.CreateAsync(donat, UserSeedData.Password);
         }
+
+        var donatJr = await _userManager.FindByEmailAsync(UserSeedData.Player2Email);
+        if (donatJr == null)
+        {
+            donat = new IdentityUser(UserSeedData.Player2FirstName){Email = UserSeedData.Player2Email};
+            await _userManager.CreateAsync(donat, UserSeedData.Password);
+        }
     }
 }

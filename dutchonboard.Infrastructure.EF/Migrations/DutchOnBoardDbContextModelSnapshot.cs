@@ -57,6 +57,9 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                     b.Property<string>("ImageFormat")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("IsForAdults")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -76,9 +79,6 @@ namespace dutchonboard.Infrastructure.EF.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool?>("AdultOnly")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("DateAndTime")
                         .HasColumnType("datetime2");
 
@@ -87,6 +87,9 @@ namespace dutchonboard.Infrastructure.EF.Migrations
 
                     b.Property<string>("DietAndAllergyInfo")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsForAdults")
+                        .HasColumnType("bit");
 
                     b.Property<int>("MaxPlayerAmount")
                         .HasColumnType("int");
@@ -111,6 +114,9 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()

@@ -14,7 +14,6 @@ public class DataSeeder
 
     public async Task Seed()
     {
-       
 
         if (_dutchOnBoardDbContext.GameNights.Any()) return;
 
@@ -30,7 +29,16 @@ public class DataSeeder
         {
             FirstName = UserSeedData.Player1FirstName,
             LastName = UserSeedData.Player1LastName,
-            Email = UserSeedData.Player1Email
+            Email = UserSeedData.Player1Email,
+            BirthDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-18))
+        };
+
+        var player2 = new Player()
+        {
+            FirstName = UserSeedData.Player2FirstName,
+            LastName = UserSeedData.Player2LastName,
+            Email = UserSeedData.Player2Email,
+            BirthDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-17))
         };
 
         byte[] monopolyImg; 
@@ -47,6 +55,7 @@ public class DataSeeder
             Description = "Er kan maar één winnaar zijn bij Monopoly Classic. Ben jij degene die straks alles bezit? Het enige echte Monopoly bordspel staat al jaren garant voor veel speelplezier met familie en vrienden en is de klassieker onder de spellen. Bij veel mensen zal dit spel nostalgie opwekken, maar het is ook nog steeds een fantastisch spel om voor de eerste keer te spelen.\r\n",
             Type = "Een bord met een roadmap, dobbelstenen en items",
             Genre = Genre.Strategie,
+            IsForAdults = false,
             Image = monopolyImg,
             ImageFormat = "image/jpeg"
 
@@ -65,15 +74,15 @@ public class DataSeeder
             Title = "Sessie 1 Avans",
             Description =
                 "We gaan met een kickoff beginnen op de locatie van Avans Hogeschool. Hierbij zal ook de burgermeester aanwezig zijn om het nieuwe initiatief te vieren",
-            AdultOnly = false,
+            IsForAdults = false,
             MaxPlayerAmount = 12,
             Location = locationAvansExplora,
             DateAndTime = new DateTime(2022, 10, 31, 23, 59, 00),
             Organizer = organizer1,
         };
 
-        gameNight1.Players.Add(player1);
-        gameNight1.Games.Add(gameMonopoly);
+        gameNight1.AddPlayer(player1);
+        gameNight1.AddBoardGame(gameMonopoly);
         gameNight1.DietAndAllergyInfo.Add(FoodAndDrinkType.TreeNuts);
         gameNight1.DietAndAllergyInfo.Add(FoodAndDrinkType.Lactose);
 

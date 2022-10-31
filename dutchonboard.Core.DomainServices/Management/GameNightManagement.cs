@@ -1,11 +1,11 @@
 ﻿namespace dutchonboard.Core.DomainServices.Managers;
 
 /// <summary>
-/// Business logic revolving around GameNight
+/// Business rule revolving around GameNight
 /// </summary>
 public static class GameNightManagement
 {
-    // BUSINESS LOGIC: Game night only allowed to update if no players have joined (excluding the organizer himself, so count is at least 1)
+    // Business rule: Game night only allowed to update if no players have joined (excluding the organizer himself, so count is at least 1)
     public static void PreProcessGameNightModification(GameNight gameNight)
     { 
         if (gameNight.Players.Count > 1)
@@ -22,7 +22,7 @@ public static class GameNightManagement
 
         current.Title = updated.Title;
         current.DateAndTime = updated.DateAndTime;
-        current.AdultOnly = updated.AdultOnly;
+        current.IsForAdults = updated.IsForAdults;
         current.Description = updated.Description;
         current.Location = updated.Location;
         current.MaxPlayerAmount = updated.MaxPlayerAmount;

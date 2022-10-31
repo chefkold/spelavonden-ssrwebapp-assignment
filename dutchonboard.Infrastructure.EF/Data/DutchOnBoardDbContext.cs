@@ -26,6 +26,11 @@ public class DutchOnBoardDbContext : DbContext
             .HasConversion(new EnumJsonConverter<FoodAndDrinkType>())
             .Metadata.SetValueComparer(new CollectionValueComparer<FoodAndDrinkType>());
 
+        modelBuilder
+            .Entity<Player>()
+            .Property(p => p.BirthDate)
+            .HasConversion<DateOnlyConverter, DateOnlyComparer>();
+
         modelBuilder.Entity<GameNight>().OwnsOne<Address>(p => p.Location);
 
         modelBuilder.Entity<GameNight>()

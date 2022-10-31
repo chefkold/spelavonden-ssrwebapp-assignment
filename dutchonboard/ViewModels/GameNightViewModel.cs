@@ -42,7 +42,7 @@ public class GameNightViewModel
         UpdatedGameNightId = data.Id;
 
         this.Title = data.Title;
-        this.IsAdultsOnly = data.AdultOnly;
+        this.IsAdultsOnly = data.IsForAdults;
         this.Description = data.Description;
         this.DateAndTime = data.DateAndTime;
         this.MaxPlayerAmount = data.MaxPlayerAmount;
@@ -57,7 +57,7 @@ public class GameNightViewModel
         {
             Title = this.Title,
             Description = this.Description,
-            AdultOnly = this.IsAdultsOnly,
+            IsForAdults = this.IsAdultsOnly,
             DateAndTime = this.DateAndTime!.Value,
             MaxPlayerAmount = this.MaxPlayerAmount!.Value,
             Location = new Address(Street!, HouseNumber!.Value, City!)

@@ -12,8 +12,8 @@ using dutchonboard.Infrastructure.EF.Data;
 namespace dutchonboard.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(DutchOnBoardDbContext))]
-    [Migration("20221027160706_domain-update")]
-    partial class domainupdate
+    [Migration("20221030093605_migration-reset")]
+    partial class migrationreset
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -59,6 +59,9 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                     b.Property<string>("ImageFormat")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("IsForAdults")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -78,9 +81,6 @@ namespace dutchonboard.Infrastructure.EF.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool?>("AdultOnly")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("DateAndTime")
                         .HasColumnType("datetime2");
 
@@ -89,6 +89,9 @@ namespace dutchonboard.Infrastructure.EF.Migrations
 
                     b.Property<string>("DietAndAllergyInfo")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsForAdults")
+                        .HasColumnType("bit");
 
                     b.Property<int>("MaxPlayerAmount")
                         .HasColumnType("int");

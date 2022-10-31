@@ -10,6 +10,7 @@ public class BoardGame
     public string Description { get; set; } 
     public string Type { get; set; } 
     public Genre Genre { get; set; }
+    public bool? IsForAdults { get; set; }
     public byte[] Image { get; set; }
     public string ImageFormat { get; set; }
     public ICollection<GameNight> GameNightsWhereFeatured { get; set; } = new List<GameNight>();

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace dutchonboard.Infrastructure.EF.Migrations
 {
-    public partial class addeddomainproperties : Migration
+    public partial class migrationreset : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +15,13 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Genre = table.Column<int>(type: "int", nullable: false),
+                    IsForAdults = table.Column<bool>(type: "bit", nullable: true),
+                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    ImageFormat = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -46,7 +52,7 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AdultOnly = table.Column<bool>(type: "bit", nullable: true),
+                    IsForAdults = table.Column<bool>(type: "bit", nullable: true),
                     MaxPlayerAmount = table.Column<int>(type: "int", nullable: false),
                     Location_Street = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Location_Number = table.Column<int>(type: "int", nullable: true),

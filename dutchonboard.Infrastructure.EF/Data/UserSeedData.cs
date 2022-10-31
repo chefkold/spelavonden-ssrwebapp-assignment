@@ -10,6 +10,11 @@ public class UserSeedData
     public static string Player1LastName = "Nowakowski";
     public static string Player1Email = "d.nowakowski@gmail.com";
 
+    
+    public static string Player2FirstName = "DonatJunior"; 
+    public static string Player2LastName = "Nowakowski";
+    public static string Player2Email = "d.junior.nowakowski@gmail.com";
+
     public static string Password = "DummyPass1234!";
 
 }
