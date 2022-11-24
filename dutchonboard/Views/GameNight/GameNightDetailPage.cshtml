@@ -8,8 +8,9 @@
             <div class="row">
                 <div class="col align-items-center">
                     <h2 class="d-inline m-0">@Model.Title</h2>
-                    @if (@Model.IsForAdults == true) {
-                    <img  class="mb-3" src="~/images/adults-warning-sign.png" width="35px" />
+                    @if (@Model.IsForAdults == true)
+                    {
+                        <img class="mb-3" src="~/images/adults-warning-sign.png" width="35px" />
                     }
                 </div>
                 <hr />
@@ -29,7 +30,7 @@
                     <div class="accordion accordion-flush" id="accordionFlushExample">
                         @foreach (var game in @Model.Games)
                         {
-                            <partial name="_BoardGameAccordionItem" model="game"/>
+                            <partial name="_BoardGameAccordionItem" model="game" />
                         }
                     </div>
                 </div>
@@ -52,8 +53,16 @@
                         <div class="row align-items-end">
                             <div class="col">
                                 <div class="d-flex justify-content-center">
-                                    <button type="submit" class="btn btn-primary btn-primary-color ">Aanmelden</button>
+                                    @if (ViewData["IsOrganizer"]!.Equals(true))
+                                    {
+                                        <button type="submit" class="btn btn-primary btn-primary-color justify-content-center" disabled>Aanmelden</button>
+                                    }
+                                    else
+                                    {
+                                       <a asp-action="EnrollPlayerForGameNight" asp-route-gameNightId="@Model.Id" class="btn btn-primary btn-primary-color justify-content-center">Aanmelden</a>
+                                    }
                                 </div>
+                                    <div class="pt-2 white-text text-decoration-underline" asp-validation-summary="All"></div>
                             </div>
                         </div>
                     </div>

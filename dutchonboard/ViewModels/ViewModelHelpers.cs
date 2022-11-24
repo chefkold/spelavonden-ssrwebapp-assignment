@@ -1,6 +1,6 @@
-﻿namespace dutchonboard.Core.DomainServices;
+﻿namespace dutchonboard.Models;
 
-public static class FilterService
+public static class ViewModelHelpers
 {
     public static ICollection<BoardGame> FilterByStringListOfIds(this ICollection<BoardGame> boardGames, ICollection<string> ids)
     {

@@ -6,6 +6,8 @@ public interface IGameNightRepo
     public abstract ICollection<GameNight> GetAllGameNights();
     public abstract ICollection<GameNight> GetGameNightsJoinedBy(Player player);
     public abstract GameNight GetGameNightById(int id);
+
+    public abstract void EnrollPlayer(GameNight gameNight, Player player );
     public abstract void UpdateGameNight(GameNight gameNight); 
     public abstract void DeleteGameNight(GameNight gameNight);
  

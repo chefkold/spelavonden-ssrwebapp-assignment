@@ -11,7 +11,7 @@ public class GameNight
     public bool? IsForAdults { get; set; }
     // Business rules: the organizer is automatically a player so the playermount limit should be at least 1
     [Range(1, int.MaxValue)]
-    public int MaxPlayerAmount { get; set; } = 1; 
+    public int MaxPlayerAmount { get; set; } = 1;
     public Address Location { get; set; }
     public DateTime DateAndTime { get; set; }
 
@@ -39,22 +39,34 @@ public class GameNight
             }
         }
     }
-    // Business rule: if a game night is for adults only, a player cannot joined
+    // Business rule: if a game night is for adults only, a player cannot join
+    // Business rule: if a game night maximum player count is met, a player cannot join
+    // Business rule: if a player is already enrolled to a game night for this game night's date, a player cannot join
     public void AddPlayer(Player player)
     {
         if (MaxPlayerAmount <= _players.Count)
         {
-            throw  new Exception("Het limiet van maximaal aantal spelers is al bereikt.");
+            throw new Exception("Het limiet van maximaal aantal spelers is al bereikt.");
 
         }
-        
+
         if (IsForAdults == true && !player.IsAdult())
         {
-            throw  new Exception("Speler is niet 18+ terwijl bordspellenavond alleen voor volwassenen is.");
+            throw new Exception("Deze avond is voor alleen voor volwassenen!");
+        }
+
+        // A player cannot be added if he already is enrolled for a game night on this date
+        if (player.JoinedNights.Any(g =>
+                DateOnly.FromDateTime(g.DateAndTime).Equals(DateOnly.FromDateTime(this.DateAndTime))))
+        {
+            
+            throw new Exception("U bent al ingeschreven op een bordspellenavond vandaag!");
+
         }
 
         _players.Add(player);
     }
+
     private readonly ICollection<BoardGame> _games = new List<BoardGame>();
     public ICollection<BoardGame> Games
     {

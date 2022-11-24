@@ -1,6 +1,5 @@
-﻿using dutchonboard.Core.DomainServices;
+﻿using dutchonboard.Core.Domain.Models;
 using dutchonboard.Core.DomainServices.Managers;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace dutchonboard.Controllers
 {
@@ -37,7 +36,7 @@ namespace dutchonboard.Controllers
             var player = _iPlayerRepo.GetPlayerByEmail(user.Email);
 
             ViewData["PageBodyTitle"] = "U bent speler bij de volgende avonden";
-            return View("GameNightsOverview", player.JoinedNights);
+            return View("GameNightsOverview", _iGameNightRepo.GetGameNightsJoinedBy(player));
         }
 
         [Authorize(Policy = "GameNightOrganizer")]
@@ -58,13 +57,57 @@ namespace dutchonboard.Controllers
             return View("GameNightsOverview", organizer.HostedNights);
         }
 
-        public IActionResult GameNightDetailPage(int id) => View(_iGameNightRepo.GetGameNightById(id));
+        public IActionResult GameNightDetailPage(int id)
+        {
+            var gameNight = _iGameNightRepo.GetGameNightById(id);
+            var user = _userManager.GetUserAsync(HttpContext.User).Result;
+            var player = _iPlayerRepo.GetPlayerByEmail(user.Email);
+
+            ViewData["IsOrganizer"] = false;
+
+            if (gameNight.Organizer.Email.Equals(player.Email))
+            {
+                ViewData["IsOrganizer"] = true;
+            }
+
+            if (TempData.ContainsKey("EnrollmentError"))
+            {
+                ModelState.AddModelError("EnrollmentError", (TempData["EnrollmentError"] as string)!);
+            }
+            
+            return View(_iGameNightRepo.GetGameNightById(id));
+
+        } 
+
+        public IActionResult EnrollPlayerForGameNight(int gameNightId)
+        {
+            var gameNight = _iGameNightRepo.GetGameNightById(gameNightId);
+            var user = _userManager.GetUserAsync(HttpContext.User).Result;
+            var player = _iPlayerRepo.GetPlayerByEmail(user.Email);
+
+            try
+            {
+                _iGameNightRepo.EnrollPlayer(gameNight, player);
+                RedirectToAction("GameNightsWhereUserParticipates");
+            }
+            catch (Exception error)
+            {
+                TempData["EnrollmentError"] = error.Message;
+            }
+
+            return RedirectToAction("GameNightDetailPage", new{ id = gameNightId});
+        }
 
         [Authorize(Policy = "GameNightOrganizer")]
         public IActionResult CreateGameNight()
         {
-            var model = new GameNightViewModel();
-            model.GamesDropdown.ChoosableBoardGames = _iBoardGameRepo.GetAllBoardGames();
+            var model = new GameNightViewModel
+            {
+                GamesDropdown =
+                {
+                    ChoosableBoardGames = _iBoardGameRepo.GetAllBoardGames()
+                }
+            };
             return View(model);
         }
 
@@ -73,7 +116,7 @@ namespace dutchonboard.Controllers
         public async Task<IActionResult> CreateGameNight(GameNightViewModel model)
         {
 
-                model.GamesDropdown.ChoosableBoardGames = _iBoardGameRepo.GetAllBoardGames();
+            model.GamesDropdown.ChoosableBoardGames = _iBoardGameRepo.GetAllBoardGames();
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -85,7 +128,7 @@ namespace dutchonboard.Controllers
             var organizer = _iOrganizerRepo.GetOrganizerByEmail(user.Email);
             gameNight.Organizer = organizer;
 
-            
+
             gameNight.Games = model.GamesDropdown.ChoosableBoardGames.FilterByStringListOfIds(model.GamesDropdown.ChosenBoardGames);
             _iGameNightRepo.AddGameNight(gameNight);
 
@@ -139,7 +182,7 @@ namespace dutchonboard.Controllers
 
             return RedirectToAction("GameNightsOfOrganizer");
         }
-        
+
     }
 }
 

@@ -10,7 +10,7 @@ public class GameNightTests
         var boardGame1 = new BoardGame { IsForAdults = false };
         var boardGame2 = new BoardGame { IsForAdults = true };
         var boardGame3 = new BoardGame { IsForAdults = false };
-        
+
         gameNight.AddBoardGame(boardGame1);
         gameNight.AddBoardGame(boardGame2);
         gameNight.AddBoardGame(boardGame3);
@@ -18,7 +18,7 @@ public class GameNightTests
         Assert.True(gameNight.IsForAdults);
     }
 
-    
+
     [Fact]
     public void SetBoardGames_SettingBoardGamesIncludingAnAdultBoardGame_AdultBoardGameShouldMakeGameNightForAdults()
     {
@@ -55,7 +55,7 @@ public class GameNightTests
     [Fact]
     public void AddPlayer_AddingAnAdultPlayerToGameNightForAdults_ShouldNotThrowException()
     {
-        var gameNight = new GameNight { IsForAdults = true};
+        var gameNight = new GameNight { IsForAdults = true };
         var player = new Player { BirthDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-18)) };
 
         gameNight.AddPlayer(player);
@@ -85,12 +85,23 @@ public class GameNightTests
     }
 
     [Fact]
+    public void AddPlayer_NewPlayerToNightWhileAlreadyEnrolledToOtherNightToday_ShouldThrowException()
+    {
+        var gameNight1 = new GameNight { MaxPlayerAmount = 1 };
+        var gameNight2 = new GameNight { MaxPlayerAmount = 1 };
+        var player = new Player { BirthDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-18)) };
+        player.JoinedNights.Add(gameNight1);
+        
+        Assert.Throws<Exception>(() => gameNight2.AddPlayer(player));
+    }
+
+    [Fact]
     public void GameNightCreation_SettingAnOrganizer_OrganizerShouldBeAddedToPlayersList()
     {
-        var organizer = new Organizer(); 
-        
-        var gameNight = new GameNight(){Organizer = organizer};
+        var organizer = new Organizer();
 
-        Assert.Contains(organizer, gameNight.Players); 
+        var gameNight = new GameNight() { Organizer = organizer };
+
+        Assert.Contains(organizer, gameNight.Players);
     }
 }

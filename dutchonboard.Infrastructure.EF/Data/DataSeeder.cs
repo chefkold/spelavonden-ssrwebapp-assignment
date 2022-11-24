@@ -22,7 +22,9 @@ public class DataSeeder
         {
             FirstName = UserSeedData.Organizer1FirstName,
             LastName = UserSeedData.Organizer1LastName,
-            Email = UserSeedData.Organizer1Email
+            Email = UserSeedData.Organizer1Email,
+            BirthDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-50))
+
         };
 
         var player1 = new Player()
@@ -66,6 +68,7 @@ public class DataSeeder
 
         _dutchOnBoardDbContext.Organizers.Add(organizer1);
         _dutchOnBoardDbContext.Players.Add(player1);
+        _dutchOnBoardDbContext.Players.Add(player2);
         _dutchOnBoardDbContext.BoardGames.Add(gameMonopoly);
 
         // Game nights
