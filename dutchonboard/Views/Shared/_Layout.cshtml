@@ -60,7 +60,9 @@
         </div>
     </nav>
     <hr class="border border-primary border-primary-color border-3 opacity-100 mt-0 mb-0">
-    @RenderBody()
+    <div class="container-fluid min-vh-100">
+        @RenderBody()
+    </div>
     <footer class="pt-3 py-4 bg-secondary-color ">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
             <li class="nav-item"><a asp-controller="Home" asp-action="Index" class="nav-link px-2 white-text">Home</a></li>
