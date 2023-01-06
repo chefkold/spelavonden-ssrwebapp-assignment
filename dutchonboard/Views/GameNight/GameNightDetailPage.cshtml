@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-6">
                     <h4>Spellen</h4>
-                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                    <div class="accordion accordion-flush" id="boardGameContainers">
                         @foreach (var game in @Model.Games)
                         {
                             <partial name="_BoardGameAccordionItem" model="game" />

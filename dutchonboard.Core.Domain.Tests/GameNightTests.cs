@@ -4,7 +4,7 @@ public class GameNightTests
 {
 
     [Fact]
-    public void AddBoardGame_AddOneBoardGameForAdults_AdultBoardGameShouldMakeGameNightForAdults()
+    public void AddBoardGame_AddOneBoardGameForAdults_ShouldMakeGameNightForAdults()
     {
         var gameNight = new GameNight();
         var boardGame1 = new BoardGame { IsForAdults = false };
@@ -20,7 +20,7 @@ public class GameNightTests
 
 
     [Fact]
-    public void SetBoardGames_SettingBoardGamesIncludingAnAdultBoardGame_AdultBoardGameShouldMakeGameNightForAdults()
+    public void SetBoardGames_SettingBoardGamesIncludingAnAdultBoardGame_ShouldMakeGameNightForAdults()
     {
         var gameNight = new GameNight();
         var boardGames = new[]
@@ -36,7 +36,7 @@ public class GameNightTests
     }
 
     [Fact]
-    public void SetBoardGames_SettingBoardGamesIncludingNoAdultBoardGame_NonAdultBoardGamesDoesNotMakeGameNightAdultOnly()
+    public void SetBoardGames_SettingBoardGamesIncludingNoAdultBoardGame_ShouldNotMakeGameNightAdultOnly()
     {
         var gameNight = new GameNight();
         gameNight.IsForAdults = false;
@@ -56,7 +56,7 @@ public class GameNightTests
     public void AddPlayer_AddingAnAdultPlayerToGameNightForAdults_ShouldNotThrowException()
     {
         var gameNight = new GameNight { IsForAdults = true };
-        var player = new Player { BirthDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-18)) };
+        var player = new Player(DateOnly.FromDateTime(DateTime.Now.AddYears(-18)));
 
         gameNight.AddPlayer(player);
 
@@ -67,8 +67,7 @@ public class GameNightTests
     public void AddPlayer_AddingNonAdultPlayerToGameNightForAdults_ShouldThrowException()
     {
         var gameNight = new GameNight { IsForAdults = true };
-        var player = new Player { BirthDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-17)) };
-
+        var player = new Player(DateOnly.FromDateTime(DateTime.Now.AddYears(-17))); 
         Assert.Throws<Exception>(() => gameNight.AddPlayer(player));
     }
 
@@ -76,8 +75,8 @@ public class GameNightTests
     public void AddPlayer_AddingPlayerToGameNightWhileMaxPlayerAmountLimitIsReached_ShouldThrowException()
     {
         var gameNight = new GameNight { MaxPlayerAmount = 1 };
-        var player1 = new Player { BirthDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-18)) };
-        var player2 = new Player { BirthDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-18)) };
+        var player1 = new Player(DateOnly.FromDateTime(DateTime.Now.AddYears(-18)));
+        var player2 = new Player(DateOnly.FromDateTime(DateTime.Now.AddYears(-18)));
 
         gameNight.AddPlayer(player1);
 
@@ -89,16 +88,16 @@ public class GameNightTests
     {
         var gameNight1 = new GameNight { MaxPlayerAmount = 1 };
         var gameNight2 = new GameNight { MaxPlayerAmount = 1 };
-        var player = new Player { BirthDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-18)) };
+        var player = new Player(DateOnly.FromDateTime(DateTime.Now.AddYears(-18)));
         player.JoinedNights.Add(gameNight1);
         
         Assert.Throws<Exception>(() => gameNight2.AddPlayer(player));
     }
 
     [Fact]
-    public void GameNightCreation_SettingAnOrganizer_OrganizerShouldBeAddedToPlayersList()
+    public void GameNightCreation_SettingAnOrganizer_ShouldBeAddedToPlayersList()
     {
-        var organizer = new Organizer();
+        var organizer = new Organizer(DateOnly.FromDateTime(DateTime.Now.AddYears(-20)));
 
         var gameNight = new GameNight() { Organizer = organizer };
 
