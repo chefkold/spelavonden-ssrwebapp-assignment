@@ -10,15 +10,14 @@ public class Player
     public DateOnly BirthDate { get; }
     public ICollection<GameNight> JoinedNights = new List<GameNight>();
 
+    // Business rules: someone with a birthday in the future or less than 16 years ago cannot be a player
     public Player(DateOnly birthDate)
     {
-        // Check if the person is at least 16 years old
         if (birthDate.AddYears(16) >  DateOnly.FromDateTime(DateTime.Now))
         {
             throw new ArgumentException("Player must be at least 16 years old");
         }
-
-        // Check if the birthday is not in the future
+        
         if (birthDate > DateOnly.FromDateTime(DateTime.Now))
         {
             throw new ArgumentException("Birthday cannot be in the future");

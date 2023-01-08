@@ -1,3 +1,4 @@
+using dutchonboard.Core.DomainServices.Managers;
 using dutchonboard.Core.DomainServices.Repositories;
 using dutchonboard.Infrastructure.EF.Data;
 using dutchonboard.Infrastructure.EF.Repositories;
@@ -21,6 +22,8 @@ builder.Services.ConfigureApplicationCookie(config =>
 
 builder.Services.AddTransient<DataSeeder>();
 builder.Services.AddTransient<DataSeederSecurity>();
+
+builder.Services.AddScoped<IGameNightManager, GameNightManager>(); 
 
 builder.Services.AddScoped<IGameNightRepo, GameNightRepo>();
 builder.Services.AddScoped<IBoardGameRepo, BoardGameRepo>();

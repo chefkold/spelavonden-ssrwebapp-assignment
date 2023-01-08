@@ -8,23 +8,26 @@ namespace dutchonboard.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
 
+        private readonly IGameNightManager _iGameNightManager;
+
         private readonly IGameNightRepo _iGameNightRepo;
         private readonly IBoardGameRepo _iBoardGameRepo;
         private readonly IOrganizerRepo _iOrganizerRepo;
         private readonly IPlayerRepo _iPlayerRepo;
 
-        public GameNightController(UserManager<IdentityUser> userManager, IGameNightRepo iGameNightRepo, IBoardGameRepo iBoardGameRepo, IOrganizerRepo iOrganizerRepo, IPlayerRepo iPlayerRepo)
+        public GameNightController(UserManager<IdentityUser> userManager, IGameNightRepo iGameNightRepo, IBoardGameRepo iBoardGameRepo, IOrganizerRepo iOrganizerRepo, IPlayerRepo iPlayerRepo, IGameNightManager iGameNightManager)
         {
             _userManager = userManager;
             _iGameNightRepo = iGameNightRepo;
             _iBoardGameRepo = iBoardGameRepo;
             _iOrganizerRepo = iOrganizerRepo;
             _iPlayerRepo = iPlayerRepo;
+            _iGameNightManager = iGameNightManager;
         }
 
         public IActionResult AllGameNights()
         {
-            var nights = _iGameNightRepo.GetAllGameNights();
+            var nights = _iGameNightManager.GetAllGameNights();
 
             ViewData["PageBodyTitle"] = "Alle bordspellenavonden";
             return View("GameNightsOverview", nights);
@@ -36,7 +39,7 @@ namespace dutchonboard.Controllers
             var player = _iPlayerRepo.GetPlayerByEmail(user.Email);
 
             ViewData["PageBodyTitle"] = "U bent speler bij de volgende avonden";
-            return View("GameNightsOverview", _iGameNightRepo.GetGameNightsJoinedBy(player));
+            return View("GameNightsOverview", player.JoinedNights);
         }
 
         [Authorize(Policy = "GameNightOrganizer")]
@@ -113,23 +116,23 @@ namespace dutchonboard.Controllers
 
         [Authorize(Policy = "GameNightOrganizer")]
         [HttpPost]
-        public async Task<IActionResult> CreateGameNight(GameNightViewModel model)
+        public async Task<IActionResult> CreateGameNight(GameNightViewModel viewModel)
         {
 
-            model.GamesDropdown.ChoosableBoardGames = _iBoardGameRepo.GetAllBoardGames();
+            viewModel.GamesDropdown.ChoosableBoardGames = _iBoardGameRepo.GetAllBoardGames();
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View(viewModel);
             }
 
-            var gameNight = model.ConvertToGameNight();
+            var gameNight = viewModel.ConvertToGameNight();
 
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var organizer = _iOrganizerRepo.GetOrganizerByEmail(user.Email);
             gameNight.Organizer = organizer;
 
 
-            gameNight.Games = model.GamesDropdown.ChoosableBoardGames.FilterByStringListOfIds(model.GamesDropdown.ChosenBoardGames);
+            gameNight.Games = viewModel.GamesDropdown.ChoosableBoardGames.FilterByStringListOfIds(viewModel.GamesDropdown.ChosenBoardGames);
             _iGameNightRepo.AddGameNight(gameNight);
 
             return RedirectToAction("GameNightsOfOrganizer");
@@ -182,7 +185,6 @@ namespace dutchonboard.Controllers
 
             return RedirectToAction("GameNightsOfOrganizer");
         }
-
     }
 }
 

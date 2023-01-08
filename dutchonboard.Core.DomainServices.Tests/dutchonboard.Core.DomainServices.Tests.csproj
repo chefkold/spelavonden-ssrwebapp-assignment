@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\dutchonboard\dutchonboardApp.csproj" />
+    <ProjectReference Include="..\dutchonboard.Core.DomainServices\dutchonboard.Core.DomainServices.csproj" />
   </ItemGroup>
 
 </Project>

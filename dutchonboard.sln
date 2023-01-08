@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dutchonboard", "dutchonboard\dutchonboard.csproj", "{6D9523A3-997B-4E32-8323-811A22665BEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dutchonboardApp", "dutchonboard\dutchonboardApp.csproj", "{6D9523A3-997B-4E32-8323-811A22665BEB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dutchonboard.Core.Domain", "dutchonboard.Core.Domain\dutchonboard.Core.Domain.csproj", "{EB31FCDA-9288-4911-9DDC-3195A73DD8C0}"
 EndProject
@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dutchonboard.Core.DomainSer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dutchonboard.Infrastructure.EF", "dutchonboard.Infrastructure.EF\dutchonboard.Infrastructure.EF.csproj", "{4B877F4E-3E54-4FCC-969B-DB1EAEA87015}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dutchonboard.Tests", "dutchonboard.Tests\dutchonboard.Tests.csproj", "{5CB9D532-B080-4156-BDCC-83AB0A45C44E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dutchonboard.Core.DomainServices.Tests", "dutchonboard.Core.DomainServices.Tests\dutchonboard.Core.DomainServices.Tests.csproj", "{AD356CE9-C049-44DC-BF3B-DCF3D763B860}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,10 @@ Global
 		{4B877F4E-3E54-4FCC-969B-DB1EAEA87015}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B877F4E-3E54-4FCC-969B-DB1EAEA87015}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B877F4E-3E54-4FCC-969B-DB1EAEA87015}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5CB9D532-B080-4156-BDCC-83AB0A45C44E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5CB9D532-B080-4156-BDCC-83AB0A45C44E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5CB9D532-B080-4156-BDCC-83AB0A45C44E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5CB9D532-B080-4156-BDCC-83AB0A45C44E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD356CE9-C049-44DC-BF3B-DCF3D763B860}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD356CE9-C049-44DC-BF3B-DCF3D763B860}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD356CE9-C049-44DC-BF3B-DCF3D763B860}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD356CE9-C049-44DC-BF3B-DCF3D763B860}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

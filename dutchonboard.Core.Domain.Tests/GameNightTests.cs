@@ -38,8 +38,10 @@ public class GameNightTests
     [Fact]
     public void SetBoardGames_SettingBoardGamesIncludingNoAdultBoardGame_ShouldNotMakeGameNightAdultOnly()
     {
-        var gameNight = new GameNight();
-        gameNight.IsForAdults = false;
+        var gameNight = new GameNight
+        {
+            IsForAdults = false
+        };
         var boardGames = new[]
         {
             new BoardGame { IsForAdults = false },
