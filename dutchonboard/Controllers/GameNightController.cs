@@ -1,5 +1,5 @@
 ﻿using dutchonboard.Core.Domain.Models;
-using dutchonboard.Core.DomainServices.Managers;
+using dutchonboard.Core.DomainServices.Services;
 
 namespace dutchonboard.Controllers
 {
@@ -8,26 +8,26 @@ namespace dutchonboard.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
 
-        private readonly IGameNightManager _iGameNightManager;
+        private readonly IGameNightService _IGameNightService;
 
         private readonly IGameNightRepo _iGameNightRepo;
         private readonly IBoardGameRepo _iBoardGameRepo;
         private readonly IOrganizerRepo _iOrganizerRepo;
         private readonly IPlayerRepo _iPlayerRepo;
 
-        public GameNightController(UserManager<IdentityUser> userManager, IGameNightRepo iGameNightRepo, IBoardGameRepo iBoardGameRepo, IOrganizerRepo iOrganizerRepo, IPlayerRepo iPlayerRepo, IGameNightManager iGameNightManager)
+        public GameNightController(UserManager<IdentityUser> userManager, IGameNightRepo iGameNightRepo, IBoardGameRepo iBoardGameRepo, IOrganizerRepo iOrganizerRepo, IPlayerRepo iPlayerRepo, IGameNightService iGameNightManager)
         {
             _userManager = userManager;
             _iGameNightRepo = iGameNightRepo;
             _iBoardGameRepo = iBoardGameRepo;
             _iOrganizerRepo = iOrganizerRepo;
             _iPlayerRepo = iPlayerRepo;
-            _iGameNightManager = iGameNightManager;
+            _IGameNightService = iGameNightManager;
         }
 
         public IActionResult AllGameNights()
         {
-            var nights = _iGameNightManager.GetAllGameNights();
+            var nights = _IGameNightService.GetAllGameNights();
 
             ViewData["PageBodyTitle"] = "Alle bordspellenavonden";
             return View("GameNightsOverview", nights);

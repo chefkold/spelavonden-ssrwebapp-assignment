@@ -1,4 +1,4 @@
-﻿namespace dutchonboard.Core.DomainServices.Managers;
+﻿namespace dutchonboard.Core.DomainServices.Services;
 
 /// <summary>
 /// Business rule revolving around GameNight
