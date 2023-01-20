@@ -9,7 +9,7 @@ namespace dutchonboard.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
 
-        private readonly IGameNightService _IGameNightService;
+        private readonly IGameNightService _iGameNightService;
 
         private readonly IGameNightRepo _iGameNightRepo;
         private readonly IBoardGameRepo _iBoardGameRepo;
@@ -23,12 +23,12 @@ namespace dutchonboard.Controllers
             _iBoardGameRepo = iBoardGameRepo;
             _iOrganizerRepo = iOrganizerRepo;
             _iPlayerRepo = iPlayerRepo;
-            _IGameNightService = iGameNightManager;
+            _iGameNightService = iGameNightManager;
         }
 
         public IActionResult AllGameNights()
         {
-            var nights = _IGameNightService.GetAllGameNights();
+            var nights = _iGameNightService.GetAllGameNights();
 
             ViewData["PageBodyTitle"] = "Alle bordspellenavonden";
             return View("GameNightsOverview", nights);
@@ -53,9 +53,9 @@ namespace dutchonboard.Controllers
             ViewData["PageBodyTitle"] = "Door u georganiseerde avonden";
             ViewData["ForOrganizer"] = true;
 
-            if (TempData.ContainsKey("GameNightDeletionError"))
+            if (TempData.ContainsKey("BusinessLogicError"))
             {
-                ModelState.AddModelError("UpdateError", (TempData["GameNightDeletionError"] as string)!);
+                ModelState.AddModelError("BusinessLogicError", (TempData["BusinessLogicError"] as string)!);
             }
 
             return View("GameNightsOverview", organizer.HostedNights);
@@ -127,7 +127,7 @@ namespace dutchonboard.Controllers
 
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var organizer = _iOrganizerRepo.GetOrganizerByEmail(user.Email);
-            Result<GameNight> createGameNightResult = this._IGameNightService.NewGameNight(organizer, viewModel.Title!, viewModel.Description!, viewModel.IsAdultsOnly, viewModel.MaxPlayerAmount!.Value, viewModel.CreateAddress(), viewModel.DateAndTime!.Value);
+            Result<GameNight> createGameNightResult = this._iGameNightService.NewGameNight(organizer, viewModel.Title!, viewModel.Description!, viewModel.IsAdultsOnly, viewModel.MaxPlayerAmount!.Value, viewModel.CreateAddress(), viewModel.DateAndTime!.Value);
 
             if (createGameNightResult.HasError)
             {
@@ -137,7 +137,7 @@ namespace dutchonboard.Controllers
 
             var newGameNight = createGameNightResult.Value;
             var games = viewModel.GamesDropdown.ChoosableBoardGames.FilterByStringListOfIds(viewModel.GamesDropdown.ChosenBoardGames);
-            Result addGamesResult = _IGameNightService.AddBoardGames(newGameNight, games);
+            Result addGamesResult = _iGameNightService.AddBoardGames(newGameNight, games);
 
             if (addGamesResult.HasError)
             {
@@ -145,7 +145,7 @@ namespace dutchonboard.Controllers
                 return View(viewModel);
             }
 
-            _IGameNightService.SaveNewGameNight(newGameNight);
+            _iGameNightService.SaveNewGameNight(newGameNight);
             return RedirectToAction("GameNightsOfOrganizer");
         }
 
@@ -170,7 +170,7 @@ namespace dutchonboard.Controllers
             if (!ModelState.IsValid) return View(viewModel);
             var games = viewModel.GamesDropdown.ChoosableBoardGames!.FilterByStringListOfIds(viewModel.GamesDropdown.ChosenBoardGames);
 
-            var updateResult = _IGameNightService.editGameNight(viewModel.UpdatedGameNightId, viewModel.Title!, viewModel.Description!, viewModel.IsAdultsOnly, viewModel.MaxPlayerAmount!.Value, viewModel.CreateAddress(), viewModel.DateAndTime!.Value, null, games);
+            var updateResult = _iGameNightService.EditGameNight(viewModel.UpdatedGameNightId, viewModel.Title!, viewModel.Description!, viewModel.IsAdultsOnly, viewModel.MaxPlayerAmount!.Value, viewModel.CreateAddress(), viewModel.DateAndTime!.Value, null, games);
 
             if (updateResult.HasError)
             {
@@ -184,14 +184,10 @@ namespace dutchonboard.Controllers
         [Authorize(Policy = "GameNightOrganizer")]
         public IActionResult DeleteGameNight(int id)
         {
-            var gameNight = _iGameNightRepo.GetGameNightById(id);
-            try
-            {
-                _iGameNightRepo.DeleteGameNight(gameNight);
-            }
-            catch (Exception error)
-            {
-                TempData["GameNightDeletionError"] = error.Message;
+            var deleteResult = _iGameNightService.DeleteGameNight(id);
+            if (deleteResult.HasError) {
+                // For reuse of the GameNight overview page, use temp data to forward error messages
+                TempData["BusinessLogicError"] = deleteResult.ErrorMessage;
             }
 
             return RedirectToAction("GameNightsOfOrganizer");

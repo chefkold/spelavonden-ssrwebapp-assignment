@@ -42,15 +42,15 @@ public class GameNightService : IGameNightService
         });
     }
 
-    // Business rule: Game night only allowed to update if no players have joined (excluding the organizer himself, so count is at least 1)
-    public Result editGameNight(int id, string title, string description, bool isForAdults, int maxPlayerAmount, Address location,
+    public Result EditGameNight(int id, string title, string description, bool isForAdults, int maxPlayerAmount, Address location,
         DateTime dateAndTime, ICollection<FoodAndDrinkType> dietAndAllergyInfo, ICollection<BoardGame> boardGames)
     {
+        Result result;
+        
         var gn = _iGameNightRepo.GetGameNightById(id);
-        if (gn.Players.Count > 1)
+        if ((result = VerifyAllowedToUpdateOrDelete(gn)).HasError)
         {
-            return new Result(
-                "U kunt deze avond niet wijzigen, een andere speler naast uzelf heeft zich al ingeschreven");
+            return result;
         }
 
         if (maxPlayerAmount < 1)
@@ -68,8 +68,36 @@ public class GameNightService : IGameNightService
         gn.DietAndAllergyInfo = dietAndAllergyInfo;
 
         _iGameNightRepo.UpdateGameNight(gn);
+        return result;
+    }
+
+    public Result DeleteGameNight(int id)
+    {
+        Result result;
+        var gn = _iGameNightRepo.GetGameNightById(id);
+        if ((result = VerifyAllowedToUpdateOrDelete(gn)).HasError)
+        {
+            return result;
+        }
+
+        _iGameNightRepo.DeleteGameNight(gn);
+        return result;
+    }
+
+    
+    // Business rule: Game night only allowed to update if no players have joined (excluding the organizer himself, so count is at least 1)
+    private static Result VerifyAllowedToUpdateOrDelete(GameNight gameNight)
+    {
+        if (gameNight.Players.Count > 1)
+        {
+            return new Result(
+                "U kunt deze avond niet wijzigen, een andere speler naast uzelf heeft zich al ingeschreven");
+        }
+
         return new Result();
     }
+
+    
 
     // Business rule: When a game is added, it must be checked if its adults only. If  true, the game night should also become adults only
     public Result AddBoardGames(GameNight gameNight, ICollection<BoardGame> boardGames)
