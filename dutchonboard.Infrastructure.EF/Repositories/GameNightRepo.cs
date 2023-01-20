@@ -47,7 +47,6 @@ public class GameNightRepo : IGameNightRepo
 
     public void DeleteGameNight(GameNight gameNight)
     {
-        //GameNightManagement.PreProcessGameNightModification(gameNight);
         _dbContext.GameNights.Remove(gameNight);
         _dbContext.SaveChanges();
     }

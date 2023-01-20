@@ -91,13 +91,11 @@ public class GameNightService : IGameNightService
         if (gameNight.Players.Count > 1)
         {
             return new Result(
-                "U kunt deze avond niet wijzigen, een andere speler naast uzelf heeft zich al ingeschreven");
+                "U kunt deze avond niet wijzigen of verwijderen, een andere speler naast uzelf heeft zich al ingeschreven");
         }
 
         return new Result();
     }
-
-    
 
     // Business rule: When a game is added, it must be checked if its adults only. If  true, the game night should also become adults only
     public Result AddBoardGames(GameNight gameNight, ICollection<BoardGame> boardGames)
@@ -119,7 +117,10 @@ public class GameNightService : IGameNightService
         _iGameNightRepo.AddGameNight(gameNight);
     }
 
-
     public ICollection<GameNight> GetAllGameNights() => _iGameNightRepo.GetAllGameNights();
 
+    public GameNight GetGameNightById(int id)
+    {
+        return _iGameNightRepo.GetGameNightById(id);
+    }
 }

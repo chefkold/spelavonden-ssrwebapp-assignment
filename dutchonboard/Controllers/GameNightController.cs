@@ -63,7 +63,7 @@ namespace dutchonboard.Controllers
 
         public IActionResult GameNightDetailPage(int id)
         {
-            var gameNight = _iGameNightRepo.GetGameNightById(id);
+            var gameNight = _iGameNightService.GetGameNightById(id);
             var user = _userManager.GetUserAsync(HttpContext.User).Result;
             var player = _iPlayerRepo.GetPlayerByEmail(user.Email);
 
@@ -79,7 +79,7 @@ namespace dutchonboard.Controllers
                 ModelState.AddModelError("EnrollmentError", (TempData["EnrollmentError"] as string)!);
             }
 
-            return View(_iGameNightRepo.GetGameNightById(id));
+            return View(_iGameNightService.GetGameNightById(id));
 
         }
 
@@ -159,7 +159,7 @@ namespace dutchonboard.Controllers
                     ChoosableBoardGames = _iBoardGameRepo.GetAllBoardGames()
                 }
             };
-            viewModel.FillGameNightData(_iGameNightRepo.GetGameNightById(id));
+            viewModel.FillGameNightData(_iGameNightService.GetGameNightById(id));
             return View(viewModel);
         }
 

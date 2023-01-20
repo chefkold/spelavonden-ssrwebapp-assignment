@@ -28,18 +28,7 @@ public class GameNight
 
     private readonly ICollection<Player> _players = new List<Player>();
 
-    public ICollection<Player> Players
-    {
-        get => _players.ToList().AsReadOnly();
-        set
-        {
-            foreach (var player in value)
-            {
-                // Wrapper necessary for business rule
-                AddPlayer(player);
-            }
-        }
-    }
+    public ICollection<Player> Players { get; set; } = new List<Player>();
     // Business rule: if a game night is for adults only, a non-adult player cannot join
     // Business rule: if a game night maximum player count is met, a player cannot join
     // Business rule: if a player is already enrolled to a game night for this game night's date, a player cannot join
