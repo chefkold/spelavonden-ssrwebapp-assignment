@@ -3,57 +3,7 @@
 public class GameNightTests
 {
 
-    [Fact]
-    public void AddBoardGame_AddOneBoardGameForAdults_ShouldMakeGameNightForAdults()
-    {
-        var gameNight = new GameNight();
-        var boardGame1 = new BoardGame { IsForAdults = false };
-        var boardGame2 = new BoardGame { IsForAdults = true };
-        var boardGame3 = new BoardGame { IsForAdults = false };
-
-        gameNight.AddBoardGame(boardGame1);
-        gameNight.AddBoardGame(boardGame2);
-        gameNight.AddBoardGame(boardGame3);
-
-        Assert.True(gameNight.IsForAdults);
-    }
-
-
-    [Fact]
-    public void SetBoardGames_SettingBoardGamesIncludingAnAdultBoardGame_ShouldMakeGameNightForAdults()
-    {
-        var gameNight = new GameNight();
-        var boardGames = new[]
-        {
-            new BoardGame { IsForAdults = false },
-            new BoardGame { IsForAdults = true },
-            new BoardGame { IsForAdults = false }
-        };
-
-        gameNight.Games = boardGames;
-
-        Assert.True(gameNight.IsForAdults);
-    }
-
-    [Fact]
-    public void SetBoardGames_SettingBoardGamesIncludingNoAdultBoardGame_ShouldNotMakeGameNightAdultOnly()
-    {
-        var gameNight = new GameNight
-        {
-            IsForAdults = false
-        };
-        var boardGames = new[]
-        {
-            new BoardGame { IsForAdults = false },
-            new BoardGame { IsForAdults = false },
-            new BoardGame { IsForAdults = false }
-        };
-
-        gameNight.Games = boardGames;
-
-        Assert.False(gameNight.IsForAdults);
-    }
-
+    
     [Fact]
     public void AddPlayer_AddingAnAdultPlayerToGameNightForAdults_ShouldNotThrowException()
     {

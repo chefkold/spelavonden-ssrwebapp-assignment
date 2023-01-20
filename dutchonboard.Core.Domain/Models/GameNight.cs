@@ -14,6 +14,7 @@ public class GameNight
     public DateTime DateAndTime { get; set; }
 
     private Organizer _organizer;
+    public ICollection<BoardGame> Games { get; set; } = new List<BoardGame>();
     public Organizer Organizer
     {
         get => _organizer;
@@ -39,7 +40,7 @@ public class GameNight
             }
         }
     }
-    // Business rule: if a game night is for adults only, a player cannot join
+    // Business rule: if a game night is for adults only, a non-adult player cannot join
     // Business rule: if a game night maximum player count is met, a player cannot join
     // Business rule: if a player is already enrolled to a game night for this game night's date, a player cannot join
     public void AddPlayer(Player player)
@@ -59,7 +60,7 @@ public class GameNight
         if (player.JoinedNights.Any(g =>
                 DateOnly.FromDateTime(g.DateAndTime).Equals(DateOnly.FromDateTime(this.DateAndTime))))
         {
-            
+
             throw new Exception("U bent al ingeschreven op een bordspellenavond vandaag!");
 
         }
@@ -67,7 +68,6 @@ public class GameNight
         _players.Add(player);
     }
 
-   public ICollection<BoardGame> Games { get; set; } = new List<BoardGame>();
 
     public ICollection<FoodAndDrinkType> DietAndAllergyInfo = new List<FoodAndDrinkType>();
 }

@@ -28,7 +28,7 @@ public class GameNightService : IGameNightService
         {
             return new Result<GameNight>("Minimaal een maximaal spelerslimiet van 1, let op u doet mee.");
         }
-        return new Result<GameNight>( _iGameNightRepo.AddGameNight(new GameNight
+        return new Result<GameNight>(_iGameNightRepo.AddGameNight(new GameNight
         {
             Title = title,
             Description = description,
