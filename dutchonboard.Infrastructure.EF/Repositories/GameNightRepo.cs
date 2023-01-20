@@ -11,10 +11,11 @@ public class GameNightRepo : IGameNightRepo
         _dbContext = dbContext;
     }
 
-    public void AddGameNight(GameNight gameNight)
+    public GameNight AddGameNight(GameNight gameNight)
     {
-        _dbContext.GameNights.Add(gameNight);
+        var createGameNight = _dbContext.GameNights.Add(gameNight).Entity;
         _dbContext.SaveChanges();
+        return createGameNight;
     }
 
     public ICollection<GameNight> GetAllGameNights() => _dbContext.GameNights.ToList();

@@ -8,10 +8,8 @@ public class GameNight
     public int Id { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
-    public bool? IsForAdults { get; set; }
-    // Business rules: the organizer is automatically a player so the playermount limit should be at least 1
-    [Range(1, int.MaxValue)]
-    public int MaxPlayerAmount { get; set; } = 1;
+    public bool IsForAdults { get; set; }
+    public int MaxPlayerAmount { get; set; }
     public Address Location { get; set; }
     public DateTime DateAndTime { get; set; }
 
@@ -25,6 +23,8 @@ public class GameNight
             AddPlayer(_organizer);
         }
     }
+
+
     private readonly ICollection<Player> _players = new List<Player>();
 
     public ICollection<Player> Players
@@ -67,30 +67,7 @@ public class GameNight
         _players.Add(player);
     }
 
-    private readonly ICollection<BoardGame> _games = new List<BoardGame>();
-    public ICollection<BoardGame> Games
-    {
-        get => _games.ToList().AsReadOnly();
-        set
-        {
-            foreach (var game in value)
-            {
-                // Wrapper necessary for business rule
-                AddBoardGame(game);
-            }
-        }
-    }
+   public ICollection<BoardGame> Games { get; set; } = new List<BoardGame>();
 
-    // Business rule: When a game is added, it must be checked if its for adults only and if the game night is for adults only 
-    // then this must be reflected in the GameNight IsAdultsOnly property itself
-    public void AddBoardGame(BoardGame game)
-    {
-        // If one game is for adults, the gamenight is forever for adults only
-        if (game.IsForAdults == true)
-        {
-            IsForAdults = true;
-        }
-        _games.Add(game);
-    }
     public ICollection<FoodAndDrinkType> DietAndAllergyInfo = new List<FoodAndDrinkType>();
 }

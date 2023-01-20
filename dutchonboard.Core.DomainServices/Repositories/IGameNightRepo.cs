@@ -2,13 +2,13 @@
 
 public interface IGameNightRepo
 {
-    public abstract void AddGameNight(GameNight gameNight); 
-    public abstract ICollection<GameNight> GetAllGameNights();
-    public abstract ICollection<GameNight> GetGameNightsJoinedBy(Player player);
-    public abstract GameNight GetGameNightById(int id);
+    public GameNight AddGameNight(GameNight gameNight);
+    public ICollection<GameNight> GetAllGameNights();
+    public ICollection<GameNight> GetGameNightsJoinedBy(Player player);
+    public GameNight GetGameNightById(int id);
 
-    public abstract void EnrollPlayer(GameNight gameNight, Player player );
-    public abstract void UpdateGameNight(GameNight gameNight); 
-    public abstract void DeleteGameNight(GameNight gameNight);
- 
+    public void EnrollPlayer(GameNight gameNight, Player player);
+    public void UpdateGameNight(GameNight gameNight);
+    public void DeleteGameNight(GameNight gameNight);
+
 }

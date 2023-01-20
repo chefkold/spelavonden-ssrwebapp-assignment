@@ -77,10 +77,10 @@ namespace dutchonboard.Controllers
             {
                 ModelState.AddModelError("EnrollmentError", (TempData["EnrollmentError"] as string)!);
             }
-            
+
             return View(_iGameNightRepo.GetGameNightById(id));
 
-        } 
+        }
 
         public IActionResult EnrollPlayerForGameNight(int gameNightId)
         {
@@ -98,7 +98,7 @@ namespace dutchonboard.Controllers
                 TempData["EnrollmentError"] = error.Message;
             }
 
-            return RedirectToAction("GameNightDetailPage", new{ id = gameNightId});
+            return RedirectToAction("GameNightDetailPage", new { id = gameNightId });
         }
 
         [Authorize(Policy = "GameNightOrganizer")]
@@ -118,23 +118,30 @@ namespace dutchonboard.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateGameNight(GameNightViewModel viewModel)
         {
-
             viewModel.GamesDropdown.ChoosableBoardGames = _iBoardGameRepo.GetAllBoardGames();
             if (!ModelState.IsValid)
             {
                 return View(viewModel);
             }
 
-            var gameNight = viewModel.ConvertToGameNight();
-
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var organizer = _iOrganizerRepo.GetOrganizerByEmail(user.Email);
-            gameNight.Organizer = organizer;
+            Result<GameNight> createGameNightResult = this._IGameNightService.NewGameNight(organizer, viewModel.Title!, viewModel.Description!, viewModel.IsAdultsOnly, viewModel.MaxPlayerAmount!.Value, viewModel.CreateAddress(), viewModel.DateAndTime!.Value);
 
+            if (createGameNightResult.HasError)
+            {
+                ModelState.AddModelError("BusinessLogicError", createGameNightResult.ErrorMessage);
+                return View(viewModel);
+            }
 
-            gameNight.Games = viewModel.GamesDropdown.ChoosableBoardGames.FilterByStringListOfIds(viewModel.GamesDropdown.ChosenBoardGames);
-            _iGameNightRepo.AddGameNight(gameNight);
+            var games = viewModel.GamesDropdown.ChoosableBoardGames.FilterByStringListOfIds(viewModel.GamesDropdown.ChosenBoardGames);
+            Result addGamesResult = _IGameNightService.AddBoardGames(createGameNightResult.Value, games);
 
+            if (addGamesResult.HasError)
+            {
+                ModelState.AddModelError("BusinessLogicError", addGamesResult.ErrorMessage);
+                return View(viewModel);
+            }
             return RedirectToAction("GameNightsOfOrganizer");
         }
 
@@ -153,19 +160,19 @@ namespace dutchonboard.Controllers
         public IActionResult EditGameNight(GameNightViewModel model)
         {
             if (!ModelState.IsValid) return View();
+            // TODO
+            //var updatedData = model.ConvertToGameNight();
+            //updatedData.Id = model.UpdatedGameNightId;
+            //try
+            //{
+            //    _iGameNightRepo.UpdateGameNight(updatedData);
+            //    return RedirectToAction("GameNightsOfOrganizer");
 
-            var updatedData = model.ConvertToGameNight();
-            updatedData.Id = model.UpdatedGameNightId;
-            try
-            {
-                _iGameNightRepo.UpdateGameNight(updatedData);
-                return RedirectToAction("GameNightsOfOrganizer");
-
-            }
-            catch (GameNightManagement.GameNightCrudException error)
-            {
-                ModelState.AddModelError("UpdateError", error.Message);
-            }
+            //}
+            //catch (GameNightManagement.GameNightCrudException error)
+            //{
+            //    ModelState.AddModelError("UpdateError", error.Message);
+            //}
 
             return View();
         }

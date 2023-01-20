@@ -6,6 +6,7 @@ public class Result<T>
 {
     private readonly T _value;
     private readonly string _errorMessage;
+    public bool HasError { get; }
 
     public Result(T value)
     {
@@ -39,5 +40,32 @@ public class Result<T>
         }
     }
 
+}
+
+// A version of Result without wrapping a value
+public class Result
+{
+    private readonly string _errorMessage;
     public bool HasError { get; }
+
+    public Result()
+    {
+        HasError = false;
+    }
+
+    public Result(string errorMessage)
+    {
+        _errorMessage = errorMessage;
+        HasError = true;
+    }
+
+    public string ErrorMessage
+    {
+        get
+        {
+            if (!HasError)
+                throw new InvalidOperationException("There was no error, get the value instead");
+            return _errorMessage;
+        }
+    }
 }

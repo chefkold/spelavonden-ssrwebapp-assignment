@@ -82,7 +82,7 @@ public class DataSeeder
         };
 
         gameNight1.AddPlayer(player1);
-        gameNight1.AddBoardGame(gameMonopoly);
+        gameNight1.Games.Add(gameMonopoly);
         gameNight1.DietAndAllergyInfo.Add(FoodAndDrinkType.TreeNuts);
         gameNight1.DietAndAllergyInfo.Add(FoodAndDrinkType.Lactose);
 
