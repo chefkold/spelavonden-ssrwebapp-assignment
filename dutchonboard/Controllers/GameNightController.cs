@@ -1,4 +1,5 @@
 ﻿using dutchonboard.Core.Domain.Models;
+using dutchonboard.Core.DomainServices.Repositories;
 using dutchonboard.Core.DomainServices.Services;
 
 namespace dutchonboard.Controllers
@@ -134,47 +135,50 @@ namespace dutchonboard.Controllers
                 return View(viewModel);
             }
 
+            var newGameNight = createGameNightResult.Value;
             var games = viewModel.GamesDropdown.ChoosableBoardGames.FilterByStringListOfIds(viewModel.GamesDropdown.ChosenBoardGames);
-            Result addGamesResult = _IGameNightService.AddBoardGames(createGameNightResult.Value, games);
+            Result addGamesResult = _IGameNightService.AddBoardGames(newGameNight, games);
 
             if (addGamesResult.HasError)
             {
                 ModelState.AddModelError("BusinessLogicError", addGamesResult.ErrorMessage);
                 return View(viewModel);
             }
+
+            _IGameNightService.SaveNewGameNight(newGameNight);
             return RedirectToAction("GameNightsOfOrganizer");
         }
 
         [Authorize(Policy = "GameNightOrganizer")]
         public IActionResult EditGameNight(int id)
         {
-            var gameNight = _iGameNightRepo.GetGameNightById(id);
-            var model = new GameNightViewModel();
-            model.FillGameNightData(gameNight);
-
-            return View(model);
+            var viewModel = new GameNightViewModel
+            {
+                GamesDropdown =
+                {
+                    ChoosableBoardGames = _iBoardGameRepo.GetAllBoardGames()
+                }
+            };
+            viewModel.FillGameNightData(_iGameNightRepo.GetGameNightById(id));
+            return View(viewModel);
         }
 
         [Authorize(Policy = "GameNightOrganizer")]
         [HttpPost]
-        public IActionResult EditGameNight(GameNightViewModel model)
+        public IActionResult EditGameNight(GameNightViewModel viewModel)
         {
-            if (!ModelState.IsValid) return View();
-            // TODO
-            //var updatedData = model.ConvertToGameNight();
-            //updatedData.Id = model.UpdatedGameNightId;
-            //try
-            //{
-            //    _iGameNightRepo.UpdateGameNight(updatedData);
-            //    return RedirectToAction("GameNightsOfOrganizer");
+            if (!ModelState.IsValid) return View(viewModel);
+            var games = viewModel.GamesDropdown.ChoosableBoardGames!.FilterByStringListOfIds(viewModel.GamesDropdown.ChosenBoardGames);
 
-            //}
-            //catch (GameNightManagement.GameNightCrudException error)
-            //{
-            //    ModelState.AddModelError("UpdateError", error.Message);
-            //}
+            var updateResult = _IGameNightService.editGameNight(viewModel.UpdatedGameNightId, viewModel.Title!, viewModel.Description!, viewModel.IsAdultsOnly, viewModel.MaxPlayerAmount!.Value, viewModel.CreateAddress(), viewModel.DateAndTime!.Value, null, games);
 
-            return View();
+            if (updateResult.HasError)
+            {
+                ModelState.AddModelError("BusinessLogicError", updateResult.ErrorMessage);
+                return View(viewModel);
+            }
+
+            return RedirectToAction("GameNightsOfOrganizer");
         }
 
         [Authorize(Policy = "GameNightOrganizer")]
@@ -185,7 +189,7 @@ namespace dutchonboard.Controllers
             {
                 _iGameNightRepo.DeleteGameNight(gameNight);
             }
-            catch (GameNightManagement.GameNightCrudException error)
+            catch (Exception error)
             {
                 TempData["GameNightDeletionError"] = error.Message;
             }

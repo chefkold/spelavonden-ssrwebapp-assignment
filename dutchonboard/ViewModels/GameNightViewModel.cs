@@ -58,9 +58,9 @@ public class GameNightViewModel
     }    
     public class BoardGamesDropdown
     {
-        public ICollection<BoardGame>? ChoosableBoardGames { get; set; }
+        public ICollection<BoardGame>? ChoosableBoardGames { get; set; } = new List<BoardGame>();
 
-        public List<String> ChosenBoardGames { get; set; }
+        public List<string> ChosenBoardGames { get; set; } = new List<string>();
     }
 }
 

@@ -37,37 +37,6 @@ public class GameServiceTests
 
         Assert.False(newGameNightResult.HasError);
     }
-
-    [Fact]
-    public void AddBoardGame_AddOneBoardGameForAdults_ShouldMakeGameNightForAdults()
-    {
-        var mockGameNightRepo = new Mock<IGameNightRepo>();
-        var mockBoardGameRepo = new Mock<IBoardGameRepo>();
-        var mockOrganizerRepo = new Mock<IOrganizerRepo>();
-        var mockPlayerRepo = new Mock<IPlayerRepo>();
-        var gameNightService = new GameNightService(mockGameNightRepo.Object, mockBoardGameRepo.Object, mockOrganizerRepo.Object, mockPlayerRepo.Object);
-        var organizer = new Organizer(DateOnly.FromDateTime(DateTime.Now).AddYears(-18));
-        var gameNight = new GameNight()
-        {
-            MaxPlayerAmount = 1,
-            Organizer = organizer,
-            Title = "title",
-            Description = "description",
-            IsForAdults = false,
-            Location = new Address("street", 7, "city"),
-            DateAndTime = DateTime.Now
-        };
-        var boardGame1 = new BoardGame { IsForAdults = false };
-        var boardGame2 = new BoardGame { IsForAdults = true };
-        var boardGame3 = new BoardGame { IsForAdults = false };
-
-        gameNightService.AddBoardGame(gameNight, boardGame1);
-        gameNightService.AddBoardGame(gameNight, boardGame2);
-        gameNightService.AddBoardGame(gameNight, boardGame3);
-
-        Assert.True(gameNight.IsForAdults);
-    }
-
     [Fact]
     public void AddBoardGames_SettingBoardGamesIncludingAnAdultBoardGame_ShouldMakeGameNightForAdults()
     {

@@ -40,15 +40,14 @@ public class GameNightRepo : IGameNightRepo
 
     public void UpdateGameNight(GameNight updatedGameNight)
     {
-        var currentGameNight = GetGameNightById(updatedGameNight.Id);
-        GameNightManagement.UpdateGameNightProperties(currentGameNight, updatedGameNight);
+        _dbContext.Update(updatedGameNight);
         _dbContext.SaveChanges();
 
     }
 
     public void DeleteGameNight(GameNight gameNight)
     {
-        GameNightManagement.PreProcessGameNightModification(gameNight);
+        //GameNightManagement.PreProcessGameNightModification(gameNight);
         _dbContext.GameNights.Remove(gameNight);
         _dbContext.SaveChanges();
     }
