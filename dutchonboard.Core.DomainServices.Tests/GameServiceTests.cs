@@ -382,9 +382,34 @@ public class GameServiceTests
         Assert.True(addPlayerResult.HasError);
     }
 
+    [Fact]
+    public void AddPlayerToGameNight_AddingAlreadyEnrolledPlayer_ShouldGiveError()
+    {
+        var mockGameNightRepo = new Mock<IGameNightRepo>();
+        var mockBoardGameRepo = new Mock<IBoardGameRepo>();
+        var mockOrganizerRepo = new Mock<IOrganizerRepo>();
+        var mockPlayerRepo = new Mock<IPlayerRepo>();
+        var gameNightService = new GameNightService(mockGameNightRepo.Object, mockBoardGameRepo.Object, mockOrganizerRepo.Object, mockPlayerRepo.Object);
+        var player = new Player(DateOnly.FromDateTime(DateTime.Now.AddYears(-18)));
+        var gameNight = new GameNight()
+        {
+            Id = 1,
+            MaxPlayerAmount = 2,
+            Players = new List<Player>()
+            {
+               player
+            }
+        };
+        mockGameNightRepo.Setup(r => r.GetGameNightById(1)).Returns(gameNight);
+
+        Result addPlayerResult = gameNightService.AddPlayerToGameNight(gameNight.Id, player);
+
+        Assert.True(addPlayerResult.HasError);
+    }
+
 
     [Fact]
-    public void AddPlayerToGameNight_NewPlayerToNightWhileAlreadyEnrolledToOtherNightToday_ShouldNotBeAllowed()
+    public void AddPlayerToGameNight_NewPlayerAlreadyEnrolledToOtherNightToday_ShouldNotBeAllowed()
     {
         // Arrange block
         var mockGameNightRepo = new Mock<IGameNightRepo>();
@@ -415,7 +440,7 @@ public class GameServiceTests
     }
     
     [Fact]
-    public void AddPlayerToGameNight_NewPlayerToNightWhileEnrolledToOtherNightNotToday_ShouldBeAllowed()
+    public void AddPlayerToGameNight_NewPlayerToNightWhileEnrolledToOtherNightButNotToday_ShouldBeAllowed()
     {
         // Arrange block
         var mockGameNightRepo = new Mock<IGameNightRepo>();
