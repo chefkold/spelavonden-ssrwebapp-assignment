@@ -20,7 +20,7 @@ public class GameNightService : IGameNightService
         _iPlayerRepo = iPlayerRepo;
     }
 
-    // Already covered business rule: organizer is at least 18 years gn, see class definition of Organizer
+    // Already covered business rule: organizer is at least 18 years old, see class definition of Organizer
     // Business rule: GameNight always has one player (the organizer himself)
     // TODO allergies
     public Result<GameNight> NewGameNight(Organizer organizer, string title, string description, bool isForAdults,
@@ -38,7 +38,9 @@ public class GameNightService : IGameNightService
             MaxPlayerAmount = maxPlayerAmount,
             Location = location,
             DateAndTime = dateAndTime,
-            Organizer = organizer
+            Organizer = organizer,
+            // An organizer is automatically a player
+            Players = new List<Player> { organizer }
         });
     }
 
@@ -47,8 +49,8 @@ public class GameNightService : IGameNightService
     {
         Result result;
         
-        var gn = _iGameNightRepo.GetGameNightById(id);
-        if ((result = VerifyAllowedToUpdateOrDelete(gn)).HasError)
+        var gN = _iGameNightRepo.GetGameNightById(id);
+        if ((result = VerifyAllowedToUpdateOrDelete(gN)).HasError)
         {
             return result;
         }
@@ -58,16 +60,16 @@ public class GameNightService : IGameNightService
             return new Result("Minimaal een maximaal spelerslimiet van 1, let op u doet mee.");
         }
 
-        gn.Title = title;
-        gn.Description = description;
-        gn.IsForAdults = isForAdults;
-        gn.MaxPlayerAmount = maxPlayerAmount;
-        gn.Location = location;
-        gn.DateAndTime = dateAndTime;
-        AddBoardGames(gn, boardGames);
-        gn.DietAndAllergyInfo = dietAndAllergyInfo;
+        gN.Title = title;
+        gN.Description = description;
+        gN.IsForAdults = isForAdults;
+        gN.MaxPlayerAmount = maxPlayerAmount;
+        gN.Location = location;
+        gN.DateAndTime = dateAndTime;
+        AddBoardGames(gN, boardGames);
+        gN.DietAndAllergyInfo = dietAndAllergyInfo;
 
-        _iGameNightRepo.UpdateGameNight(gn);
+        _iGameNightRepo.UpdateGameNight(gN);
         return result;
     }
 
@@ -110,6 +112,37 @@ public class GameNightService : IGameNightService
         }
 
         return new Result();
+    }
+    // Business rule (A): if a game night maximum player count is met, a player cannot join
+    // Business rule (B): if a game night is for adults only, a non-adult player cannot join
+    // Business rule (C): if a player is already enrolled to a game night for this game night's date, a player cannot join
+    public Result AddPlayerToGameNight(int gameNightId, Player player)
+    {
+        var gN = GetGameNightById(gameNightId);
+
+        // A
+        if (gN.MaxPlayerAmount <= gN.Players.Count)
+        {
+            return new Result("Het limiet van maximaal aantal spelers is al bereikt.");
+        }
+
+        // B
+        if (gN.IsForAdults == true && !player.IsAdult())
+        {
+            return new Result("Deze avond is voor alleen voor volwassenen!");
+        }
+
+        // C
+        if (player.JoinedNights.Any(g =>
+                DateOnly.FromDateTime(g.DateAndTime).Equals(DateOnly.FromDateTime(gN.DateAndTime))))
+        {
+            return new Result("U bent al ingeschreven op een bordspellenavond vandaag!");
+        }
+
+        gN.Players.Add(player);
+        _iGameNightRepo.UpdateGameNight(gN);
+        return new Result();
+
     }
 
     public void SaveNewGameNight(GameNight gameNight)

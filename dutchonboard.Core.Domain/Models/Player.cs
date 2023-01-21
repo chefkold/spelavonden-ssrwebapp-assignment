@@ -8,7 +8,7 @@ public class Player
     public string LastName { get; set; }
     public string Email { get; set; }
     public DateOnly BirthDate { get; }
-    public ICollection<GameNight> JoinedNights = new List<GameNight>();
+    public ICollection<GameNight> JoinedNights { get; set; } = new List<GameNight>();
 
     // Business rules: someone with a birthday in the future or less than 16 years ago cannot be a player
     public Player(DateOnly birthDate)

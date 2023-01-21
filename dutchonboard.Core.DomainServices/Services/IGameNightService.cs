@@ -10,6 +10,7 @@ public interface IGameNightService
         ICollection<BoardGame> boardGames);
     public Result DeleteGameNight(int id);
     public Result AddBoardGames(GameNight gameNight, ICollection<BoardGame> boardGames);
+    public Result AddPlayerToGameNight(int gameNightId, Player player);
     public void SaveNewGameNight(GameNight gameNight);
     public ICollection<GameNight> GetAllGameNights();
     public GameNight GetGameNightById(int id);
