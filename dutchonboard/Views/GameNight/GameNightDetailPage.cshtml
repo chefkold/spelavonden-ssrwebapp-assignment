@@ -41,6 +41,30 @@
                         @Model.Description
                     </p>
                 </div>
+                <div class="col-6 mt-3">
+                    <h4>Deelnemers</h4>
+                    <p>
+                        <table class="table table-bordered table-striped table-sm">
+                            <thead>
+                                <tr><th>Wie</th><th>Komt uit</th></tr>
+                            </thead>
+                            <tbody>
+
+                                @{
+                                    var count = 0;
+                                }
+                                @foreach (var p in Model.Players)
+                                {
+                                    <tr>
+                                        <td>@p.ToString()</td>
+                                        <td>@p.Address.City</td>
+                                    </tr>
+                                    count++;
+                                }
+                            </tbody>
+                        </table>
+                    </p>
+                </div>
             </div>
         </div>
         <div class="col-4 bg-secondary-color white-text">
@@ -59,10 +83,10 @@
                                     }
                                     else
                                     {
-                                       <a asp-action="EnrollPlayerForGameNight" asp-route-gameNightId="@Model.Id" class="btn btn-primary btn-primary-color justify-content-center">Aanmelden</a>
+                                        <a asp-action="EnrollPlayerForGameNight" asp-route-gameNightId="@Model.Id" class="btn btn-primary btn-primary-color justify-content-center">Aanmelden</a>
                                     }
                                 </div>
-                                    <div class="pt-2 white-text text-decoration-underline" asp-validation-summary="All"></div>
+                                <div class="pt-2 white-text text-decoration-underline" asp-validation-summary="All"></div>
                             </div>
                         </div>
                     </div>

@@ -23,6 +23,9 @@ public class DataSeeder
             FirstName = UserSeedData.Organizer1FirstName,
             LastName = UserSeedData.Organizer1LastName,
             Email = UserSeedData.Organizer1Email,
+            Gender = Gender.V,
+            Address = new Address("Professor Cobbenhagenlaan", 11, "Tilburg"),
+            
 
         };
 
@@ -31,6 +34,10 @@ public class DataSeeder
             FirstName = UserSeedData.Player1FirstName,
             LastName = UserSeedData.Player1LastName,
             Email = UserSeedData.Player1Email,
+            Gender = Gender.M,
+            Address = new Address("Lovensdijkstraat", 63, "Breda"),
+            
+            
         };
 
         var player2 = new Player(DateOnly.FromDateTime(DateTime.Now.AddYears(-17)))
@@ -38,6 +45,9 @@ public class DataSeeder
             FirstName = UserSeedData.Player2FirstName,
             LastName = UserSeedData.Player2LastName,
             Email = UserSeedData.Player2Email,
+            Gender = Gender.M,
+            Address = new Address("Lovensdijkstraat", 63, "Breda"),
+            
         };
 
         byte[] monopolyImg; 
@@ -82,6 +92,8 @@ public class DataSeeder
         };
 
         gameNight1.Players.Add(player1);
+        gameNight1.Players.Add(organizer1);
+
         gameNight1.Games.Add(gameMonopoly);
         gameNight1.DietAndAllergyInfo.Add(FoodAndDrinkType.TreeNuts);
         gameNight1.DietAndAllergyInfo.Add(FoodAndDrinkType.Lactose);

@@ -113,26 +113,33 @@ public class GameNightService : IGameNightService
 
         return new Result();
     }
-    // Business rule (A): if a game night maximum player count is met, a player cannot join
-    // Business rule (B): if a game night is for adults only, a non-adult player cannot join
-    // Business rule (C): if a player is already enrolled to a game night for this game night's date, a player cannot join
+    // Business rule (A): A player can only join a game night if he is not already joined
+    // Business rule (B): if a game night maximum player count is met, a player cannot join
+    // Business rule (C): if a game night is for adults only, a non-adult player cannot join
+    // Business rule (D): if a player is already enrolled to a game night for this game night's date, a player cannot join
     public Result AddPlayerToGameNight(int gameNightId, Player player)
     {
         var gN = GetGameNightById(gameNightId);
 
         // A
+        if (gN.Players.Contains(player))
+        {
+            return new Result("U bent al ingeschreven voor deze avond");
+        }
+
+        // B
         if (gN.MaxPlayerAmount <= gN.Players.Count)
         {
             return new Result("Het limiet van maximaal aantal spelers is al bereikt.");
         }
 
-        // B
+        // C
         if (gN.IsForAdults && !player.IsAdult())
         {
             return new Result("Deze avond is voor alleen voor volwassenen!");
         }
 
-        // C
+        // D
         if (player.JoinedNights.Any(g =>
                 DateOnly.FromDateTime(g.DateAndTime).Equals(DateOnly.FromDateTime(gN.DateAndTime))))
         {

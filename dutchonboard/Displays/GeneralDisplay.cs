@@ -5,6 +5,7 @@ namespace dutchonboard.Displays;
 
 public static class GeneralDisplay
 {
+
     public static string GetDateDisplay(this DateTime date) =>
-        date.ToString(new CultureInfo("nl-NL"));
+        date.ToString("dd-MM-yyyy HH:mm", new CultureInfo("nl-NL"));
 }

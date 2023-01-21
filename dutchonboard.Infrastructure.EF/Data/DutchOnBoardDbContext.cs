@@ -32,6 +32,8 @@ public class DutchOnBoardDbContext : DbContext
             .HasConversion<DateOnlyConverter, DateOnlyComparer>();
 
         modelBuilder.Entity<GameNight>().OwnsOne<Address>(p => p.Location);
+        modelBuilder.Entity<Player>().OwnsOne<Address>(p => p.Address);
+
 
         modelBuilder.Entity<GameNight>()
             .HasMany<BoardGame>(p => p.Games)
