@@ -47,6 +47,25 @@
         @Html.ListBoxFor(model => model.GamesDropdown.ChosenBoardGames, new MultiSelectList(Model.GamesDropdown.ChoosableBoardGames, "Id", "Name"), new { id = "multiSelectDropDown", multiple = "multiple" })
     </div>
 </div>
+<div class="row py-2">
+    <p>Eten en drinken ondersteunt dieetwensen:</p>
+    @foreach (var r in Model.SupportedDietRestrictions)
+    {
+        <div>
+            @{
+                if (Model.SupportedDietRestrictionsCurrent.Contains(r))
+                {
+                    <input type="checkbox" name="SupportedDietRestrictions" value="@r" checked />
+                }
+                else
+                {
+                    <input type="checkbox" name="SupportedDietRestrictions" value="@r" />
+                }
+            }
+            <label>@r.GetDietRestrictionDisplay() </label>
+        </div>
+    }
+</div>
 <script>
     $(document).ready(function () {
         $("#multiSelectDropDown").chosen({

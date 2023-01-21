@@ -19,7 +19,7 @@ public class GameServiceTests
 
         
         Result<GameNight> newGameNightResult = gameNightService.NewGameNight(organizer, "title", "description", false, 1,
-            new Address("street", 7, "city"), DateTime.Now);
+            new Address("street", 7, "city"), DateTime.Now, new List<DietRestriction>());
 
         Assert.Contains(organizer, newGameNightResult.Value.Players);
     }
@@ -36,7 +36,7 @@ public class GameServiceTests
         const int maxPlayerAmount = 0;
 
         Result<GameNight> newGameNightResult = gameNightService.NewGameNight(organizer, "title", "description", false, maxPlayerAmount,
-            new Address("street", 7, "city"), DateTime.Now);
+            new Address("street", 7, "city"), DateTime.Now, new List<DietRestriction>());
 
         Assert.True(newGameNightResult.HasError);
     }
@@ -61,7 +61,7 @@ public class GameServiceTests
         // End of arrange block
 
         Result editGameNightResult = gameNightService.EditGameNight(gameNight.Id, "title", "description", false, maxPlayerAmount,
-            new Address("street", 7, "city"), DateTime.Now, new List<FoodAndDrinkType>(), new List<BoardGame>());
+            new Address("street", 7, "city"), DateTime.Now, new List<DietRestriction>(), new List<BoardGame>());
 
         Assert.True(editGameNightResult.HasError);
     }
@@ -78,7 +78,7 @@ public class GameServiceTests
         const int maxPlayerAmount = 1;
 
         Result<GameNight> newGameNightResult = gameNightService.NewGameNight(organizer, "title", "description", false, maxPlayerAmount,
-            new Address("street", 7, "city"), DateTime.Now);
+            new Address("street", 7, "city"), DateTime.Now,new List<DietRestriction>());
 
         Assert.False(newGameNightResult.HasError);
     }
@@ -103,7 +103,7 @@ public class GameServiceTests
         // End of arrange block
 
         Result editGameNightResult = gameNightService.EditGameNight(gameNight.Id, "title", "description", false, maxPlayerAmount,
-            new Address("street", 7, "city"), DateTime.Now, new List<FoodAndDrinkType>(), new List<BoardGame>());
+            new Address("street", 7, "city"), DateTime.Now, new List<DietRestriction>(), new List<BoardGame>());
 
         Assert.False(editGameNightResult.HasError);
     }
@@ -162,7 +162,7 @@ public class GameServiceTests
         // End of arrange block
 
         Result editGameNightResult = gameNightService.EditGameNight(gameNight.Id, "title", "description", false, 2,
-            new Address("street", 7, "city"), DateTime.Now, new List<FoodAndDrinkType>(), new List<BoardGame>());
+            new Address("street", 7, "city"), DateTime.Now, new List<DietRestriction>(), new List<BoardGame>());
 
         
         Assert.True(editGameNightResult.HasError);
@@ -221,7 +221,7 @@ public class GameServiceTests
         // End of arrange block
         
         Result editGameNightResult = gameNightService.EditGameNight(gameNight.Id, "title", "description", false, 2,
-            new Address("street", 7, "city"), DateTime.Now, new List<FoodAndDrinkType>(), new List<BoardGame>());
+            new Address("street", 7, "city"), DateTime.Now, new List<DietRestriction>(), new List<BoardGame>());
         
         Assert.False(editGameNightResult.HasError);
     }

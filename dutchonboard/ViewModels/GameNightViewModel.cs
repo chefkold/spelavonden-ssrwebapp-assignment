@@ -34,6 +34,14 @@ public class GameNightViewModel
     [Required(ErrorMessage = "Geef alstublieft een waarde op")]
     public string? City { get; set; }
 
+    [Required(ErrorMessage = "Geef alstublieft een waarde op")]
+    public ICollection<DietRestriction> SupportedDietRestrictions { get; set; } =
+        Enum.GetValues(typeof(DietRestriction)).Cast<DietRestriction>().ToList();
+
+    // Holding diet restrictions of current game night if viewmodel is used for updating
+    public ICollection<DietRestriction> SupportedDietRestrictionsCurrent { get; set; } = new List<DietRestriction>();
+
+
     public BoardGamesDropdown GamesDropdown { get; set; } = new BoardGamesDropdown();
     
     public int UpdatedGameNightId { get; set; }
@@ -50,6 +58,7 @@ public class GameNightViewModel
         this.Street = data.Location.Street;
         this.HouseNumber = data.Location.Number;
         this.City = data.Location.City;
+        this.SupportedDietRestrictionsCurrent = data.SupportedDietRestrictions;
     }
 
     public Address CreateAddress()

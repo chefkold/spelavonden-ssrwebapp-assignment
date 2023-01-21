@@ -85,9 +85,6 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DietAndAllergyInfo")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsForAdults")
                         .HasColumnType("bit");
 
@@ -96,6 +93,9 @@ namespace dutchonboard.Infrastructure.EF.Migrations
 
                     b.Property<int?>("OrganizerId")
                         .HasColumnType("int");
+
+                    b.Property<string>("SupportedDietRestrictions")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -117,6 +117,9 @@ namespace dutchonboard.Infrastructure.EF.Migrations
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("DietRestrictions")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()

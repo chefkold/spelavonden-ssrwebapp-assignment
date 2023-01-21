@@ -10,6 +10,7 @@ public class Player
     public Address Address { get; set; }
     public string Email { get; set; }
     public DateOnly BirthDate { get; }
+    public ICollection<DietRestriction> DietRestrictions { get; set; } = new List<DietRestriction>();
     public ICollection<GameNight> JoinedNights { get; set; } = new List<GameNight>();
 
     // Business rules: someone with a birthday in the future or less than 16 years ago cannot be a player
@@ -30,6 +31,11 @@ public class Player
     public bool IsAdult()
     {
         return BirthDate <= DateOnly.FromDateTime(DateTime.Now.AddYears(-18));
+    }
+
+    public ICollection<DietRestriction> GetUnfulfilledDietRestrictions(ICollection<DietRestriction> supportedDietRestrictions)
+    {
+        return DietRestrictions.Except(supportedDietRestrictions).ToList();
     }
 
     public override string ToString()

@@ -123,7 +123,7 @@ namespace dutchonboard.Controllers
 
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var organizer = _iOrganizerRepo.GetOrganizerByEmail(user.Email);
-            Result<GameNight> createGameNightResult = this._iGameNightService.NewGameNight(organizer, viewModel.Title!, viewModel.Description!, viewModel.IsAdultsOnly, viewModel.MaxPlayerAmount!.Value, viewModel.CreateAddress(), viewModel.DateAndTime!.Value);
+            Result<GameNight> createGameNightResult = this._iGameNightService.NewGameNight(organizer, viewModel.Title!, viewModel.Description!, viewModel.IsAdultsOnly, viewModel.MaxPlayerAmount!.Value, viewModel.CreateAddress(), viewModel.DateAndTime!.Value, viewModel.SupportedDietRestrictions);
 
             if (createGameNightResult.HasError)
             {
@@ -148,14 +148,16 @@ namespace dutchonboard.Controllers
         [Authorize(Policy = "GameNightOrganizer")]
         public IActionResult EditGameNight(int id)
         {
+            var gN = _iGameNightService.GetGameNightById(id);
             var viewModel = new GameNightViewModel
             {
                 GamesDropdown =
                 {
-                    ChoosableBoardGames = _iBoardGameRepo.GetAllBoardGames()
+                    ChoosableBoardGames = _iBoardGameRepo.GetAllBoardGames(),
                 }
             };
-            viewModel.FillGameNightData(_iGameNightService.GetGameNightById(id));
+            viewModel.FillGameNightData(gN);
+            
             return View(viewModel);
         }
 
@@ -166,8 +168,7 @@ namespace dutchonboard.Controllers
             if (!ModelState.IsValid) return View(viewModel);
             var games = viewModel.GamesDropdown.ChoosableBoardGames!.FilterByStringListOfIds(viewModel.GamesDropdown.ChosenBoardGames);
 
-            // TODO 
-            var updateResult = _iGameNightService.EditGameNight(viewModel.UpdatedGameNightId, viewModel.Title!, viewModel.Description!, viewModel.IsAdultsOnly, viewModel.MaxPlayerAmount!.Value, viewModel.CreateAddress(), viewModel.DateAndTime!.Value, null, games);
+            var updateResult = _iGameNightService.EditGameNight(viewModel.UpdatedGameNightId, viewModel.Title!, viewModel.Description!, viewModel.IsAdultsOnly, viewModel.MaxPlayerAmount!.Value, viewModel.CreateAddress(), viewModel.DateAndTime!.Value, viewModel.SupportedDietRestrictions, games);
 
             if (updateResult.HasError)
             {

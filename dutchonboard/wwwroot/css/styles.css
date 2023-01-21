@@ -37,6 +37,10 @@ body {
     background-color: var(--white);
 }
 
+p {
+    margin: 0
+}
+
 .bg-primary-color {
     background-color: var(--primary-color);
 }
@@ -111,13 +115,14 @@ ul {
     display: none;
 }
 
-/* PRIMARY-COLOR BUTTONS */
+/* BUTTONS */
 .btn.btn-primary.btn-primary-color {
     font-weight: bold;
     color: var(--black);
     background-color: var(--primary-color);
     border-color: var(--primary-color);
 }
+
 
 /* WELCOME (AUTH) PAGE STYLE */
 .logo {

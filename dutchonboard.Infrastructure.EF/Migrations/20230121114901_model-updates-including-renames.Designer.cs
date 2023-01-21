@@ -12,8 +12,8 @@ using dutchonboard.Infrastructure.EF.Data;
 namespace dutchonboard.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(DutchOnBoardDbContext))]
-    [Migration("20221030113512_added-domain-property")]
-    partial class addeddomainproperty
+    [Migration("20230121114901_model-updates-including-renames")]
+    partial class modelupdatesincludingrenames
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -87,10 +87,7 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DietAndAllergyInfo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("IsForAdults")
+                    b.Property<bool>("IsForAdults")
                         .HasColumnType("bit");
 
                     b.Property<int>("MaxPlayerAmount")
@@ -98,6 +95,9 @@ namespace dutchonboard.Infrastructure.EF.Migrations
 
                     b.Property<int?>("OrganizerId")
                         .HasColumnType("int");
+
+                    b.Property<string>("SupportedDietRestrictions")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -120,6 +120,9 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("DietRestrictions")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -129,6 +132,9 @@ namespace dutchonboard.Infrastructure.EF.Migrations
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
@@ -210,6 +216,35 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                     b.Navigation("Location");
 
                     b.Navigation("Organizer");
+                });
+
+            modelBuilder.Entity("dutchonboard.Core.Domain.Models.Player", b =>
+                {
+                    b.OwnsOne("dutchonboard.Core.Domain.Models.Address", "Address", b1 =>
+                        {
+                            b1.Property<int>("PlayerId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<int>("Number")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Street")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("PlayerId");
+
+                            b1.ToTable("Players");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PlayerId");
+                        });
+
+                    b.Navigation("Address");
                 });
 
             modelBuilder.Entity("GameNightPlayer", b =>

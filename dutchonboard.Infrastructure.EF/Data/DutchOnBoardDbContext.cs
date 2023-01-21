@@ -22,10 +22,16 @@ public class DutchOnBoardDbContext : DbContext
         //DDL
         modelBuilder
             .Entity<GameNight>()
-            .Property(e => e.DietAndAllergyInfo)
-            .HasConversion(new EnumJsonConverter<FoodAndDrinkType>())
-            .Metadata.SetValueComparer(new CollectionValueComparer<FoodAndDrinkType>());
+            .Property(e => e.SupportedDietRestrictions)
+            .HasConversion(new EnumJsonConverter<DietRestriction>())
+            .Metadata.SetValueComparer(new CollectionValueComparer<DietRestriction>());
 
+        modelBuilder
+            .Entity<Player>()
+            .Property(p => p.DietRestrictions)
+            .HasConversion(new EnumJsonConverter<DietRestriction>())
+            .Metadata.SetValueComparer(new CollectionValueComparer<DietRestriction>());
+        
         modelBuilder
             .Entity<Player>()
             .Property(p => p.BirthDate)

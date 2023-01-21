@@ -22,9 +22,8 @@ public class GameNightService : IGameNightService
 
     // Already covered business rule: organizer is at least 18 years old, see class definition of Organizer
     // Business rule: GameNight always has one player (the organizer himself)
-    // TODO allergies
     public Result<GameNight> NewGameNight(Organizer organizer, string title, string description, bool isForAdults,
-        int maxPlayerAmount, Address location, DateTime dateAndTime)
+        int maxPlayerAmount, Address location, DateTime dateAndTime, ICollection<DietRestriction> supportedDietRestrictions)
     {
         if (maxPlayerAmount < 1)
         {
@@ -39,13 +38,14 @@ public class GameNightService : IGameNightService
             Location = location,
             DateAndTime = dateAndTime,
             Organizer = organizer,
+            SupportedDietRestrictions = supportedDietRestrictions,
             // An organizer is automatically a player
             Players = new List<Player> { organizer }
         });
     }
 
     public Result EditGameNight(int id, string title, string description, bool isForAdults, int maxPlayerAmount, Address location,
-        DateTime dateAndTime, ICollection<FoodAndDrinkType> dietAndAllergyInfo, ICollection<BoardGame> boardGames)
+        DateTime dateAndTime, ICollection<DietRestriction> dietRestrictions, ICollection<BoardGame> boardGames)
     {
         Result result;
 
@@ -67,7 +67,7 @@ public class GameNightService : IGameNightService
         gN.Location = location;
         gN.DateAndTime = dateAndTime;
         AddBoardGames(gN, boardGames);
-        gN.DietAndAllergyInfo = dietAndAllergyInfo;
+        gN.SupportedDietRestrictions = dietRestrictions;
 
         _iGameNightRepo.UpdateGameNight(gN);
         return result;

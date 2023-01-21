@@ -13,5 +13,5 @@ public class GameNight
     public DateTime DateAndTime { get; set; }
     public ICollection<BoardGame> Games { get; set; } = new List<BoardGame>();
     public ICollection<Player> Players { get; set; } = new List<Player>();
-    public ICollection<FoodAndDrinkType> DietAndAllergyInfo = new List<FoodAndDrinkType>();
+    public ICollection<DietRestriction> SupportedDietRestrictions = new List<DietRestriction>();
 }

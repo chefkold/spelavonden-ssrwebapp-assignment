@@ -25,8 +25,6 @@ public class DataSeeder
             Email = UserSeedData.Organizer1Email,
             Gender = Gender.V,
             Address = new Address("Professor Cobbenhagenlaan", 11, "Tilburg"),
-            
-
         };
 
         var player1 = new Player(DateOnly.FromDateTime(DateTime.Now.AddYears(-18)))
@@ -36,8 +34,8 @@ public class DataSeeder
             Email = UserSeedData.Player1Email,
             Gender = Gender.M,
             Address = new Address("Lovensdijkstraat", 63, "Breda"),
-            
-            
+            DietRestrictions = new List<DietRestriction> { DietRestriction.Lactose }
+
         };
 
         var player2 = new Player(DateOnly.FromDateTime(DateTime.Now.AddYears(-17)))
@@ -47,13 +45,14 @@ public class DataSeeder
             Email = UserSeedData.Player2Email,
             Gender = Gender.M,
             Address = new Address("Lovensdijkstraat", 63, "Breda"),
-            
+            DietRestrictions = new List<DietRestriction>() { DietRestriction.Alcohol }
         };
 
-        byte[] monopolyImg; 
-        var someUrl = "https://media.s-bol.com/39Q7EWnMMX3M/550x508.jpg"; 
-       
-        using (var webClient = new HttpClient()) { 
+        byte[] monopolyImg;
+        var someUrl = "https://media.s-bol.com/39Q7EWnMMX3M/550x508.jpg";
+
+        using (var webClient = new HttpClient())
+        {
 
             monopolyImg = await webClient.GetAsync(someUrl).Result.Content.ReadAsByteArrayAsync();
         }
@@ -95,8 +94,8 @@ public class DataSeeder
         gameNight1.Players.Add(organizer1);
 
         gameNight1.Games.Add(gameMonopoly);
-        gameNight1.DietAndAllergyInfo.Add(FoodAndDrinkType.TreeNuts);
-        gameNight1.DietAndAllergyInfo.Add(FoodAndDrinkType.Lactose);
+        gameNight1.SupportedDietRestrictions.Add(DietRestriction.Alcohol);
+        gameNight1.SupportedDietRestrictions.Add(DietRestriction.Nuts);
 
         _dutchOnBoardDbContext.GameNights.Add(gameNight1);
         _dutchOnBoardDbContext.SaveChanges();
