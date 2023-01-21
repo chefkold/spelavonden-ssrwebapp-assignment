@@ -34,7 +34,7 @@ public class GameNightRepo : IGameNightRepo
     public void EnrollPlayer(GameNight gameNight, Player player)
     {
         var currGn = _dbContext.GameNights.First(g => g.Id == gameNight.Id);
-        currGn.AddPlayer(player);
+        currGn.Players.Add(player);
         _dbContext.SaveChanges();
     }
 

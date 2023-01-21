@@ -11,19 +11,19 @@ namespace dutchonboard.Controllers
 
         private readonly IGameNightService _iGameNightService;
 
-        private readonly IGameNightRepo _iGameNightRepo;
         private readonly IBoardGameRepo _iBoardGameRepo;
         private readonly IOrganizerRepo _iOrganizerRepo;
         private readonly IPlayerRepo _iPlayerRepo;
 
-        public GameNightController(UserManager<IdentityUser> userManager, IGameNightRepo iGameNightRepo, IBoardGameRepo iBoardGameRepo, IOrganizerRepo iOrganizerRepo, IPlayerRepo iPlayerRepo, IGameNightService iGameNightManager)
+        public GameNightController(UserManager<IdentityUser> userManager, IBoardGameRepo iBoardGameRepo, IOrganizerRepo iOrganizerRepo, IPlayerRepo iPlayerRepo, IGameNightService iGameNightManager)
         {
             _userManager = userManager;
-            _iGameNightRepo = iGameNightRepo;
+
+            _iGameNightService = iGameNightManager;
+
             _iBoardGameRepo = iBoardGameRepo;
             _iOrganizerRepo = iOrganizerRepo;
             _iPlayerRepo = iPlayerRepo;
-            _iGameNightService = iGameNightManager;
         }
 
         public IActionResult AllGameNights()
@@ -74,9 +74,9 @@ namespace dutchonboard.Controllers
                 ViewData["IsOrganizer"] = true;
             }
 
-            if (TempData.ContainsKey("EnrollmentError"))
+            if (TempData.ContainsKey("BusinessLogicError"))
             {
-                ModelState.AddModelError("EnrollmentError", (TempData["EnrollmentError"] as string)!);
+                ModelState.AddModelError("BusinessLogicError", (TempData["BusinessLogicError"] as string)!);
             }
 
             return View(_iGameNightService.GetGameNightById(id));
@@ -85,21 +85,17 @@ namespace dutchonboard.Controllers
 
         public IActionResult EnrollPlayerForGameNight(int gameNightId)
         {
-            var gameNight = _iGameNightRepo.GetGameNightById(gameNightId);
             var user = _userManager.GetUserAsync(HttpContext.User).Result;
             var player = _iPlayerRepo.GetPlayerByEmail(user.Email);
 
-            try
-            {
-                _iGameNightRepo.EnrollPlayer(gameNight, player);
-                RedirectToAction("GameNightsWhereUserParticipates");
-            }
-            catch (Exception error)
-            {
-                TempData["EnrollmentError"] = error.Message;
-            }
+            Result addPlayerResult = _iGameNightService.AddPlayerToGameNight(gameNightId, player);
 
-            return RedirectToAction("GameNightDetailPage", new { id = gameNightId });
+            if (addPlayerResult.HasError)
+            {
+                TempData["BusinessLogicError"] = addPlayerResult.ErrorMessage;
+                return RedirectToAction("GameNightDetailPage", new { id = gameNightId });
+            }
+            return RedirectToAction("GameNightsWhereUserParticipates");
         }
 
         [Authorize(Policy = "GameNightOrganizer")]
@@ -170,6 +166,7 @@ namespace dutchonboard.Controllers
             if (!ModelState.IsValid) return View(viewModel);
             var games = viewModel.GamesDropdown.ChoosableBoardGames!.FilterByStringListOfIds(viewModel.GamesDropdown.ChosenBoardGames);
 
+            // TODO 
             var updateResult = _iGameNightService.EditGameNight(viewModel.UpdatedGameNightId, viewModel.Title!, viewModel.Description!, viewModel.IsAdultsOnly, viewModel.MaxPlayerAmount!.Value, viewModel.CreateAddress(), viewModel.DateAndTime!.Value, null, games);
 
             if (updateResult.HasError)
@@ -185,7 +182,8 @@ namespace dutchonboard.Controllers
         public IActionResult DeleteGameNight(int id)
         {
             var deleteResult = _iGameNightService.DeleteGameNight(id);
-            if (deleteResult.HasError) {
+            if (deleteResult.HasError)
+            {
                 // For reuse of the GameNight overview page, use temp data to forward error messages
                 TempData["BusinessLogicError"] = deleteResult.ErrorMessage;
             }

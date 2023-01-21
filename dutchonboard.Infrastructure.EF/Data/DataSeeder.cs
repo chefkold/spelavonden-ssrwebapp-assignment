@@ -81,7 +81,7 @@ public class DataSeeder
             Organizer = organizer1,
         };
 
-        gameNight1.AddPlayer(player1);
+        gameNight1.Players.Add(player1);
         gameNight1.Games.Add(gameMonopoly);
         gameNight1.DietAndAllergyInfo.Add(FoodAndDrinkType.TreeNuts);
         gameNight1.DietAndAllergyInfo.Add(FoodAndDrinkType.Lactose);

@@ -48,7 +48,7 @@ public class GameNightService : IGameNightService
         DateTime dateAndTime, ICollection<FoodAndDrinkType> dietAndAllergyInfo, ICollection<BoardGame> boardGames)
     {
         Result result;
-        
+
         var gN = _iGameNightRepo.GetGameNightById(id);
         if ((result = VerifyAllowedToUpdateOrDelete(gN)).HasError)
         {
@@ -86,7 +86,7 @@ public class GameNightService : IGameNightService
         return result;
     }
 
-    
+
     // Business rule: Game night only allowed to update if no players have joined (excluding the organizer himself, so count is at least 1)
     private static Result VerifyAllowedToUpdateOrDelete(GameNight gameNight)
     {
@@ -127,7 +127,7 @@ public class GameNightService : IGameNightService
         }
 
         // B
-        if (gN.IsForAdults == true && !player.IsAdult())
+        if (gN.IsForAdults && !player.IsAdult())
         {
             return new Result("Deze avond is voor alleen voor volwassenen!");
         }
