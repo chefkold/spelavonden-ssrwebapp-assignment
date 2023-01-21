@@ -24,7 +24,6 @@
                         <li class="pb-3"><img class="list-img" src="~/images/calender-icon.svg" class="me-4" />@Model.DateAndTime.GetDateDisplay()</li>
                         <li class="pb-3"><img class="list-img" src="~/images/location-icon.svg" class="pe-2" />@Model.Location</li>
                         <li class="pb-3"><img class="list-img" src="~/images/people-icon.svg" class="pe-2" />@Model.GetPlayerCountDisplay()</li>
-                        <li class="pb-3"><img class="list-img" src="~/images/dinner-icon.svg" class="pe-2" />@Model.SupportedDietRestrictions.GetSupportDietRestrictionsAsArray()</li>
                     </ul>
                     <ul id="expanded-list" style="display: none;">
                         <li class="mb-1">
@@ -42,10 +41,6 @@
                         <li class="mb-1">
                             <p><b>Spelers</b></p>
                             <p>@Model.GetPlayerCountDisplay()</p>
-                        </li>
-                        <li class="mb-1">
-                            <p><b>Eten en drinken voldoet aan dieetwensen:</b></p>
-                            <p>@Model.SupportedDietRestrictions.GetSupportDietRestrictionsAsArray()</p>
                         </li>
                     </ul>
                 </div>
@@ -70,7 +65,7 @@
                     <p>
                         <table class="table table-bordered table-striped table-sm">
                             <thead>
-                            <tr><th>Wie</th><th>Komt uit</th><th>Niet vervulde dieetwens(en)<img class="ms-1" src="/images/warning-icon.svg" width="25"/></th></tr>
+                                <tr><th>Wie</th><th>Komt uit</th><th>Mistmatch dieetwens(en)</th></tr>
                             </thead>
                             <tbody>
 
@@ -83,10 +78,10 @@
                                         <td>@p.ToString()</td>
                                         <td>@p.Address.City</td>
                                         @{
-                                            var unfulfilledDietRestrictions = p.GetUnfulfilledDietRestrictions(Model.SupportedDietRestrictions);
-                                            if (unfulfilledDietRestrictions.Any())
+                                            var conflictingDietRestrictions = p.GetConflictingDietRestrictions(Model);
+                                            if (conflictingDietRestrictions.Any())
                                             {
-                                                <td>@unfulfilledDietRestrictions.GetSupportDietRestrictionsAsArray()</td>
+                                                <td><img class="ms-1" src="/images/warning-icon.svg" width="25" /> @conflictingDietRestrictions.GetSupportDietRestrictionsAsArray() </td>
                                             }
                                             else
                                             {
@@ -130,7 +125,7 @@
         </div>
     </div>
 </div>
-// Logic for the toggle button to make the details list compact or expanded
+<!--Logic for the toggle button to make the details list compact or expanded -->
 <script>
     let expanded = false;
     const button = document.getElementById("toggle-button");

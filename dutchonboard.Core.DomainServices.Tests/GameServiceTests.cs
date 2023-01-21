@@ -18,8 +18,8 @@ public class GameServiceTests
         var organizer = new Organizer(DateOnly.FromDateTime(DateTime.Now).AddYears(-18));
 
         
-        Result<GameNight> newGameNightResult = gameNightService.NewGameNight(organizer, "title", "description", false, 1,
-            new Address("street", 7, "city"), DateTime.Now, new List<DietRestriction>());
+        Result<GameNight> newGameNightResult = gameNightService.NewGameNight(organizer, "title", "description", false, false, 1,
+            new Address("street", 7, "city"), DateTime.Now);
 
         Assert.Contains(organizer, newGameNightResult.Value.Players);
     }
@@ -35,8 +35,8 @@ public class GameServiceTests
         var organizer = new Organizer(DateOnly.FromDateTime(DateTime.Now).AddYears(-18));
         const int maxPlayerAmount = 0;
 
-        Result<GameNight> newGameNightResult = gameNightService.NewGameNight(organizer, "title", "description", false, maxPlayerAmount,
-            new Address("street", 7, "city"), DateTime.Now, new List<DietRestriction>());
+        Result<GameNight> newGameNightResult = gameNightService.NewGameNight(organizer, "title", "description", false, false, maxPlayerAmount,
+            new Address("street", 7, "city"), DateTime.Now);
 
         Assert.True(newGameNightResult.HasError);
     }
@@ -61,7 +61,7 @@ public class GameServiceTests
         // End of arrange block
 
         Result editGameNightResult = gameNightService.EditGameNight(gameNight.Id, "title", "description", false, maxPlayerAmount,
-            new Address("street", 7, "city"), DateTime.Now, new List<DietRestriction>(), new List<BoardGame>());
+            new Address("street", 7, "city"), DateTime.Now, new List<BoardGame>());
 
         Assert.True(editGameNightResult.HasError);
     }
@@ -77,8 +77,8 @@ public class GameServiceTests
         var organizer = new Organizer(DateOnly.FromDateTime(DateTime.Now).AddYears(-18));
         const int maxPlayerAmount = 1;
 
-        Result<GameNight> newGameNightResult = gameNightService.NewGameNight(organizer, "title", "description", false, maxPlayerAmount,
-            new Address("street", 7, "city"), DateTime.Now,new List<DietRestriction>());
+        Result<GameNight> newGameNightResult = gameNightService.NewGameNight(organizer, "title", "description", false, false, maxPlayerAmount,
+            new Address("street", 7, "city"), DateTime.Now);
 
         Assert.False(newGameNightResult.HasError);
     }
@@ -103,7 +103,7 @@ public class GameServiceTests
         // End of arrange block
 
         Result editGameNightResult = gameNightService.EditGameNight(gameNight.Id, "title", "description", false, maxPlayerAmount,
-            new Address("street", 7, "city"), DateTime.Now, new List<DietRestriction>(), new List<BoardGame>());
+            new Address("street", 7, "city"), DateTime.Now, new List<BoardGame>());
 
         Assert.False(editGameNightResult.HasError);
     }
@@ -162,7 +162,7 @@ public class GameServiceTests
         // End of arrange block
 
         Result editGameNightResult = gameNightService.EditGameNight(gameNight.Id, "title", "description", false, 2,
-            new Address("street", 7, "city"), DateTime.Now, new List<DietRestriction>(), new List<BoardGame>());
+            new Address("street", 7, "city"), DateTime.Now, new List<BoardGame>());
 
         
         Assert.True(editGameNightResult.HasError);
@@ -221,7 +221,7 @@ public class GameServiceTests
         // End of arrange block
         
         Result editGameNightResult = gameNightService.EditGameNight(gameNight.Id, "title", "description", false, 2,
-            new Address("street", 7, "city"), DateTime.Now, new List<DietRestriction>(), new List<BoardGame>());
+            new Address("street", 7, "city"), DateTime.Now, new List<BoardGame>());
         
         Assert.False(editGameNightResult.HasError);
     }
@@ -241,7 +241,7 @@ public class GameServiceTests
         var gameNight = new GameNight()
         {
             MaxPlayerAmount = 1,
-            IsForAdults = false,
+            IsForAdults = false
         };
         var boardGames = new[]
         {

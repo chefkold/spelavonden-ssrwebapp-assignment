@@ -22,8 +22,8 @@ public class GameNightService : IGameNightService
 
     // Already covered business rule: organizer is at least 18 years old, see class definition of Organizer
     // Business rule: GameNight always has one player (the organizer himself)
-    public Result<GameNight> NewGameNight(Organizer organizer, string title, string description, bool isForAdults,
-        int maxPlayerAmount, Address location, DateTime dateAndTime, ICollection<DietRestriction> supportedDietRestrictions)
+    public Result<GameNight> NewGameNight(Organizer organizer, string title, string description, bool isForAdults, bool potluck,
+        int maxPlayerAmount, Address location, DateTime dateAndTime)
     {
         if (maxPlayerAmount < 1)
         {
@@ -34,18 +34,18 @@ public class GameNightService : IGameNightService
             Title = title,
             Description = description,
             IsForAdults = isForAdults,
+            Potluck = potluck,
             MaxPlayerAmount = maxPlayerAmount,
             Location = location,
             DateAndTime = dateAndTime,
             Organizer = organizer,
-            SupportedDietRestrictions = supportedDietRestrictions,
             // An organizer is automatically a player
             Players = new List<Player> { organizer }
         });
     }
 
     public Result EditGameNight(int id, string title, string description, bool isForAdults, int maxPlayerAmount, Address location,
-        DateTime dateAndTime, ICollection<DietRestriction> dietRestrictions, ICollection<BoardGame> boardGames)
+        DateTime dateAndTime, ICollection<BoardGame> boardGames)
     {
         Result result;
 
@@ -67,7 +67,6 @@ public class GameNightService : IGameNightService
         gN.Location = location;
         gN.DateAndTime = dateAndTime;
         AddBoardGames(gN, boardGames);
-        gN.SupportedDietRestrictions = dietRestrictions;
 
         _iGameNightRepo.UpdateGameNight(gN);
         return result;
@@ -147,6 +146,24 @@ public class GameNightService : IGameNightService
         }
 
         gN.Players.Add(player);
+        _iGameNightRepo.UpdateGameNight(gN);
+        return new Result();
+
+    }
+
+    public Result AddConsumptionsToGameNight(int gameNightId, ICollection<Consumption> consumptions)
+    {
+        if (consumptions.Count == 0)
+        {
+            return new Result("Voeg minimaal één consumptie toe.");
+        }
+
+        var gN = GetGameNightById(gameNightId);
+        foreach (var consumption in consumptions)
+        {
+            gN.Consumptions.Add(consumption);
+        }
+
         _iGameNightRepo.UpdateGameNight(gN);
         return new Result();
 

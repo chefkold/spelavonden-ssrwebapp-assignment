@@ -12,6 +12,17 @@
             <option value="false">Nee, 16+ toegestaan</option>
         </select>
     </div>
+    @if (Model.UpdatedGameNightId == 0)
+    {
+        <div class="col">
+            <label class="form-label" asp-for="IsAdultsOnly">Avond is 18+</label><span class="ps-3 d-inline text-danger" asp-validation-for="IsAdultsOnly"></span>
+            <select class="form-select" asp-for="IsAdultsOnly">
+                <option value="">Kies een optie</option>
+                <option value="true">Ja, 18+</option>
+                <option value="false">Nee, 16+ toegestaan</option>
+            </select>
+        </div>
+    }
 </div>
 <div class="row py-2">
     <div class="col">
@@ -46,25 +57,6 @@
         <label>Selecteer 1 of meer bordspellen</label>
         @Html.ListBoxFor(model => model.GamesDropdown.ChosenBoardGames, new MultiSelectList(Model.GamesDropdown.ChoosableBoardGames, "Id", "Name"), new { id = "multiSelectDropDown", multiple = "multiple" })
     </div>
-</div>
-<div class="row py-2">
-    <p>Eten en drinken ondersteunt dieetwensen:</p>
-    @foreach (var r in Model.SupportedDietRestrictions)
-    {
-        <div>
-            @{
-                if (Model.SupportedDietRestrictionsCurrent.Contains(r))
-                {
-                    <input type="checkbox" name="SupportedDietRestrictions" value="@r" checked />
-                }
-                else
-                {
-                    <input type="checkbox" name="SupportedDietRestrictions" value="@r" />
-                }
-            }
-            <label>@r.GetDietRestrictionDisplay() </label>
-        </div>
-    }
 </div>
 <script>
     $(document).ready(function () {

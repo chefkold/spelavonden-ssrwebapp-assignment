@@ -123,7 +123,7 @@ namespace dutchonboard.Controllers
 
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var organizer = _iOrganizerRepo.GetOrganizerByEmail(user.Email);
-            Result<GameNight> createGameNightResult = this._iGameNightService.NewGameNight(organizer, viewModel.Title!, viewModel.Description!, viewModel.IsAdultsOnly, viewModel.MaxPlayerAmount!.Value, viewModel.CreateAddress(), viewModel.DateAndTime!.Value, viewModel.SupportedDietRestrictions);
+            Result<GameNight> createGameNightResult = this._iGameNightService.NewGameNight(organizer, viewModel.Title!, viewModel.Description!, viewModel.IsAdultsOnly, viewModel.Potluck, viewModel.MaxPlayerAmount!.Value, viewModel.CreateAddress(), viewModel.DateAndTime!.Value);
 
             if (createGameNightResult.HasError)
             {
@@ -168,7 +168,7 @@ namespace dutchonboard.Controllers
             if (!ModelState.IsValid) return View(viewModel);
             var games = viewModel.GamesDropdown.ChoosableBoardGames!.FilterByStringListOfIds(viewModel.GamesDropdown.ChosenBoardGames);
 
-            var updateResult = _iGameNightService.EditGameNight(viewModel.UpdatedGameNightId, viewModel.Title!, viewModel.Description!, viewModel.IsAdultsOnly, viewModel.MaxPlayerAmount!.Value, viewModel.CreateAddress(), viewModel.DateAndTime!.Value, viewModel.SupportedDietRestrictions, games);
+            var updateResult = _iGameNightService.EditGameNight(viewModel.UpdatedGameNightId, viewModel.Title!, viewModel.Description!, viewModel.IsAdultsOnly, viewModel.MaxPlayerAmount!.Value, viewModel.CreateAddress(), viewModel.DateAndTime!.Value, games);
 
             if (updateResult.HasError)
             {

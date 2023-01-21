@@ -34,7 +34,7 @@ public class DataSeeder
             Email = UserSeedData.Player1Email,
             Gender = Gender.M,
             Address = new Address("Lovensdijkstraat", 63, "Breda"),
-            DietRestrictions = new List<DietRestriction> { DietRestriction.Lactose }
+            DietRestrictions = new List<DietRestriction> { DietRestriction.Nuts }
 
         };
 
@@ -72,10 +72,22 @@ public class DataSeeder
         // Locations
         var locationAvansExplora = new Address("Lovensdijkstraat", 63, "Breda");
 
+        // Consumptions
+        var alcoholConsumption = new Consumption("Krat Grolsch")
+        {
+            DietRestrictions = new List<DietRestriction> { DietRestriction.Alcohol }
+        };
+        var nutsConsumption = new Consumption("Walnoten")
+        {
+            DietRestrictions = new List<DietRestriction> { DietRestriction.Nuts }
+        };
+
         _dutchOnBoardDbContext.Organizers.Add(organizer1);
         _dutchOnBoardDbContext.Players.Add(player1);
         _dutchOnBoardDbContext.Players.Add(player2);
         _dutchOnBoardDbContext.BoardGames.Add(gameMonopoly);
+
+        
 
         // Game nights
         var gameNight1 = new GameNight()
@@ -84,6 +96,7 @@ public class DataSeeder
             Description =
                 "We gaan met een kickoff beginnen op de locatie van Avans Hogeschool. Hierbij zal ook de burgermeester aanwezig zijn om het nieuwe initiatief te vieren",
             IsForAdults = false,
+            Potluck = true,
             MaxPlayerAmount = 12,
             Location = locationAvansExplora,
             DateAndTime = new DateTime(2022, 10, 31, 23, 59, 00),
@@ -94,8 +107,8 @@ public class DataSeeder
         gameNight1.Players.Add(organizer1);
 
         gameNight1.Games.Add(gameMonopoly);
-        gameNight1.SupportedDietRestrictions.Add(DietRestriction.Alcohol);
-        gameNight1.SupportedDietRestrictions.Add(DietRestriction.Nuts);
+        gameNight1.Consumptions.Add(alcoholConsumption);
+        gameNight1.Consumptions.Add(nutsConsumption);
 
         _dutchOnBoardDbContext.GameNights.Add(gameNight1);
         _dutchOnBoardDbContext.SaveChanges();

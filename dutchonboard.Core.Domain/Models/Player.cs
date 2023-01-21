@@ -33,11 +33,22 @@ public class Player
         return BirthDate <= DateOnly.FromDateTime(DateTime.Now.AddYears(-18));
     }
 
-    public ICollection<DietRestriction> GetUnfulfilledDietRestrictions(ICollection<DietRestriction> supportedDietRestrictions)
+    public ICollection<DietRestriction> GetConflictingDietRestrictions(GameNight gN)
     {
-        return DietRestrictions.Except(supportedDietRestrictions).ToList();
+        var conflictingDietRestrictions = new List<DietRestriction>();
+        foreach (var c in gN.Consumptions)
+        {
+            foreach (var dR in c.DietRestrictions)
+            {
+                if (DietRestrictions.Contains(dR))
+                {
+                    conflictingDietRestrictions.Add(dR);
+                }
+            }
+        }
+        return conflictingDietRestrictions;
     }
-
+    
     public override string ToString()
     {
         var salutation = Gender switch

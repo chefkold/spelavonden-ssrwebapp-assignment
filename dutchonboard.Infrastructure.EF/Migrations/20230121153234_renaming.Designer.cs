@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using dutchonboard.Infrastructure.EF.Data;
 
@@ -11,9 +12,10 @@ using dutchonboard.Infrastructure.EF.Data;
 namespace dutchonboard.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(DutchOnBoardDbContext))]
-    partial class DutchOnBoardDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230121153234_renaming")]
+    partial class renaming
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,21 +37,6 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                     b.HasIndex("GamesId");
 
                     b.ToTable("BoardGameGameNight");
-                });
-
-            modelBuilder.Entity("ConsumptionGameNight", b =>
-                {
-                    b.Property<int>("ConsumptionsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GameNightsWhereConsumedId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ConsumptionsId", "GameNightsWhereConsumedId");
-
-                    b.HasIndex("GameNightsWhereConsumedId");
-
-                    b.ToTable("ConsumptionGameNight");
                 });
 
             modelBuilder.Entity("dutchonboard.Core.Domain.Models.BoardGame", b =>
@@ -98,11 +85,16 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("GameNightId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GameNightId");
 
                     b.ToTable("Consumption");
                 });
@@ -129,9 +121,6 @@ namespace dutchonboard.Infrastructure.EF.Migrations
 
                     b.Property<int?>("OrganizerId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("Potluck")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -217,19 +206,11 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ConsumptionGameNight", b =>
+            modelBuilder.Entity("dutchonboard.Core.Domain.Models.Consumption", b =>
                 {
-                    b.HasOne("dutchonboard.Core.Domain.Models.Consumption", null)
-                        .WithMany()
-                        .HasForeignKey("ConsumptionsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("dutchonboard.Core.Domain.Models.GameNight", null)
-                        .WithMany()
-                        .HasForeignKey("GameNightsWhereConsumedId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Consumptions")
+                        .HasForeignKey("GameNightId");
                 });
 
             modelBuilder.Entity("dutchonboard.Core.Domain.Models.GameNight", b =>
@@ -309,6 +290,11 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                         .HasForeignKey("PlayersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("dutchonboard.Core.Domain.Models.GameNight", b =>
+                {
+                    b.Navigation("Consumptions");
                 });
 
             modelBuilder.Entity("dutchonboard.Core.Domain.Models.Organizer", b =>

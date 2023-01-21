@@ -21,8 +21,8 @@ public class DutchOnBoardDbContext : DbContext
         base.OnModelCreating(modelBuilder);
         //DDL
         modelBuilder
-            .Entity<GameNight>()
-            .Property(e => e.SupportedDietRestrictions)
+            .Entity<Consumption>()
+            .Property(e => e.DietRestrictions)
             .HasConversion(new EnumJsonConverter<DietRestriction>())
             .Metadata.SetValueComparer(new CollectionValueComparer<DietRestriction>());
 
@@ -46,11 +46,17 @@ public class DutchOnBoardDbContext : DbContext
             .WithMany(p => p.GameNightsWhereFeatured);
 
         modelBuilder.Entity<GameNight>()
+            .HasMany<Consumption>(p => p.Consumptions)
+            .WithMany(p => p.GameNightsWhereConsumed);
+
+        modelBuilder.Entity<GameNight>()
             .HasMany<Player>(p => p.Players)
             .WithMany(p => p.JoinedNights);
 
         modelBuilder.Entity<GameNight>()
             .HasOne<Organizer>(p => p.Organizer)
             .WithMany(p => p.HostedNights);
+        
+
     }
 }

@@ -28,6 +28,7 @@ public class GameNightRepo : IGameNightRepo
         return _dbContext.GameNights
             .Include(p => p.Players)
             .Include(p => p.Games)
+            .Include(p => p.Consumptions)
             .First(p => p.Id == id);
     }
 

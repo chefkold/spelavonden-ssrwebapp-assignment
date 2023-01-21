@@ -13,8 +13,10 @@ public class GameNightViewModel
     [Required(ErrorMessage = "Geef de avond alstublieft een titel"), StringLength(30, ErrorMessage = "Houd de titel beknopt (maximaal 30 karakters")]
     public string? Title { get; set; }
 
-    [Required(ErrorMessage = "Geef alstublieft aan ofe de avond 18+ is")]
+    [Required(ErrorMessage = "Geef alstublieft aan of de avond 18+ is")]
     public bool IsAdultsOnly { get; set; }
+    [Required(ErrorMessage = "Geef alstublieft aan of snacks moeten worden meegenomen")]
+    public bool Potluck { get; set; }
 
     [Required(ErrorMessage = "Geef de avond alstublieft een beschrijving"), StringLength(150, ErrorMessage = "Maak uw beschrijving korter (maximaal 400 karakters")]
     public string? Description { get; set; }
@@ -35,11 +37,11 @@ public class GameNightViewModel
     public string? City { get; set; }
 
     [Required(ErrorMessage = "Geef alstublieft een waarde op")]
-    public ICollection<DietRestriction> SupportedDietRestrictions { get; set; } =
-        Enum.GetValues(typeof(DietRestriction)).Cast<DietRestriction>().ToList();
+    //public ICollection<DietRestriction> SupportedDietRestrictions { get; set; } =
+    //    Enum.GetValues(typeof(DietRestriction)).Cast<DietRestriction>().ToList();
 
-    // Holding diet restrictions of current game night if viewmodel is used for updating
-    public ICollection<DietRestriction> SupportedDietRestrictionsCurrent { get; set; } = new List<DietRestriction>();
+    //// Holding diet restrictions of current game night if viewmodel is used for updating
+    //public ICollection<DietRestriction> SupportedDietRestrictionsCurrent { get; set; } = new List<DietRestriction>();
 
 
     public BoardGamesDropdown GamesDropdown { get; set; } = new BoardGamesDropdown();
@@ -58,7 +60,6 @@ public class GameNightViewModel
         this.Street = data.Location.Street;
         this.HouseNumber = data.Location.Number;
         this.City = data.Location.City;
-        this.SupportedDietRestrictionsCurrent = data.SupportedDietRestrictions;
     }
 
     public Address CreateAddress()
