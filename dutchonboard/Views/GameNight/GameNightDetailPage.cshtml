@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="col-6">
                     <h4>Details</h4>
-                    <button class="btn btn-primary btn-primary-color my-2" id="toggle-button">Uitgebreid</button>
+                    <button class="btn btn-primary btn-primary-color justify-content-center my-2" id="toggle-button">Uitgebreid</button>
                     <ul id="compact-list">
                         <li class="pb-3"><img class="list-img" src="~/images/organizer-icon.svg" class="pe-2" />@Model.Organizer.ToString()</li>
                         <li class="pb-3"><img class="list-img" src="~/images/calender-icon.svg" class="me-4" />@Model.DateAndTime.GetDateDisplay()</li>
@@ -65,32 +65,56 @@
                     <p>
                         <table class="table table-bordered table-striped table-sm">
                             <thead>
-                                <tr><th>Wie</th><th>Komt uit</th><th>Mistmatch dieetwens(en)</th></tr>
+                            <tr><th>Wie</th><th>Komt uit</th><th>Mistmatch dieetwens(en)</th></tr>
                             </thead>
                             <tbody>
-
-                                @{
-                                    var count = 0;
-                                }
-                                @foreach (var p in Model.Players)
-                                {
-                                    <tr>
-                                        <td>@p.ToString()</td>
-                                        <td>@p.Address.City</td>
-                                        @{
-                                            var conflictingDietRestrictions = p.GetConflictingDietRestrictions(Model);
-                                            if (conflictingDietRestrictions.Any())
-                                            {
-                                                <td><img class="ms-1" src="/images/warning-icon.svg" width="25" /> @conflictingDietRestrictions.GetSupportDietRestrictionsAsArray() </td>
-                                            }
-                                            else
-                                            {
-                                                <td>-</td>
-                                            }
+                            @foreach (var p in Model.Players)
+                            {
+                                <tr>
+                                    <td>@p.ToString()</td>
+                                    <td>@p.Address.City</td>
+                                    @{
+                                        var conflictingDietRestrictions = p.GetConflictingDietRestrictions(Model);
+                                        if (conflictingDietRestrictions.Any())
+                                        {
+                                            <td><img class="ms-1" src="/images/warning-icon.svg" width="25" /> @conflictingDietRestrictions.Distinct().ToList().GetSupportDietRestrictionsAsArray() </td>
                                         }
-                                    </tr>
-                                    count++;
-                                }
+                                        else
+                                        {
+                                            <td>-</td>
+                                        }
+                                    }
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </p>
+                </div>
+                <div class="col-12 mt-3">
+                    <h4>Potluck</h4>
+                    <p>
+                        <table class="table table-bordered table-striped table-sm">
+                            <thead>
+                                <tr><th>Eten/Drinken</th><th>Allergieën/Bijzonderheden</th></tr>
+                            </th></tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var c in Model.Consumptions)
+                            {
+                                <tr>
+                                    <td>@c.Name</td>
+                                    @{
+                                        if (c.DietRestrictions.Any())
+                                        {
+                                            <td>@c.DietRestrictions.GetSupportDietRestrictionsAsArray() </td>
+                                        }
+                                        else
+                                        {
+                                            <td>-</td>
+                                        }
+                                    }
+                                </tr>
+                            }
                             </tbody>
                         </table>
                     </p>

@@ -12,6 +12,7 @@ public interface IGameNightService
     public Result AddBoardGames(GameNight gameNight, ICollection<BoardGame> boardGames);
     public Result AddPlayerToGameNight(int gameNightId, Player player);
     public Result AddConsumptionsToGameNight(int gameNightId, ICollection<Consumption> consumptions);
+    public Result CommitEnrollmentOfPlayer(GameNight gameNight, Player player);
     public void SaveNewGameNight(GameNight gameNight);
     public ICollection<GameNight> GetAllGameNights();
     public GameNight GetGameNightById(int id);

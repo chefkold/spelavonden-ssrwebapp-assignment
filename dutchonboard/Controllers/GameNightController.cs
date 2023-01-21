@@ -95,13 +95,50 @@ namespace dutchonboard.Controllers
                 TempData["BusinessLogicError"] = addPlayerResult.ErrorMessage;
                 return RedirectToAction("GameNightDetailPage", new { id = gameNightId });
             }
+
+            var gameNight = _iGameNightService.GetGameNightById(gameNightId);
+            // Redirect to form for adding consumptions if required for game night, else commit enrollment
+            if (gameNight.Potluck)
+            {
+                return RedirectToAction("PostEnrollmentPotluckForm", new { gameNightId });
+            }
+            _iGameNightService.CommitEnrollmentOfPlayer(gameNight, player);
+
             return RedirectToAction("GameNightsWhereUserParticipates");
+        }
+
+        public IActionResult PostEnrollmentPotluckForm(int gameNightId)
+        {
+            return View(new ConsumptionFormViewModel() { GameNightId = gameNightId });
+        }
+
+        [HttpPost]
+        public IActionResult PostEnrollmentPotluckForm(ConsumptionFormViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(new ConsumptionFormViewModel() { GameNightId = viewModel.GameNightId });
+            }
+
+            var user = _userManager.GetUserAsync(HttpContext.User).Result;
+            var player = _iPlayerRepo.GetPlayerByEmail(user.Email);
+            var gameNight = _iGameNightService.GetGameNightById(viewModel.GameNightId);
+            if (!player.JoinedNights.Contains(gameNight))
+            {
+                // Player brought in food or drinks and can now join the game night
+                _iGameNightService.CommitEnrollmentOfPlayer(gameNight, player);
+            }
+
+            _iGameNightService.AddConsumptionsToGameNight(gameNight.Id,
+                new List<Consumption>()
+                    { new (viewModel.Name!) { DietRestrictions = viewModel.DietRestrictions } });
+            return RedirectToAction("PostEnrollmentPotluckForm", viewModel);
         }
 
         [Authorize(Policy = "GameNightOrganizer")]
         public IActionResult CreateGameNight()
         {
-            var model = new GameNightViewModel
+            var model = new GameNightFormViewModel
             {
                 GamesDropdown =
                 {
@@ -113,7 +150,7 @@ namespace dutchonboard.Controllers
 
         [Authorize(Policy = "GameNightOrganizer")]
         [HttpPost]
-        public async Task<IActionResult> CreateGameNight(GameNightViewModel viewModel)
+        public async Task<IActionResult> CreateGameNight(GameNightFormViewModel viewModel)
         {
             viewModel.GamesDropdown.ChoosableBoardGames = _iBoardGameRepo.GetAllBoardGames();
             if (!ModelState.IsValid)
@@ -149,7 +186,7 @@ namespace dutchonboard.Controllers
         public IActionResult EditGameNight(int id)
         {
             var gN = _iGameNightService.GetGameNightById(id);
-            var viewModel = new GameNightViewModel
+            var viewModel = new GameNightFormViewModel
             {
                 GamesDropdown =
                 {
@@ -157,13 +194,13 @@ namespace dutchonboard.Controllers
                 }
             };
             viewModel.FillGameNightData(gN);
-            
+
             return View(viewModel);
         }
 
         [Authorize(Policy = "GameNightOrganizer")]
         [HttpPost]
-        public IActionResult EditGameNight(GameNightViewModel viewModel)
+        public IActionResult EditGameNight(GameNightFormViewModel viewModel)
         {
             if (!ModelState.IsValid) return View(viewModel);
             var games = viewModel.GamesDropdown.ChoosableBoardGames!.FilterByStringListOfIds(viewModel.GamesDropdown.ChosenBoardGames);
@@ -191,6 +228,7 @@ namespace dutchonboard.Controllers
 
             return RedirectToAction("GameNightsOfOrganizer");
         }
+
     }
 }
 

@@ -40,7 +40,8 @@ public class Player
         {
             foreach (var dR in c.DietRestrictions)
             {
-                if (DietRestrictions.Contains(dR))
+                if (!DietRestrictions.Contains(dR)) continue;
+                if (!conflictingDietRestrictions.Contains(dR))
                 {
                     conflictingDietRestrictions.Add(dR);
                 }

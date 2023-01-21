@@ -9,7 +9,7 @@ public static class UIDisplayHelpers
     {
         return restriction switch
         {
-            DietRestriction.Alcohol => "Geen Alcohol",
+            DietRestriction.Alcohol => "Alcohol",
             DietRestriction.Vegetarian => "Vegetarisch",
             DietRestriction.Nuts => "Notenallergie",
             DietRestriction.Lactose => "Lactose-intolerantie",

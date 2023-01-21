@@ -145,12 +145,17 @@ public class GameNightService : IGameNightService
             return new Result("U bent al ingeschreven op een bordspellenavond vandaag!");
         }
 
-        gN.Players.Add(player);
-        _iGameNightRepo.UpdateGameNight(gN);
         return new Result();
 
     }
+    public Result CommitEnrollmentOfPlayer(GameNight gameNight, Player player)
+    {
+        gameNight.Players.Add(player);
+        _iGameNightRepo.UpdateGameNight(gameNight);
+        return new Result();
+    }
 
+    // Business rule: a player must at least supply one consumption in order to be enrolled (if the game has potluck)
     public Result AddConsumptionsToGameNight(int gameNightId, ICollection<Consumption> consumptions)
     {
         if (consumptions.Count == 0)

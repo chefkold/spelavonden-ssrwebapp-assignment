@@ -17,13 +17,13 @@ public class GameServiceTests
         var gameNightService = new GameNightService(mockGameNightRepo.Object, mockBoardGameRepo.Object, mockOrganizerRepo.Object, mockPlayerRepo.Object);
         var organizer = new Organizer(DateOnly.FromDateTime(DateTime.Now).AddYears(-18));
 
-        
+
         Result<GameNight> newGameNightResult = gameNightService.NewGameNight(organizer, "title", "description", false, false, 1,
             new Address("street", 7, "city"), DateTime.Now);
 
         Assert.Contains(organizer, newGameNightResult.Value.Players);
     }
-    
+
     [Fact]
     public void NewGameNight_MaxPlayerAmountLessThanOne_ShouldGiveErrorResult()
     {
@@ -116,9 +116,9 @@ public class GameServiceTests
         var mockBoardGameRepo = new Mock<IBoardGameRepo>();
         var mockOrganizerRepo = new Mock<IOrganizerRepo>();
         var mockPlayerRepo = new Mock<IPlayerRepo>();
-        
+
         var gameNightService = new GameNightService(mockGameNightRepo.Object, mockBoardGameRepo.Object, mockOrganizerRepo.Object, mockPlayerRepo.Object);
-        
+
         var gameNight = new GameNight()
         {
             Id = 1,
@@ -128,15 +128,15 @@ public class GameServiceTests
                 new Player(DateOnly.FromDateTime(DateTime.Now.AddYears(-16)))
             }
         };
-        
+
         mockGameNightRepo.Setup(r => r.GetGameNightById(1)).Returns(gameNight);
         // End of arrange block
 
         Result deleteResult = gameNightService.DeleteGameNight(1);
-        
+
         Assert.True(deleteResult.HasError);
     }
-    
+
     [Fact]
     public void EditGameNight_APlayerIsEnrolled_ShouldNotBeEdited()
     {
@@ -145,9 +145,9 @@ public class GameServiceTests
         var mockBoardGameRepo = new Mock<IBoardGameRepo>();
         var mockOrganizerRepo = new Mock<IOrganizerRepo>();
         var mockPlayerRepo = new Mock<IPlayerRepo>();
-        
+
         var gameNightService = new GameNightService(mockGameNightRepo.Object, mockBoardGameRepo.Object, mockOrganizerRepo.Object, mockPlayerRepo.Object);
-        
+
         var gameNight = new GameNight()
         {
             Id = 1,
@@ -157,14 +157,14 @@ public class GameServiceTests
                 new Player(DateOnly.FromDateTime(DateTime.Now.AddYears(-16)))
             }
         };
-        
+
         mockGameNightRepo.Setup(r => r.GetGameNightById(1)).Returns(gameNight);
         // End of arrange block
 
         Result editGameNightResult = gameNightService.EditGameNight(gameNight.Id, "title", "description", false, 2,
             new Address("street", 7, "city"), DateTime.Now, new List<BoardGame>());
 
-        
+
         Assert.True(editGameNightResult.HasError);
     }
 
@@ -177,9 +177,9 @@ public class GameServiceTests
         var mockBoardGameRepo = new Mock<IBoardGameRepo>();
         var mockOrganizerRepo = new Mock<IOrganizerRepo>();
         var mockPlayerRepo = new Mock<IPlayerRepo>();
-        
+
         var gameNightService = new GameNightService(mockGameNightRepo.Object, mockBoardGameRepo.Object, mockOrganizerRepo.Object, mockPlayerRepo.Object);
-        
+
         var gameNight = new GameNight()
         {
             Id = 1,
@@ -188,15 +188,15 @@ public class GameServiceTests
                 new Organizer(DateOnly.FromDateTime(DateTime.Now.AddYears(-18))),
             }
         };
-        
+
         mockGameNightRepo.Setup(r => r.GetGameNightById(1)).Returns(gameNight);
         // End of arrange block
 
         Result deleteResult = gameNightService.DeleteGameNight(1);
-        
+
         Assert.False(deleteResult.HasError);
     }
-    
+
     [Fact]
     public void EditGameNight_NoPlayersEnrolled_ShouldBeEdited()
     {
@@ -205,9 +205,9 @@ public class GameServiceTests
         var mockBoardGameRepo = new Mock<IBoardGameRepo>();
         var mockOrganizerRepo = new Mock<IOrganizerRepo>();
         var mockPlayerRepo = new Mock<IPlayerRepo>();
-        
+
         var gameNightService = new GameNightService(mockGameNightRepo.Object, mockBoardGameRepo.Object, mockOrganizerRepo.Object, mockPlayerRepo.Object);
-        
+
         var gameNight = new GameNight()
         {
             Id = 1,
@@ -216,13 +216,13 @@ public class GameServiceTests
                 new Organizer(DateOnly.FromDateTime(DateTime.Now.AddYears(-18))),
             }
         };
-        
+
         mockGameNightRepo.Setup(r => r.GetGameNightById(1)).Returns(gameNight);
         // End of arrange block
-        
+
         Result editGameNightResult = gameNightService.EditGameNight(gameNight.Id, "title", "description", false, 2,
             new Address("street", 7, "city"), DateTime.Now, new List<BoardGame>());
-        
+
         Assert.False(editGameNightResult.HasError);
     }
 
@@ -356,7 +356,7 @@ public class GameServiceTests
 
         Assert.False(addPlayerResult.HasError);
     }
-    
+
     [Fact]
     public void AddPlayerToGameNight_AddingPlayerToGameNightWhileMaxPlayerAmountLimitIsReached_ShouldNotBeAllowed()
     {
@@ -438,7 +438,7 @@ public class GameServiceTests
 
         Assert.True(addPlayerResult.HasError);
     }
-    
+
     [Fact]
     public void AddPlayerToGameNight_NewPlayerToNightWhileEnrolledToOtherNightButNotToday_ShouldBeAllowed()
     {
@@ -468,5 +468,44 @@ public class GameServiceTests
         Result addPlayerResult = gameNightService.AddPlayerToGameNight(gameNight2.Id, player);
 
         Assert.False(addPlayerResult.HasError);
+    }
+
+    [Fact]
+    public void AddConsumptionsToGameNight_AddingNoConsumptions_ShouldGiveError()
+    {
+        var mockGameNightRepo = new Mock<IGameNightRepo>();
+        var mockBoardGameRepo = new Mock<IBoardGameRepo>();
+        var mockOrganizerRepo = new Mock<IOrganizerRepo>();
+        var mockPlayerRepo = new Mock<IPlayerRepo>();
+        var gameNightService = new GameNightService(mockGameNightRepo.Object, mockBoardGameRepo.Object, mockOrganizerRepo.Object, mockPlayerRepo.Object);
+        var gameNight = new GameNight()
+        {
+            Id = 1
+        };
+        mockGameNightRepo.Setup(r => r.GetGameNightById(1)).Returns(gameNight);
+        
+
+        Result addConsumptionResult = gameNightService.AddConsumptionsToGameNight(gameNight.Id, new List<Consumption>());
+
+        Assert.True(addConsumptionResult.HasError);
+    }
+
+    [Fact]
+    public void AddConsumptionsToGameNight_AddOneConsumption_ShouldNotGiveError()
+    {
+        var mockGameNightRepo = new Mock<IGameNightRepo>();
+        var mockBoardGameRepo = new Mock<IBoardGameRepo>();
+        var mockOrganizerRepo = new Mock<IOrganizerRepo>();
+        var mockPlayerRepo = new Mock<IPlayerRepo>();
+        var gameNightService = new GameNightService(mockGameNightRepo.Object, mockBoardGameRepo.Object, mockOrganizerRepo.Object, mockPlayerRepo.Object);
+        var gameNight = new GameNight()
+        {
+            Id = 1
+        };
+        mockGameNightRepo.Setup(r => r.GetGameNightById(1)).Returns(gameNight);
+
+        Result addConsumptionResult = gameNightService.AddConsumptionsToGameNight(gameNight.Id, new List<Consumption>() { new Consumption("") });
+
+        Assert.False(addConsumptionResult.HasError);
     }
 }

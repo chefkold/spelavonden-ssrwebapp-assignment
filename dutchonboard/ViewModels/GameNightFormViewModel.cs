@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Reflection.Metadata.Ecma335;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace dutchonboard.Models;
 
@@ -8,7 +6,7 @@ namespace dutchonboard.Models;
 /// ViewModel to represent game nights in situations where one is created or edited. In case of editing,
 /// this model keeps track of the game night ID as a best practice solution for supplying a POST form with multiple parameters
 /// </summary>
-public class GameNightViewModel
+public class GameNightFormViewModel
 {
     [Required(ErrorMessage = "Geef de avond alstublieft een titel"), StringLength(30, ErrorMessage = "Houd de titel beknopt (maximaal 30 karakters")]
     public string? Title { get; set; }
@@ -35,15 +33,7 @@ public class GameNightViewModel
 
     [Required(ErrorMessage = "Geef alstublieft een waarde op")]
     public string? City { get; set; }
-
-    [Required(ErrorMessage = "Geef alstublieft een waarde op")]
-    //public ICollection<DietRestriction> SupportedDietRestrictions { get; set; } =
-    //    Enum.GetValues(typeof(DietRestriction)).Cast<DietRestriction>().ToList();
-
-    //// Holding diet restrictions of current game night if viewmodel is used for updating
-    //public ICollection<DietRestriction> SupportedDietRestrictionsCurrent { get; set; } = new List<DietRestriction>();
-
-
+    
     public BoardGamesDropdown GamesDropdown { get; set; } = new BoardGamesDropdown();
     
     public int UpdatedGameNightId { get; set; }
