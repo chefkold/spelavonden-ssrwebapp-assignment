@@ -34,7 +34,7 @@ public class DataSeeder
             Email = UserSeedData.Player1Email,
             Gender = Gender.M,
             Address = new Address("Lovensdijkstraat", 63, "Breda"),
-            DietRestrictions = new List<DietRestriction> { DietRestriction.Nuts }
+            DietRestrictions = new List<DietRestriction> { DietRestriction.Nuts, DietRestriction.Vegetarian }
 
         };
 
@@ -45,7 +45,7 @@ public class DataSeeder
             Email = UserSeedData.Player2Email,
             Gender = Gender.M,
             Address = new Address("Lovensdijkstraat", 63, "Breda"),
-            DietRestrictions = new List<DietRestriction>() { DietRestriction.Alcohol }
+            DietRestrictions = new List<DietRestriction>() { DietRestriction.Alcohol, DietRestriction.Lactose }
         };
 
         byte[] monopolyImg;

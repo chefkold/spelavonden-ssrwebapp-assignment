@@ -133,8 +133,9 @@ namespace dutchonboard.Controllers
             _iGameNightService.AddConsumptionsToGameNight(gameNight.Id,
                 new List<Consumption>()
                     { new (viewModel.Name!) { DietRestrictions = viewModel.DietRestrictions } });
-            return RedirectToAction("PostEnrollmentPotluckForm", viewModel);
-        }
+            var returnUrl = Request.Headers["Referer"].ToString();
+            return View("ThankYouScreenEnrollment", returnUrl);
+        }   
 
         [Authorize(Policy = "GameNightOrganizer")]
         public IActionResult CreateGameNight()
