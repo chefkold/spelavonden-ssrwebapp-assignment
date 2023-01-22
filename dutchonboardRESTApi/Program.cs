@@ -3,11 +3,14 @@ using dutchonboard.Core.DomainServices.Services;
 using dutchonboard.Infrastructure.EF.Data;
 using dutchonboard.Infrastructure.EF.Repositories;
 using dutchonboardRESTApi.Utils;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<DutchOnBoardDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("dutchonboarddb")));
+builder.Services.AddDbContext<DutchOnBoardSecurityDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("dutchonboarddbsecurity")));
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<DutchOnBoardSecurityDbContext>().AddDefaultTokenProviders();
 
 builder.Services.AddScoped<IGameNightService, GameNightService>();
 builder.Services.AddScoped<IGameNightRepo, GameNightRepo>();
