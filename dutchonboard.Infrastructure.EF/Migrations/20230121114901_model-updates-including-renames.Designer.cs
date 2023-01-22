@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using dutchonboard.Infrastructure.EF.Data;
 
@@ -11,9 +12,10 @@ using dutchonboard.Infrastructure.EF.Data;
 namespace dutchonboard.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(DutchOnBoardDbContext))]
-    partial class DutchOnBoardDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230121114901_model-updates-including-renames")]
+    partial class modelupdatesincludingrenames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,21 +37,6 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                     b.HasIndex("GamesId");
 
                     b.ToTable("BoardGameGameNight");
-                });
-
-            modelBuilder.Entity("ConsumptionGameNight", b =>
-                {
-                    b.Property<int>("ConsumptionsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GameNightsWhereConsumedId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ConsumptionsId", "GameNightsWhereConsumedId");
-
-                    b.HasIndex("GameNightsWhereConsumedId");
-
-                    b.ToTable("ConsumptionGameNight");
                 });
 
             modelBuilder.Entity("dutchonboard.Core.Domain.Models.BoardGame", b =>
@@ -86,27 +73,6 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                     b.ToTable("BoardGames");
                 });
 
-            modelBuilder.Entity("dutchonboard.Core.Domain.Models.Consumption", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("DietRestrictions")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Consumption");
-                });
-
             modelBuilder.Entity("dutchonboard.Core.Domain.Models.GameNight", b =>
                 {
                     b.Property<int>("Id")
@@ -130,8 +96,8 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                     b.Property<int?>("OrganizerId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Potluck")
-                        .HasColumnType("bit");
+                    b.Property<string>("SupportedDietRestrictions")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -213,21 +179,6 @@ namespace dutchonboard.Infrastructure.EF.Migrations
                     b.HasOne("dutchonboard.Core.Domain.Models.BoardGame", null)
                         .WithMany()
                         .HasForeignKey("GamesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ConsumptionGameNight", b =>
-                {
-                    b.HasOne("dutchonboard.Core.Domain.Models.Consumption", null)
-                        .WithMany()
-                        .HasForeignKey("ConsumptionsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("dutchonboard.Core.Domain.Models.GameNight", null)
-                        .WithMany()
-                        .HasForeignKey("GameNightsWhereConsumedId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

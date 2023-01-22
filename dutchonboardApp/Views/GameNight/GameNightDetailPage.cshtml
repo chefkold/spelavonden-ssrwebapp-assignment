@@ -1,0 +1,170 @@
+﻿@model GameNight;
+@{
+    ViewData["Title"] = @Model.Title;
+}
+<div class="container-fluid">
+    <div class="row min-vh-100">
+        <div class="col-8 p-4">
+            <div class="row">
+                <div class="col align-items-center">
+                    <h2 class="d-inline m-0">@Model.Title</h2>
+                    @if (@Model.IsForAdults == true)
+                    {
+                        <img class="mb-3" src="~/images/adults-warning-sign.png" width="35px" />
+                    }
+                </div>
+                <hr />
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <h4>Details</h4>
+                    <button class="btn btn-primary btn-primary-color justify-content-center my-2" id="toggle-button">Uitgebreid</button>
+                    <ul id="compact-list">
+                        <li class="pb-3"><img class="list-img" src="~/images/organizer-icon.svg" class="pe-2" />@Model.Organizer.ToString()</li>
+                        <li class="pb-3"><img class="list-img" src="~/images/calender-icon.svg" class="me-4" />@Model.DateAndTime.GetDateDisplay()</li>
+                        <li class="pb-3"><img class="list-img" src="~/images/location-icon.svg" class="pe-2" />@Model.Location</li>
+                        <li class="pb-3"><img class="list-img" src="~/images/people-icon.svg" class="pe-2" />@Model.GetPlayerCountDisplay()</li>
+                    </ul>
+                    <ul id="expanded-list" style="display: none;">
+                        <li class="mb-1">
+                            <p><b>Georganiseerd door</b></p>
+                            <p>@Model.Organizer.ToString()</p>
+                        </li>
+                        <li class="mb-1">
+                            <p><b>Wanneer</b></p>
+                            <p>@Model.DateAndTime.GetDateDisplay()</p>
+                        </li>
+                        <li class="mb-1">
+                            <p><b>Waar</b></p>
+                            <p>@Model.Location</p>
+                        </li>
+                        <li class="mb-1">
+                            <p><b>Spelers</b></p>
+                            <p>@Model.GetPlayerCountDisplay()</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-6">
+                    <h4>Spellen</h4>
+                    <div class="accordion accordion-flush" id="boardGameContainers">
+                        @foreach (var game in @Model.Games)
+                        {
+                            <partial name="_BoardGameAccordionItem" model="game" />
+                        }
+                    </div>
+                </div>
+
+                <div class="col-12 mt-3">
+                    <h4>Beschrijving</h4>
+                    <p>
+                        @Model.Description
+                    </p>
+                </div>
+                <div class="col-12 mt-3">
+                    <h4>Deelnemers</h4>
+                    <p>
+                        <table class="table table-bordered table-striped table-sm">
+                            <thead>
+                            <tr><th>Wie</th><th>Komt uit</th><th>Mistmatch dieetwens(en)</th></tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var p in Model.Players)
+                            {
+                                <tr>
+                                    <td>@p.ToString()</td>
+                                    <td>@p.Address.City</td>
+                                    @{
+                                        var conflictingDietRestrictions = p.GetConflictingDietRestrictions(Model);
+                                        if (conflictingDietRestrictions.Any())
+                                        {
+                                            <td><img class="ms-1" src="/images/warning-icon.svg" width="25" /> @conflictingDietRestrictions.Distinct().ToList().GetSupportDietRestrictionsAsArray() </td>
+                                        }
+                                        else
+                                        {
+                                            <td>-</td>
+                                        }
+                                    }
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </p>
+                </div>
+                <div class="col-12 mt-3">
+                    <h4>Potluck</h4>
+                    <p>
+                        <table class="table table-bordered table-striped table-sm">
+                            <thead>
+                                <tr><th>Eten/Drinken</th><th>Allergieën/Bijzonderheden</th></tr>
+                            </th></tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var c in Model.Consumptions)
+                            {
+                                <tr>
+                                    <td>@c.Name</td>
+                                    @{
+                                        if (c.DietRestrictions.Any())
+                                        {
+                                            <td>@c.DietRestrictions.GetSupportDietRestrictionsAsArray() </td>
+                                        }
+                                        else
+                                        {
+                                            <td>-</td>
+                                        }
+                                    }
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4 bg-secondary-color white-text">
+            <div class="d-flex flex-column h-100">
+                <div class="row align-items-center justify-content-center flex-grow-1">
+                    <div class="col-12 text-center ">
+                        <h4>
+                            Ja, ik wil erbij zijn!
+                        </h4>
+                        <div class="row align-items-end">
+                            <div class="col">
+                                <div class="d-flex justify-content-center">
+                                    @if (ViewData["IsOrganizer"]!.Equals(true))
+                                    {
+                                        <button type="submit" class="btn btn-primary btn-primary-color justify-content-center" disabled>Aanmelden</button>
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="EnrollPlayerForGameNight" asp-route-gameNightId="@Model.Id" class="btn btn-primary btn-primary-color justify-content-center">Aanmelden</a>
+                                    }
+                                </div>
+                                <div class="pt-2 white-text text-decoration-underline" asp-validation-summary="All"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Logic for the toggle button to make the details list compact or expanded -->
+<script>
+    let expanded = false;
+    const button = document.getElementById("toggle-button");
+    const compactList = document.getElementById("compact-list");
+    const expandedList = document.getElementById("expanded-list");
+    button.addEventListener("click", function () {
+        expanded = !expanded;
+        if (expanded) {
+            button.innerHTML = "Compact";
+            compactList.style.display = "none";
+            expandedList.style.display = "block";
+        } else {
+            button.innerHTML = "Uitgebreid";
+            compactList.style.display = "block";
+            expandedList.style.display = "none";
+        }
+    });
+</script>

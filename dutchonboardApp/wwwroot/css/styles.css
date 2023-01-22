@@ -1,0 +1,160 @@
+/* GLOBAL STYLES */
+:root {
+    --primary-color: #ED9B40;
+    --secondary-color: #1D5191;
+    --red: #91231d;
+    --white: #FBF7F5;
+    --gray: #D3D3D3;
+    --black: #0A100D;
+}
+
+@font-face {
+    font-family: "Roboto-medium";
+    src: url(../fonts/Roboto/Roboto-medium.ttf);
+    font-weight: 300;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Roboto-serif-medium";
+    src: url(../fonts/Roboto_serif/RobotoSerif-Medium.ttf);
+    font-weight: 200;
+    font-display: swap;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    width: 100%;
+    height: 100%;
+    font-family: "Roboto-serif-medium";
+    background-color: var(--white);
+}
+
+p {
+    margin: 0
+}
+
+.bg-primary-color {
+    background-color: var(--primary-color);
+}
+
+.bg-secondary-color {
+    background-color: var(--secondary-color);
+}
+
+.bg-red {
+    background-color: var(--red);
+}
+
+.white-text {
+    color: var(--white);
+}
+
+.white-filter {
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(64deg) brightness(102%) contrast(102%);
+}
+
+h1 {
+    font-size: 3.5rem;
+    font-family: "Roboto-medium";
+}
+
+h2 {
+    font-size: 2.5rem;
+    font-family: "Roboto-medium";
+}
+
+h3 {
+    font-size: 2.3rem;
+    font-family: "Roboto-medium";
+}
+
+h3 {
+    font-size: 2.0rem;
+    font-family: "Roboto-medium";
+}
+
+h4 {
+    font-size: 1.75rem;
+    font-family: "Roboto-medium";
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* FORMS*/
+.field-validation-error {
+    color: #f00;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.input-validation-error {
+    border: 1px solid #f00;
+    background-color: #fee;
+}
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: #f00;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+/* BUTTONS */
+.btn.btn-primary.btn-primary-color {
+    font-weight: bold;
+    color: var(--black);
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+
+/* WELCOME (AUTH) PAGE STYLE */
+.logo {
+    margin-top: 12px;
+    margin-bottom: 12px;
+    width: 100px;
+}
+
+/* NAV STYLE */
+.site-icon {
+    width: 50px;
+}
+
+.user-icon {
+    width: 50px;
+}
+
+.nav-link {
+    font-family: "Roboto-medium";
+    font-size: 1.5rem;
+    color: var(--black);
+}
+
+.border-primary-color {
+    border-color: var(--secondary-color) !important;
+}
+
+
+/* GAMENIGHT DETAIL PAGE STYLE */
+.list-img {
+    margin-inline-end: 1rem;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}

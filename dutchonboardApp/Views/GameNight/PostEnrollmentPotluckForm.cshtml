@@ -1,0 +1,33 @@
+﻿@model ConsumptionFormViewModel
+<div class="p-3">
+    <h2>Potluck van toepassing! Brengt u alstublieft eten of drinken mee</h2>
+    <p>Voer de naam in van de consumptie en eventuele allergieën of bijzonderheden.</p>
+    <form method="post" asp-action="PostEnrollmentPotluckForm">
+        @Html.HiddenFor(m => m.GameNightId)
+        <div class="form-group row col-4 my-3 ">
+            <label asp-for="@Model.Name">Naam</label>
+            <input asp-for="@Model.Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-4 my-3">
+            <div class="row py-2">
+                @foreach (var r in Model.DietRestrictions)
+                {
+                    <div>
+                        <input type="checkbox" name="DietRestrictions" value="@r" />
+                        <label>@r.GetDietRestrictionDisplay() </label>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="form-group col-4 my-3">
+            <button type="submit" class="btn btn-primary btn-primary-color justify-content-center">Toevoegen</button>
+            <a asp-action="GameNightsWhereUserParticipates" class="btn btn-primary btn-primary-color justify-content-center">Annuleren</a>
+        </div>
+        <div class="col-4">
+            <p><i>Let op: u moet voor deze spelavond minimaal één consumptie hebben ingebracht om deelnemer te zijn.</i></p>
+        </div>
+    </form>
+</div>

@@ -11,10 +11,11 @@ public class GameNightRepo : IGameNightRepo
         _dbContext = dbContext;
     }
 
-    public void AddGameNight(GameNight gameNight)
+    public GameNight AddGameNight(GameNight gameNight)
     {
-        _dbContext.GameNights.Add(gameNight);
+        var createGameNight = _dbContext.GameNights.Add(gameNight).Entity;
         _dbContext.SaveChanges();
+        return createGameNight;
     }
 
     public ICollection<GameNight> GetAllGameNights() => _dbContext.GameNights.ToList();
@@ -27,27 +28,26 @@ public class GameNightRepo : IGameNightRepo
         return _dbContext.GameNights
             .Include(p => p.Players)
             .Include(p => p.Games)
+            .Include(p => p.Consumptions)
             .First(p => p.Id == id);
     }
 
     public void EnrollPlayer(GameNight gameNight, Player player)
     {
         var currGn = _dbContext.GameNights.First(g => g.Id == gameNight.Id);
-        currGn.AddPlayer(player);
+        currGn.Players.Add(player);
         _dbContext.SaveChanges();
     }
 
     public void UpdateGameNight(GameNight updatedGameNight)
     {
-        var currentGameNight = GetGameNightById(updatedGameNight.Id);
-        GameNightManagement.UpdateGameNightProperties(currentGameNight, updatedGameNight);
+        _dbContext.Update(updatedGameNight);
         _dbContext.SaveChanges();
 
     }
 
     public void DeleteGameNight(GameNight gameNight)
     {
-        GameNightManagement.PreProcessGameNightModification(gameNight);
         _dbContext.GameNights.Remove(gameNight);
         _dbContext.SaveChanges();
     }

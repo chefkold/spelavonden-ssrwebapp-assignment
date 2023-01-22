@@ -18,35 +18,41 @@ public class DataSeeder
         if (_dutchOnBoardDbContext.GameNights.Any()) return;
 
         // Users
-        var organizer1 = new Organizer()
+        var organizer1 = new Organizer(DateOnly.FromDateTime(DateTime.Now.AddYears(-50)))
         {
             FirstName = UserSeedData.Organizer1FirstName,
             LastName = UserSeedData.Organizer1LastName,
             Email = UserSeedData.Organizer1Email,
-            BirthDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-50))
-
+            Gender = Gender.V,
+            Address = new Address("Professor Cobbenhagenlaan", 11, "Tilburg"),
         };
 
-        var player1 = new Player()
+        var player1 = new Player(DateOnly.FromDateTime(DateTime.Now.AddYears(-18)))
         {
             FirstName = UserSeedData.Player1FirstName,
             LastName = UserSeedData.Player1LastName,
             Email = UserSeedData.Player1Email,
-            BirthDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-18))
+            Gender = Gender.M,
+            Address = new Address("Lovensdijkstraat", 63, "Breda"),
+            DietRestrictions = new List<DietRestriction> { DietRestriction.Nuts }
+
         };
 
-        var player2 = new Player()
+        var player2 = new Player(DateOnly.FromDateTime(DateTime.Now.AddYears(-17)))
         {
             FirstName = UserSeedData.Player2FirstName,
             LastName = UserSeedData.Player2LastName,
             Email = UserSeedData.Player2Email,
-            BirthDate = DateOnly.FromDateTime(DateTime.Now.AddYears(-17))
+            Gender = Gender.M,
+            Address = new Address("Lovensdijkstraat", 63, "Breda"),
+            DietRestrictions = new List<DietRestriction>() { DietRestriction.Alcohol }
         };
 
-        byte[] monopolyImg; 
-        string someUrl = "https://media.s-bol.com/39Q7EWnMMX3M/550x508.jpg"; 
-       
-        using (var webClient = new HttpClient()) { 
+        byte[] monopolyImg;
+        var someUrl = "https://media.s-bol.com/39Q7EWnMMX3M/550x508.jpg";
+
+        using (var webClient = new HttpClient())
+        {
 
             monopolyImg = await webClient.GetAsync(someUrl).Result.Content.ReadAsByteArrayAsync();
         }
@@ -66,10 +72,22 @@ public class DataSeeder
         // Locations
         var locationAvansExplora = new Address("Lovensdijkstraat", 63, "Breda");
 
+        // Consumptions
+        var alcoholConsumption = new Consumption("Krat Grolsch")
+        {
+            DietRestrictions = new List<DietRestriction> { DietRestriction.Alcohol }
+        };
+        var nutsConsumption = new Consumption("Walnoten")
+        {
+            DietRestrictions = new List<DietRestriction> { DietRestriction.Nuts }
+        };
+
         _dutchOnBoardDbContext.Organizers.Add(organizer1);
         _dutchOnBoardDbContext.Players.Add(player1);
         _dutchOnBoardDbContext.Players.Add(player2);
         _dutchOnBoardDbContext.BoardGames.Add(gameMonopoly);
+
+        
 
         // Game nights
         var gameNight1 = new GameNight()
@@ -78,16 +96,19 @@ public class DataSeeder
             Description =
                 "We gaan met een kickoff beginnen op de locatie van Avans Hogeschool. Hierbij zal ook de burgermeester aanwezig zijn om het nieuwe initiatief te vieren",
             IsForAdults = false,
+            Potluck = true,
             MaxPlayerAmount = 12,
             Location = locationAvansExplora,
             DateAndTime = new DateTime(2022, 10, 31, 23, 59, 00),
             Organizer = organizer1,
         };
 
-        gameNight1.AddPlayer(player1);
-        gameNight1.AddBoardGame(gameMonopoly);
-        gameNight1.DietAndAllergyInfo.Add(FoodAndDrinkType.TreeNuts);
-        gameNight1.DietAndAllergyInfo.Add(FoodAndDrinkType.Lactose);
+        gameNight1.Players.Add(player1);
+        gameNight1.Players.Add(organizer1);
+
+        gameNight1.Games.Add(gameMonopoly);
+        gameNight1.Consumptions.Add(alcoholConsumption);
+        gameNight1.Consumptions.Add(nutsConsumption);
 
         _dutchOnBoardDbContext.GameNights.Add(gameNight1);
         _dutchOnBoardDbContext.SaveChanges();

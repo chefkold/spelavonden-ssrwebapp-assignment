@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dutchonboard", "dutchonboard\dutchonboard.csproj", "{6D9523A3-997B-4E32-8323-811A22665BEB}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dutchonboard.Core.Domain", "dutchonboard.Core.Domain\dutchonboard.Core.Domain.csproj", "{EB31FCDA-9288-4911-9DDC-3195A73DD8C0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dutchonboard.Core.Domain.Tests", "dutchonboard.Core.Domain.Tests\dutchonboard.Core.Domain.Tests.csproj", "{91C3A489-A22A-4914-AAE0-D6ED39FB4CEB}"
@@ -13,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dutchonboard.Core.DomainSer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dutchonboard.Infrastructure.EF", "dutchonboard.Infrastructure.EF\dutchonboard.Infrastructure.EF.csproj", "{4B877F4E-3E54-4FCC-969B-DB1EAEA87015}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dutchonboard.Tests", "dutchonboard.Tests\dutchonboard.Tests.csproj", "{5CB9D532-B080-4156-BDCC-83AB0A45C44E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dutchonboard.Core.DomainServices.Tests", "dutchonboard.Core.DomainServices.Tests\dutchonboard.Core.DomainServices.Tests.csproj", "{AD356CE9-C049-44DC-BF3B-DCF3D763B860}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dutchonboardApp", "dutchonboardApp\dutchonboardApp.csproj", "{ACE213ED-A1C5-4FB5-AC3A-AE985A513EF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6D9523A3-997B-4E32-8323-811A22665BEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6D9523A3-997B-4E32-8323-811A22665BEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6D9523A3-997B-4E32-8323-811A22665BEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6D9523A3-997B-4E32-8323-811A22665BEB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EB31FCDA-9288-4911-9DDC-3195A73DD8C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EB31FCDA-9288-4911-9DDC-3195A73DD8C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB31FCDA-9288-4911-9DDC-3195A73DD8C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -41,10 +37,14 @@ Global
 		{4B877F4E-3E54-4FCC-969B-DB1EAEA87015}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B877F4E-3E54-4FCC-969B-DB1EAEA87015}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B877F4E-3E54-4FCC-969B-DB1EAEA87015}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5CB9D532-B080-4156-BDCC-83AB0A45C44E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5CB9D532-B080-4156-BDCC-83AB0A45C44E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5CB9D532-B080-4156-BDCC-83AB0A45C44E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5CB9D532-B080-4156-BDCC-83AB0A45C44E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD356CE9-C049-44DC-BF3B-DCF3D763B860}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD356CE9-C049-44DC-BF3B-DCF3D763B860}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD356CE9-C049-44DC-BF3B-DCF3D763B860}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD356CE9-C049-44DC-BF3B-DCF3D763B860}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACE213ED-A1C5-4FB5-AC3A-AE985A513EF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACE213ED-A1C5-4FB5-AC3A-AE985A513EF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACE213ED-A1C5-4FB5-AC3A-AE985A513EF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACE213ED-A1C5-4FB5-AC3A-AE985A513EF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

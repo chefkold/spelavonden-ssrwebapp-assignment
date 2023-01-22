@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Bewerken bordspellenavond";
+}
+@model GameNightFormViewModel;
+
+<div class="px-5 pb-3">
+    <h3 class="py-3">Bordspellenavond bewerken</h3>
+    <div>
+        <form asp-action="EditGameNight" method="post" class="m-2 " id="gn-form">
+            <partial name="_GameNightFormFields" model="Model" />
+            @Html.HiddenFor(m => m.UpdatedGameNightId)
+            <button type="submit" class="btn btn-primary btn-primary-color mt-3">Bewerken</button>
+            <div class="pt-2 text-danger" asp-validation-summary="All"></div>
+        </form>
+    </div>
+</div>
