@@ -18,7 +18,15 @@ public class GameNightRepo : IGameNightRepo
         return createGameNight;
     }
 
-    public ICollection<GameNight> GetAllGameNights() => _dbContext.GameNights.ToList();
+    public ICollection<GameNight> GetAllGameNights()
+    {
+        return _dbContext.GameNights
+            .Include(p => p.Players)
+            .Include(p => p.Games)
+            .Include(p => p.Consumptions)
+            .Include(p => p.Organizer)
+            .ToList();
+    }
 
     public ICollection<GameNight> GetGameNightsJoinedBy(Player player) => _dbContext.GameNights.Where(g => g.Players.Contains(player)).ToList();
 
