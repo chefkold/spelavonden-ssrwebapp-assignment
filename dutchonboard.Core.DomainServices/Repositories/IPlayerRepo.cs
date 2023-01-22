@@ -3,4 +3,5 @@
 public interface IPlayerRepo
 {
     public abstract Player GetPlayerByEmail (string email);
+    public abstract Player GetPlayerById(int id);
 }
