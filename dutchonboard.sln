@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dutchonboard.Infrastructure
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dutchonboard.Core.DomainServices.Tests", "dutchonboard.Core.DomainServices.Tests\dutchonboard.Core.DomainServices.Tests.csproj", "{AD356CE9-C049-44DC-BF3B-DCF3D763B860}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dutchonboardApp", "dutchonboardApp\dutchonboardApp.csproj", "{ACE213ED-A1C5-4FB5-AC3A-AE985A513EF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dutchonboard", "dutchonboard\dutchonboard.csproj", "{ACE213ED-A1C5-4FB5-AC3A-AE985A513EF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
