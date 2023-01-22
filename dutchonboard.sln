@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dutchonboard.Core.DomainSer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dutchonboard", "dutchonboard\dutchonboard.csproj", "{ACE213ED-A1C5-4FB5-AC3A-AE985A513EF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dutchonboardRESTApi", "dutchonboardRESTApi\dutchonboardRESTApi.csproj", "{3A433F58-B6E4-4D3D-9C92-6052DEEBC65E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dutchonboardRESTApi", "dutchonboardRESTApi\dutchonboardRESTApi.csproj", "{3A433F58-B6E4-4D3D-9C92-6052DEEBC65E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dutchonboardGraphQLApi", "dutchonboardGraphQLApi\dutchonboardGraphQLApi.csproj", "{FEB56C3B-F3B5-454F-A508-9243F67C70FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{3A433F58-B6E4-4D3D-9C92-6052DEEBC65E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A433F58-B6E4-4D3D-9C92-6052DEEBC65E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A433F58-B6E4-4D3D-9C92-6052DEEBC65E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEB56C3B-F3B5-454F-A508-9243F67C70FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEB56C3B-F3B5-454F-A508-9243F67C70FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEB56C3B-F3B5-454F-A508-9243F67C70FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEB56C3B-F3B5-454F-A508-9243F67C70FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

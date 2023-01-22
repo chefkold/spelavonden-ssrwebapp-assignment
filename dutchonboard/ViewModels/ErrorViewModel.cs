@@ -1,4 +1,4 @@
-namespace dutchonboard.Models
+namespace dutchonboard.ViewModels
 {
     public class ErrorViewModel
     {

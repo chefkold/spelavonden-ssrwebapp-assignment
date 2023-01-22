@@ -2,7 +2,7 @@
 
 global using dutchonboard.Core.DomainServices.Repositories;
 
-global using dutchonboard.Models;
+global using dutchonboard.ViewModels;
 
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Identity;

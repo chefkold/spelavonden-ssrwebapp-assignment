@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace dutchonboard.Models;
+namespace dutchonboard.ViewModels;
 
 /// <summary>
 /// ViewModel to represent game nights in situations where one is created or edited. In case of editing,
@@ -33,29 +33,29 @@ public class GameNightFormViewModel
 
     [Required(ErrorMessage = "Geef alstublieft een waarde op")]
     public string? City { get; set; }
-    
+
     public BoardGamesDropdown GamesDropdown { get; set; } = new BoardGamesDropdown();
-    
+
     public int UpdatedGameNightId { get; set; }
-    
+
     public void FillGameNightData(GameNight data)
     {
         UpdatedGameNightId = data.Id;
 
-        this.Title = data.Title;
-        this.IsAdultsOnly = data.IsForAdults;
-        this.Description = data.Description;
-        this.DateAndTime = data.DateAndTime;
-        this.MaxPlayerAmount = data.MaxPlayerAmount;
-        this.Street = data.Location.Street;
-        this.HouseNumber = data.Location.Number;
-        this.City = data.Location.City;
+        Title = data.Title;
+        IsAdultsOnly = data.IsForAdults;
+        Description = data.Description;
+        DateAndTime = data.DateAndTime;
+        MaxPlayerAmount = data.MaxPlayerAmount;
+        Street = data.Location.Street;
+        HouseNumber = data.Location.Number;
+        City = data.Location.City;
     }
 
     public Address CreateAddress()
     {
-        return new Address(this.Street!, this.HouseNumber!.Value, this.City!);
-    }    
+        return new Address(Street!, HouseNumber!.Value, City!);
+    }
     public class BoardGamesDropdown
     {
         public ICollection<BoardGame>? ChoosableBoardGames { get; set; } = new List<BoardGame>();

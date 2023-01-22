@@ -2,7 +2,6 @@ using dutchonboard.Core.DomainServices.Repositories;
 using dutchonboard.Core.DomainServices.Services;
 using dutchonboard.Infrastructure.EF.Data;
 using dutchonboard.Infrastructure.EF.Repositories;
-using dutchonboardRESTApi.Utils;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,10 +19,7 @@ builder.Services.AddScoped<IPlayerRepo, PlayerRepo>();
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-).AddJsonOptions(options =>
-{
-    options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
-});;
+);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

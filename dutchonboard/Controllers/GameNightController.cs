@@ -1,6 +1,7 @@
 ﻿using dutchonboard.Core.Domain.Models;
 using dutchonboard.Core.DomainServices.Repositories;
 using dutchonboard.Core.DomainServices.Services;
+using dutchonboard.ViewModels;
 
 namespace dutchonboard.Controllers
 {
