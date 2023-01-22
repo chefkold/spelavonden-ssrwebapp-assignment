@@ -161,7 +161,7 @@ namespace dutchonboard.Controllers
 
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var organizer = _iOrganizerRepo.GetOrganizerByEmail(user.Email);
-            Result<GameNight> createGameNightResult = this._iGameNightService.NewGameNight(organizer, viewModel.Title!, viewModel.Description!, viewModel.IsAdultsOnly, viewModel.Potluck, viewModel.MaxPlayerAmount!.Value, viewModel.CreateAddress(), viewModel.DateAndTime!.Value);
+            Result<GameNight> createGameNightResult = _iGameNightService.NewGameNight(organizer, viewModel.Title!, viewModel.Description!, viewModel.IsAdultsOnly, viewModel.Potluck, viewModel.MaxPlayerAmount!.Value, viewModel.CreateAddress(), viewModel.DateAndTime!.Value);
 
             if (createGameNightResult.HasError)
             {

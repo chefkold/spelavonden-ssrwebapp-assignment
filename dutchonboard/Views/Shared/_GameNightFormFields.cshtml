@@ -15,11 +15,11 @@
     @if (Model.UpdatedGameNightId == 0)
     {
         <div class="col">
-            <label class="form-label" asp-for="IsAdultsOnly">Avond is 18+</label><span class="ps-3 d-inline text-danger" asp-validation-for="IsAdultsOnly"></span>
-            <select class="form-select" asp-for="IsAdultsOnly">
+            <label class="form-label" asp-for="Potluck">Potluck van toepassing?</label><span class="ps-3 d-inline text-danger" asp-validation-for="Potluck"></span>
+            <select class="form-select" asp-for="Potluck">
                 <option value="">Kies een optie</option>
-                <option value="true">Ja, 18+</option>
-                <option value="false">Nee, 16+ toegestaan</option>
+                <option value="true">Ja</option>
+                <option value="false">Nee</option>
             </select>
         </div>
     }
