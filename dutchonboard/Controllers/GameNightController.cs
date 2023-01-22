@@ -187,6 +187,14 @@ namespace dutchonboard.Controllers
         public IActionResult EditGameNight(int id)
         {
             var gN = _iGameNightService.GetGameNightById(id);
+            var allowedToEditCheck = _iGameNightService.VerifyAllowedToUpdateOrDelete(gN);
+
+            if (allowedToEditCheck.HasError)
+            {
+                TempData["BusinessLogicError"] = allowedToEditCheck.ErrorMessage;
+                return RedirectToAction("GameNightsOfOrganizer");
+            }
+            
             var viewModel = new GameNightFormViewModel
             {
                 GamesDropdown =
@@ -211,10 +219,10 @@ namespace dutchonboard.Controllers
             if (updateResult.HasError)
             {
                 ModelState.AddModelError("BusinessLogicError", updateResult.ErrorMessage);
-                return View(viewModel);
+                return RedirectToAction("GameNightsOfOrganizer");
             }
 
-            return RedirectToAction("GameNightsOfOrganizer");
+            return View(viewModel);
         }
 
         [Authorize(Policy = "GameNightOrganizer")]

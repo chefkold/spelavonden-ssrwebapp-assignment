@@ -16,7 +16,7 @@ public class GameNightFormViewModel
     [Required(ErrorMessage = "Geef alstublieft aan of snacks moeten worden meegenomen")]
     public bool Potluck { get; set; }
 
-    [Required(ErrorMessage = "Geef de avond alstublieft een beschrijving"), StringLength(150, ErrorMessage = "Maak uw beschrijving korter (maximaal 400 karakters")]
+    [Required(ErrorMessage = "Geef de avond alstublieft een beschrijving"), StringLength(400, ErrorMessage = "Maak uw beschrijving korter (maximaal 400 karakters")]
     public string? Description { get; set; }
 
     [Required(ErrorMessage = "Geef alstublieft de datum en tijd van de avond")]

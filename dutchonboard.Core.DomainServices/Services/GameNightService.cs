@@ -2,6 +2,7 @@
 using dutchonboard.Core.DomainServices.Repositories;
 using Microsoft.VisualBasic;
 using System;
+using System.Linq.Expressions;
 
 namespace dutchonboard.Core.DomainServices.Services;
 
@@ -47,12 +48,11 @@ public class GameNightService : IGameNightService
     public Result EditGameNight(int id, string title, string description, bool isForAdults, int maxPlayerAmount, Address location,
         DateTime dateAndTime, ICollection<BoardGame> boardGames)
     {
-        Result result;
-
         var gN = _iGameNightRepo.GetGameNightById(id);
-        if ((result = VerifyAllowedToUpdateOrDelete(gN)).HasError)
+        var checkAllowedToUpdateResult = VerifyAllowedToUpdateOrDelete(gN); 
+        if (checkAllowedToUpdateResult.HasError)
         {
-            return result;
+            return checkAllowedToUpdateResult;
         }
 
         if (maxPlayerAmount < 1)
@@ -69,7 +69,7 @@ public class GameNightService : IGameNightService
         AddBoardGames(gN, boardGames);
 
         _iGameNightRepo.UpdateGameNight(gN);
-        return result;
+        return new Result();
     }
 
     public Result DeleteGameNight(int id)
@@ -87,7 +87,7 @@ public class GameNightService : IGameNightService
 
 
     // Business rule: Game night only allowed to update if no players have joined (excluding the organizer himself, so count is at least 1)
-    private static Result VerifyAllowedToUpdateOrDelete(GameNight gameNight)
+    public Result VerifyAllowedToUpdateOrDelete(GameNight gameNight)
     {
         if (gameNight.Players.Count > 1)
         {
