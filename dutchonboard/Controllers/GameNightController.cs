@@ -194,16 +194,17 @@ namespace dutchonboard.Controllers
                 TempData["BusinessLogicError"] = allowedToEditCheck.ErrorMessage;
                 return RedirectToAction("GameNightsOfOrganizer");
             }
-            
+
             var viewModel = new GameNightFormViewModel
             {
                 GamesDropdown =
                 {
                     ChoosableBoardGames = _iBoardGameRepo.GetAllBoardGames(),
+                    ChosenBoardGames = gN.Games.Select(g => g.Id.ToString()).ToList()
                 }
             };
             viewModel.FillGameNightData(gN);
-
+            gN.Games = new List<BoardGame>();
             return View(viewModel);
         }
 
@@ -219,10 +220,10 @@ namespace dutchonboard.Controllers
             if (updateResult.HasError)
             {
                 ModelState.AddModelError("BusinessLogicError", updateResult.ErrorMessage);
-                return RedirectToAction("GameNightsOfOrganizer");
+                return View(viewModel);
             }
+            return RedirectToAction("GameNightsOfOrganizer");
 
-            return View(viewModel);
         }
 
         [Authorize(Policy = "GameNightOrganizer")]

@@ -50,6 +50,7 @@ public class GameNightFormViewModel
         Street = data.Location.Street;
         HouseNumber = data.Location.Number;
         City = data.Location.City;
+        
     }
 
     public Address CreateAddress()

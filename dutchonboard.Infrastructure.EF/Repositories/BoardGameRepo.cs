@@ -11,7 +11,13 @@ public class BoardGameRepo : IBoardGameRepo
         _dbContext = dbContext;
     }
 
-    public ICollection<BoardGame> GetAllBoardGames() => _dbContext.BoardGames.ToList();
+    public ICollection<BoardGame> GetAllBoardGames() => _dbContext.BoardGames.Include(b => b.GameNightsWhereFeatured).ToList();
 
-    public BoardGame GetBoardGameById(int id) => _dbContext.BoardGames.First(p => p.Id == id); 
+    public BoardGame GetBoardGameById(int id) => _dbContext.BoardGames.First(p => p.Id == id);
+    public void UpdateBoardgame(BoardGame boardGame)
+    {
+        var currBoardGame = _dbContext.BoardGames.First(p => p.Id == boardGame.Id);
+        currBoardGame.GameNightsWhereFeatured = boardGame.GameNightsWhereFeatured;
+        _dbContext.SaveChanges();
+    }
 }

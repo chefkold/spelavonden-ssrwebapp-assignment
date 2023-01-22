@@ -4,4 +4,5 @@ public interface IBoardGameRepo
 {
     public ICollection<BoardGame> GetAllBoardGames();
     public BoardGame GetBoardGameById(int id);
+    public void UpdateBoardgame(BoardGame boardGame);
 }
