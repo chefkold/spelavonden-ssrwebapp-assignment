@@ -108,8 +108,6 @@ public class GameNightService : IGameNightService
                 gameNight.IsForAdults = true;
             }
             gameNight.Games.Add(game);
-            game.GameNightsWhereFeatured.Add(gameNight);
-            _iBoardGameRepo.UpdateBoardgame(game);
         }
 
         return new Result();
