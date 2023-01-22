@@ -1,6 +1,5 @@
 ﻿using dutchonboard.Core.Domain.Models;
 using dutchonboard.Core.DomainServices.Services;
-using dutchonboardRESTApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dutchonboardRESTApi.Controllers;
