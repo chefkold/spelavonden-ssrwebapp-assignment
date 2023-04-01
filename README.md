@@ -1,3 +1,5 @@
 # dutchonboard
+Full import from Azure DevOps. 
 
-[![Build status](https://dev.azure.com/jkoldenhof/DutchOnBoard/_apis/build/status/DutchOnBoard-ASP.NET%20Core-CI)](https://dev.azure.com/jkoldenhof/DutchOnBoard/_build/latest?definitionId=-1)
+Individual assignment for the server-side web programming course. 
+Goals: introduction to ASP .NET Core (Entity Framework, testing, et cetera), onion architecture, CI/CD and separating business logic (I choose a result pattern for this). 
